@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Vocab — Nauka angielskich słów z IT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   CSS VARIABLES & THEME
+============================================ */
+:root {
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
+
+  --bg-primary: #f8faff;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f0f4ff;
+  --bg-glass: rgba(255,255,255,0.7);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-accent: #2563eb;
+
+  --border-color: #e2e8f0;
+  --border-focus: #3b82f6;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(37,99,235,0.08), 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 40px rgba(37,99,235,0.12), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 12px rgba(37,99,235,0.07), 0 1px 4px rgba(0,0,0,0.04);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --font-mono: 'Space Mono', monospace;
+  --font-sans: 'DM Sans', sans-serif;
+
+  --transition: 0.22s cubic-bezier(0.4,0,0.2,1);
+  --transition-slow: 0.4s cubic-bezier(0.4,0,0.2,1);
+
+  --sidebar-width: 260px;
+  --header-height: 68px;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #060d1f;
+  --bg-secondary: #0d1a35;
+  --bg-card: #0f2044;
+  --bg-sidebar: #091528;
+  --bg-glass: rgba(9,21,40,0.8);
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+  --text-accent: #60a5fa;
+
+  --border-color: #1e3a5f;
+  --border-focus: #3b82f6;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.25);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.4);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+/* ============================================
+   RESET & BASE
+============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background var(--transition-slow), color var(--transition-slow);
+}
+
+/* Animated grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Blue glow blobs */
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   LAYOUT
+============================================ */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   SIDEBAR
+============================================ */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 100;
+  transition: transform var(--transition-slow), background var(--transition-slow);
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: white;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+
+.logo-text {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.logo-text span { color: var(--blue-500); }
+.logo-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Stats mini panel in sidebar */
+.sidebar-stats {
+  margin: 20px 16px 0;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat-mini {
+  text-align: center;
+}
+.stat-mini-val {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blue-500);
+  line-height: 1;
+}
+.stat-mini-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+/* Nav menu */
+.sidebar-nav {
+  padding: 16px 10px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 0 10px;
+  margin: 12px 0 6px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+  position: relative;
+}
+
+.nav-btn:hover {
+  background: var(--blue-100);
+  color: var(--blue-700);
+}
+[data-theme="dark"] .nav-btn:hover {
+  background: rgba(37,99,235,0.15);
+  color: var(--blue-400);
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+  color: white;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+
+.nav-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--blue-100);
+  color: var(--blue-700);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 20px;
+  font-family: var(--font-mono);
+}
+.nav-btn.active .nav-badge {
+  background: rgba(255,255,255,0.25);
+  color: white;
+}
+
+/* Category filters */
+.category-filters {
+  padding: 0 10px;
+}
+
+.cat-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+  font-family: var(--font-sans);
+}
+
+.cat-filter-btn:hover { background: var(--blue-50); color: var(--blue-600); }
+[data-theme="dark"] .cat-filter-btn:hover { background: rgba(37,99,235,0.1); }
+
+.cat-filter-btn.active {
+  background: var(--blue-100);
+  color: var(--blue-700);
+  font-weight: 600;
+}
+[data-theme="dark"] .cat-filter-btn.active {
+  background: rgba(37,99,235,0.2);
+  color: var(--blue-400);
+}
+
+.cat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: all var(--transition);
+}
+.icon-btn:hover { border-color: var(--blue-400); color: var(--blue-600); background: var(--blue-50); }
+[data-theme="dark"] .icon-btn:hover { background: rgba(37,99,235,0.1); }
+.icon-btn svg { width: 14px; height: 14px; }
+
+/* ============================================
+   MAIN CONTENT
+============================================ */
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   HEADER
+============================================ */
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  gap: 16px;
+  transition: background var(--transition-slow);
+}
+
+.header-title {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.search-wrap {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 16px 9px 38px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 100px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  outline: none;
+  transition: all var(--transition);
+}
+
+.search-input:focus {
+  border-color: var(--blue-400);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  width: 15px; height: 15px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.score-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+  border-radius: 100px;
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+  transition: transform var(--transition);
+}
+.score-chip:hover { transform: scale(1.03); }
+.score-chip svg { width: 14px; height: 14px; }
+
+.theme-toggle {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  color: var(--text-secondary);
+}
+.theme-toggle:hover { border-color: var(--blue-400); color: var(--blue-600); background: var(--blue-50); }
+[data-theme="dark"] .theme-toggle:hover { background: rgba(37,99,235,0.15); }
+.theme-toggle svg { width: 16px; height: 16px; }
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+.menu-toggle svg { width: 18px; height: 18px; }
+
+/* ============================================
+   PAGE WRAPPER / VIEWS
+============================================ */
+.page {
+  flex: 1;
+  padding: 28px;
+  display: none;
+  animation: fadeSlideIn 0.35s cubic-bezier(0.4,0,0.2,1) both;
+}
+.page.active { display: block; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+.page-subtitle {
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   PROGRESS BAR
+============================================ */
+.progress-container {
+  margin-bottom: 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.progress-fraction {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--blue-500);
+  font-weight: 700;
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--blue-100);
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+[data-theme="dark"] .progress-track { background: rgba(37,99,235,0.15); }
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+  border-radius: 100px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35));
+  border-radius: 100px;
+}
+
+/* ============================================
+   FLASHCARD
+============================================ */
+.flashcard-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Card counter & category badge */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 580px;
+}
+
+.card-counter {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.card-cat-badge {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* THE CARD */
+.flip-card-container {
+  width: 100%;
+  max-width: 580px;
+  height: 340px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.flip-card {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.flip-card.flipped { transform: rotateY(180deg); }
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+/* Front - English word */
+.flip-card-front {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--blue-50) 100%);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+[data-theme="dark"] .flip-card-front {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(37,99,235,0.08) 100%);
+}
+
+/* Decorative corner accent */
+.flip-card-front::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 130px; height: 130px;
+  background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.flip-hint {
+  position: absolute;
+  bottom: 16px; right: 16px;
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 5px;
+}
+.flip-hint svg { width: 12px; height: 12px; }
+
+.card-word {
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.card-pronunciation {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.card-front-category {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(37,99,235,0.1);
+  color: var(--blue-600);
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Back - Translation */
+.flip-card-back {
+  background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-600) 60%, var(--blue-500) 100%);
+  transform: rotateY(180deg);
+  color: white;
+  justify-content: space-between;
+}
+
+.flip-card-back::before {
+  content: '';
+  position: absolute;
+  bottom: -30px; left: -30px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.card-translation {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.card-definition {
+  font-size: 14px;
+  opacity: 0.85;
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+.card-example {
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.5;
+  backdrop-filter: blur(4px);
+}
+
+.card-example::before {
+  content: '"';
+  font-size: 20px;
+  opacity: 0.5;
+  line-height: 0;
+  vertical-align: -5px;
+  margin-right: 3px;
+}
+
+/* Card controls */
+.card-controls {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 580px;
+}
+
+.btn {
+  flex: 1;
+  padding: 13px 20px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px;
+}
+.btn svg { width: 16px; height: 16px; }
+
+.btn-know {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: white;
+  box-shadow: 0 4px 14px rgba(5,150,105,0.3);
+}
+.btn-know:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(5,150,105,0.4); }
+.btn-know:active { transform: translateY(0); }
+
+.btn-dont-know {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+  box-shadow: 0 4px 14px rgba(220,38,38,0.3);
+}
+.btn-dont-know:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(220,38,38,0.4); }
+.btn-dont-know:active { transform: translateY(0); }
+
+.btn-next {
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  color: white;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+}
+.btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+.btn-next:active { transform: translateY(0); }
+
+.btn-outline {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border-color);
+  flex: 0;
+  padding: 13px 16px;
+}
+.btn-outline:hover { border-color: var(--blue-400); color: var(--blue-600); background: var(--blue-50); }
+[data-theme="dark"] .btn-outline:hover { background: rgba(37,99,235,0.1); }
+
+/* Point popup animation */
+.point-popup {
+  position: fixed;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 9999;
+  animation: pointPop 1.1s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes pointPop {
+  0% { opacity: 1; transform: translateY(0) scale(0.8); }
+  30% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+  100% { opacity: 0; transform: translateY(-60px) scale(1); }
+}
+
+/* ============================================
+   QUIZ VIEW
+============================================ */
+.quiz-area {
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.quiz-question-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.quiz-q-number {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.quiz-q-word {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.quiz-q-prompt {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.quiz-option {
+  padding: 16px 18px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+  line-height: 1.4;
+}
+
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--blue-400);
+  background: var(--blue-50);
+  color: var(--blue-700);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="dark"] .quiz-option:hover:not(:disabled) {
+  background: rgba(37,99,235,0.1);
+  color: var(--blue-400);
+}
+
+.quiz-option.correct {
+  border-color: #059669;
+  background: #dcfce7;
+  color: #065f46;
+  font-weight: 600;
+}
+[data-theme="dark"] .quiz-option.correct {
+  background: rgba(5,150,105,0.2);
+  color: #6ee7b7;
+}
+
+.quiz-option.wrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  color: #991b1b;
+}
+[data-theme="dark"] .quiz-option.wrong {
+  background: rgba(220,38,38,0.2);
+  color: #fca5a5;
+}
+
+.quiz-option:disabled { cursor: not-allowed; }
+
+.quiz-feedback {
+  display: none;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 16px;
+  animation: fadeSlideIn 0.25s ease both;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: #dcfce7; color: #065f46; border: 1px solid #86efac; }
+.quiz-feedback.wrong-fb { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+[data-theme="dark"] .quiz-feedback.correct-fb { background: rgba(5,150,105,0.15); color: #6ee7b7; border-color: rgba(5,150,105,0.3); }
+[data-theme="dark"] .quiz-feedback.wrong-fb { background: rgba(220,38,38,0.15); color: #fca5a5; border-color: rgba(220,38,38,0.3); }
+
+.quiz-next-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: none;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+}
+.quiz-next-btn.show { display: block; }
+.quiz-next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+
+/* Quiz progress bar */
+.quiz-progress-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.quiz-track {
+  flex: 1; height: 6px;
+  background: var(--blue-100);
+  border-radius: 100px;
+  overflow: hidden;
+}
+[data-theme="dark"] .quiz-track { background: rgba(37,99,235,0.15); }
+.quiz-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+  transition: width 0.4s ease;
+  border-radius: 100px;
+}
+.quiz-count { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+
+/* Quiz results */
+.quiz-results {
+  text-align: center;
+  padding: 40px 32px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.quiz-result-score {
+  font-family: var(--font-mono);
+  font-size: 72px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.quiz-result-label {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.quiz-result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.quiz-result-stat {
+  padding: 14px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.quiz-result-stat-val {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue-500);
+}
+
+.quiz-result-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 3px;
+}
+
+.quiz-result-emoji {
+  font-size: 52px;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.quiz-result-btns {
+  display: flex; gap: 10px;
+}
+
+/* ============================================
+   STATS VIEW
+============================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--blue-200);
+}
+[data-theme="dark"] .stat-card:hover { border-color: rgba(37,99,235,0.3); }
+
+.stat-icon-wrap {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.stat-delta {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #059669;
+  margin-top: 6px;
+}
+
+/* Category breakdown */
+.category-breakdown {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.cat-stat-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cat-stat-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.cat-stat-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--blue-100);
+  border-radius: 100px;
+  overflow: hidden;
+}
+[data-theme="dark"] .cat-stat-bar-wrap { background: rgba(37,99,235,0.1); }
+
+.cat-stat-bar {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+.cat-stat-pct {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  width: 36px;
+  text-align: right;
+}
+
+/* Leaderboard */
+.leaderboard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+}
+
+.leaderboard-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.leaderboard-row:last-child { border-bottom: none; }
+
+.lb-rank {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.lb-rank.gold { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: white; }
+.lb-rank.silver { background: linear-gradient(135deg, #64748b, #94a3b8); color: white; }
+.lb-rank.bronze { background: linear-gradient(135deg, #b45309, #d97706); color: white; }
+.lb-rank.other { background: var(--bg-primary); color: var(--text-muted); border: 1px solid var(--border-color); }
+
+.lb-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--text-primary); }
+.lb-date { font-size: 11px; color: var(--text-muted); }
+.lb-score {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue-500);
+}
+
+/* ============================================
+   WORD LIST VIEW (search results)
+============================================ */
+.wordlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.word-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+  cursor: pointer;
+  position: relative;
+}
+
+.word-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--blue-300);
+}
+
+.word-card-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.word-card-word {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.word-card-cat {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+
+.word-card-translation {
+  font-size: 14px;
+  color: var(--blue-600);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+[data-theme="dark"] .word-card-translation { color: var(--blue-400); }
+
+.word-card-definition {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.word-card-known {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 20px; height: 20px;
+  background: #dcfce7;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.word-card-known svg { width: 11px; height: 11px; color: #059669; }
+
+/* ============================================
+   ONBOARDING / COMPLETION SCREEN
+============================================ */
+.completion-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 28px;
+  text-align: center;
+}
+
+.completion-icon {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 30px rgba(37,99,235,0.35);
+  animation: pulse 2s infinite;
+}
+.completion-icon svg { width: 36px; height: 36px; color: white; }
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 8px 30px rgba(37,99,235,0.35); }
+  50% { box-shadow: 0 8px 40px rgba(37,99,235,0.55); }
+}
+
+.completion-title {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.completion-subtitle {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  max-width: 380px;
+}
+
+.completion-btns {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+}
+.completion-btns .btn { flex: 0; min-width: 160px; }
+
+/* ============================================
+   TOAST NOTIFICATIONS
+============================================ */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: white;
+  box-shadow: var(--shadow-md);
+  animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1) both;
+  max-width: 300px;
+}
+
+.toast.success { background: linear-gradient(135deg, #059669, #10b981); }
+.toast.error { background: linear-gradient(135deg, #dc2626, #ef4444); }
+.toast.info { background: linear-gradient(135deg, var(--blue-700), var(--blue-500)); }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(30px); }
+}
+
+/* ============================================
+   OVERLAY (mobile sidebar)
+============================================ */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 820px) {
+  :root { --sidebar-width: 260px; }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-overlay { display: block; }
+  .sidebar-overlay.active { display: block; }
+
+  .main-content { margin-left: 0; }
+
+  .menu-toggle { display: flex; }
+
+  .header { padding: 0 16px; }
+
+  .page { padding: 16px; }
+
+  .flip-card-container { height: 300px; }
+
+  .card-word { font-size: 32px; }
+
+  .quiz-options { grid-template-columns: 1fr; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .card-controls { flex-wrap: wrap; }
+  .btn-outline { order: -1; flex: 0 0 48px; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .quiz-result-stats { grid-template-columns: 1fr; }
+  .completion-btns .btn { min-width: 140px; }
+  .card-word { font-size: 26px; }
+  .flip-card-container { height: 280px; }
+  .flip-card-front, .flip-card-back { padding: 24px; }
+}
+
+/* ============================================
+   SCROLLBAR
+============================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--blue-200); border-radius: 100px; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.3); }
+::-webkit-scrollbar-thumb:hover { background: var(--blue-400); }
+
+/* ============================================
+   UTILITY
+============================================ */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+
+/* No results */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ===================== SIDEBAR ===================== -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">&lt;/&gt;</div>
+    <div>
+      <div class="logo-text">IT <span>Vocab</span></div>
+      <div class="logo-sub">Flash Cards Pro</div>
+    </div>
+  </div>
+
+  <!-- Mini stats -->
+  <div class="sidebar-stats">
+    <div class="stat-mini">
+      <div class="stat-mini-val" id="sidebarScore">0</div>
+      <div class="stat-mini-label">Punkty</div>
+    </div>
+    <div class="stat-mini">
+      <div class="stat-mini-val" id="sidebarKnown">0</div>
+      <div class="stat-mini-label">Znane</div>
+    </div>
+    <div class="stat-mini">
+      <div class="stat-mini-val" id="sidebarStreak">0</div>
+      <div class="stat-mini-label">Seria</div>
+    </div>
+    <div class="stat-mini">
+      <div class="stat-mini-val" id="sidebarTotal">0</div>
+      <div class="stat-mini-label">Słówek</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Tryby</div>
+
+    <button class="nav-btn active" onclick="showPage('learn')" id="nav-learn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      Fiszki
+      <span class="nav-badge" id="navBadge">0/0</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('wordlist')" id="nav-wordlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+      Słownik
+    </button>
+
+    <button class="nav-btn" onclick="startQuiz()" id="nav-quiz">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      Quiz
+    </button>
+
+    <button class="nav-btn" onclick="showPage('stats')" id="nav-stats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Statystyki
+    </button>
+
+    <div class="nav-section-label">Kategorie</div>
+    <div class="category-filters" id="categoryFilters">
+      <!-- filled by JS -->
+    </div>
+  </nav>
+
+  <!-- Sidebar footer -->
+  <div class="sidebar-footer">
+    <button class="icon-btn" onclick="shuffleCards()" title="Przetasuj">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+      Losuj
+    </button>
+    <button class="icon-btn" onclick="resetProgress()" title="Reset">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+      Reset
+    </button>
+  </div>
+</aside>
+
+<!-- ===================== MAIN ===================== -->
+<div class="main-content">
+
+  <!-- Header -->
+  <header class="header">
+    <button class="menu-toggle" onclick="toggleSidebar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+
+    <div class="header-title" id="headerTitle">// fiszki</div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" class="search-input" placeholder="Szukaj słówek..." id="searchInput" oninput="handleSearch(this.value)">
+    </div>
+
+    <div class="header-right">
+      <div class="score-chip">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+        <span id="headerScore">0</span>
+      </div>
+
+      <button class="theme-toggle" onclick="toggleTheme()" title="Zmień motyw">
+        <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== LEARN PAGE ===== -->
+  <div class="page active" id="page-learn">
+    <div class="page-header">
+      <div class="page-title">// fiszki.learn</div>
+      <div class="page-subtitle">Kliknij kartę, żeby zobaczyć tłumaczenie</div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <div class="progress-header">
+        <span class="progress-label">Postęp sesji</span>
+        <span class="progress-fraction" id="progressFraction">0 / 0</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Flashcard area -->
+    <div class="flashcard-area" id="flashcardArea">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <!-- ===== WORDLIST PAGE ===== -->
+  <div class="page" id="page-wordlist">
+    <div class="page-header">
+      <div class="page-title">// słownik.all</div>
+      <div class="page-subtitle" id="wordlistSubtitle">Przeglądaj wszystkie słówka</div>
+    </div>
+    <div class="wordlist-grid" id="wordlistGrid">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <!-- ===== QUIZ PAGE ===== -->
+  <div class="page" id="page-quiz">
+    <div class="page-header">
+      <div class="page-title">// quiz.mode</div>
+      <div class="page-subtitle">Przetestuj swoją wiedzę</div>
+    </div>
+    <div id="quizContent">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <!-- ===== STATS PAGE ===== -->
+  <div class="page" id="page-stats">
+    <div class="page-header">
+      <div class="page-title">// statystyki</div>
+      <div class="page-subtitle">Twoje postępy w nauce</div>
+    </div>
+    <div id="statsContent">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+</div><!-- /main-content -->
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+//  DATA — 100+ IT vocabulary words
+// ============================================================
+const CATEGORIES = {
+  programming:    { label: 'Programming',    color: '#3b82f6', bg: '#dbeafe', dark: 'rgba(59,130,246,0.2)' },
+  frontend:       { label: 'Frontend',       color: '#8b5cf6', bg: '#ede9fe', dark: 'rgba(139,92,246,0.2)' },
+  backend:        { label: 'Backend',        color: '#059669', bg: '#dcfce7', dark: 'rgba(5,150,105,0.2)'  },
+  databases:      { label: 'Databases',      color: '#f59e0b', bg: '#fef3c7', dark: 'rgba(245,158,11,0.2)' },
+  cloud:          { label: 'Cloud',          color: '#0ea5e9', bg: '#e0f2fe', dark: 'rgba(14,165,233,0.2)' },
+  devops:         { label: 'DevOps',         color: '#ef4444', bg: '#fee2e2', dark: 'rgba(239,68,68,0.2)'  },
+  cybersecurity:  { label: 'Cybersecurity',  color: '#ec4899', bg: '#fce7f3', dark: 'rgba(236,72,153,0.2)' },
+  networking:     { label: 'Networking',     color: '#14b8a6', bg: '#ccfbf1', dark: 'rgba(20,184,166,0.2)' },
+};
+
+const VOCABULARY = [
+  // PROGRAMMING
+  { id: 1, word: 'Algorithm', translation: 'Algorytm', definition: 'Skończony ciąg dobrze zdefiniowanych instrukcji rozwiązujących problem', example: 'A sorting algorithm arranges data in a specific order.', category: 'programming' },
+  { id: 2, word: 'Variable', translation: 'Zmienna', definition: 'Nazwany pojemnik przechowujący wartość, która może się zmieniać', example: 'The variable "count" stores the number of users.', category: 'programming' },
+  { id: 3, word: 'Function', translation: 'Funkcja', definition: 'Blok kodu wykonujący określone zadanie, który można wielokrotnie wywoływać', example: 'The function calculateTotal() sums all items.', category: 'programming' },
+  { id: 4, word: 'Loop', translation: 'Pętla', definition: 'Struktura kontrolna powtarzająca blok kodu wielokrotnie', example: 'The for loop iterates through each array element.', category: 'programming' },
+  { id: 5, word: 'Recursion', translation: 'Rekurencja', definition: 'Technika, w której funkcja wywołuje samą siebie', example: 'Recursion is used to traverse tree structures.', category: 'programming' },
+  { id: 6, word: 'Debugging', translation: 'Debugowanie', definition: 'Proces znajdowania i usuwania błędów w kodzie', example: 'Debugging the login function took three hours.', category: 'programming' },
+  { id: 7, word: 'Refactoring', translation: 'Refaktoryzacja', definition: 'Ulepszanie struktury kodu bez zmiany jego funkcjonalności', example: 'Refactoring the legacy code improved performance.', category: 'programming' },
+  { id: 8, word: 'Inheritance', translation: 'Dziedziczenie', definition: 'Mechanizm w OOP pozwalający klasie przejąć właściwości innej klasy', example: 'The Dog class inherits from the Animal class.', category: 'programming' },
+  { id: 9, word: 'Polymorphism', translation: 'Polimorfizm', definition: 'Zdolność obiektu do przyjmowania wielu form', example: 'Polymorphism allows different classes to share the same interface.', category: 'programming' },
+  { id: 10, word: 'Encapsulation', translation: 'Enkapsulacja', definition: 'Ukrywanie wewnętrznych szczegółów obiektu', example: 'Encapsulation protects private data from external access.', category: 'programming' },
+  { id: 11, word: 'Array', translation: 'Tablica', definition: 'Struktura danych przechowująca elementy tego samego typu', example: 'The array stores ten user names.', category: 'programming' },
+  { id: 12, word: 'Stack', translation: 'Stos', definition: 'Struktura danych LIFO (ostatni wchodzi, pierwszy wychodzi)', example: 'The call stack tracks function invocations.', category: 'programming' },
+  { id: 13, word: 'Queue', translation: 'Kolejka', definition: 'Struktura danych FIFO (pierwszy wchodzi, pierwszy wychodzi)', example: 'A message queue handles async tasks.', category: 'programming' },
+  { id: 14, word: 'Pointer', translation: 'Wskaźnik', definition: 'Zmienna przechowująca adres pamięci innej zmiennej', example: 'A null pointer caused the segmentation fault.', category: 'programming' },
+  { id: 15, word: 'Abstraction', translation: 'Abstrakcja', definition: 'Ukrywanie złożoności przez pokazanie tylko istotnych cech', example: 'Abstraction lets you use a car without knowing its engine internals.', category: 'programming' },
+
+  // FRONTEND
+  { id: 16, word: 'DOM', translation: 'Drzewo dokumentu', definition: 'Document Object Model — interfejs reprezentujący stronę HTML jako drzewo', example: 'JavaScript manipulates the DOM to update the page.', category: 'frontend' },
+  { id: 17, word: 'Component', translation: 'Komponent', definition: 'Samodzielny, wielokrotnego użytku fragment interfejsu użytkownika', example: 'The Button component is used across the app.', category: 'frontend' },
+  { id: 18, word: 'Props', translation: 'Właściwości komponentu', definition: 'Dane przekazywane do komponentu z zewnątrz (React)', example: 'The card component receives title and description as props.', category: 'frontend' },
+  { id: 19, word: 'State', translation: 'Stan', definition: 'Dane komponentu, które mogą się zmieniać w czasie', example: 'The state stores whether the modal is open or closed.', category: 'frontend' },
+  { id: 20, word: 'Responsive design', translation: 'Responsywny design', definition: 'Projektowanie stron dopasowujących się do różnych rozmiarów ekranów', example: 'Responsive design ensures the site looks good on mobile.', category: 'frontend' },
+  { id: 21, word: 'Flexbox', translation: 'Model elastycznych pudełek', definition: 'CSS moduł layoutu jednowymiarowego', example: 'Flexbox centers elements easily with justify-content.', category: 'frontend' },
+  { id: 22, word: 'Grid', translation: 'Siatka CSS', definition: 'CSS moduł layoutu dwuwymiarowego', example: 'CSS Grid creates complex two-dimensional layouts.', category: 'frontend' },
+  { id: 23, word: 'Bundler', translation: 'Bundler (łącznik plików)', definition: 'Narzędzie łączące pliki JavaScript w jeden lub kilka plików wynikowych', example: 'Webpack is a popular JavaScript bundler.', category: 'frontend' },
+  { id: 24, word: 'Linter', translation: 'Linter (analizator kodu)', definition: 'Narzędzie sprawdzające kod pod kątem błędów stylu i błędów logicznych', example: 'ESLint catches syntax errors before runtime.', category: 'frontend' },
+  { id: 25, word: 'Hydration', translation: 'Nawadnianie (hydration)', definition: 'Proces, w którym JavaScript ożywia statyczny HTML po stronie klienta', example: 'React hydration attaches event listeners to server-rendered HTML.', category: 'frontend' },
+  { id: 26, word: 'SSR', translation: 'Renderowanie po stronie serwera', definition: 'Server-Side Rendering — generowanie HTML na serwerze', example: 'SSR improves initial page load performance.', category: 'frontend' },
+  { id: 27, word: 'SPA', translation: 'Aplikacja jednostronicowa', definition: 'Single Page Application — aplikacja ładowana raz, nawigacja bez przeładowania', example: 'Gmail is a popular SPA example.', category: 'frontend' },
+  { id: 28, word: 'Lazy loading', translation: 'Ładowanie leniwe', definition: 'Odkładanie ładowania zasobów na moment, gdy są potrzebne', example: 'Lazy loading images improves initial page speed.', category: 'frontend' },
+  { id: 29, word: 'Viewport', translation: 'Obszar widoku', definition: 'Widoczny obszar przeglądarki wyświetlający stronę', example: 'The viewport meta tag controls mobile scaling.', category: 'frontend' },
+  { id: 30, word: 'Media query', translation: 'Zapytanie medialne', definition: 'CSS technika stosowania stylów zależnie od charakterystyki urządzenia', example: 'A media query adjusts the layout for small screens.', category: 'frontend' },
+
+  // BACKEND
+  { id: 31, word: 'Backend', translation: 'Backend (część serwerowa)', definition: 'Część aplikacji działająca na serwerze, obsługuje logikę biznesową', example: 'The backend handles database operations.', category: 'backend' },
+  { id: 32, word: 'API', translation: 'Interfejs programistyczny', definition: 'Application Programming Interface — zestaw reguł komunikacji między systemami', example: 'The payment API processes credit card transactions.', category: 'backend' },
+  { id: 33, word: 'REST', translation: 'Styl architektoniczny REST', definition: 'Representational State Transfer — styl tworzenia API oparty na HTTP', example: 'The REST API uses GET, POST, PUT and DELETE methods.', category: 'backend' },
+  { id: 34, word: 'Middleware', translation: 'Oprogramowanie pośredniczące', definition: 'Kod uruchamiany między żądaniem a odpowiedzią', example: 'Authentication middleware checks the JWT token.', category: 'backend' },
+  { id: 35, word: 'Endpoint', translation: 'Punkt końcowy', definition: 'Konkretny adres URL w API przyjmujący żądania', example: 'The /users endpoint returns all registered users.', category: 'backend' },
+  { id: 36, word: 'Authentication', translation: 'Uwierzytelnianie', definition: 'Weryfikacja tożsamości użytkownika', example: 'JWT authentication secures the API endpoints.', category: 'backend' },
+  { id: 37, word: 'Authorization', translation: 'Autoryzacja', definition: 'Sprawdzenie, czy użytkownik ma dostęp do zasobu', example: 'Only admins are authorized to delete users.', category: 'backend' },
+  { id: 38, word: 'Caching', translation: 'Buforowanie', definition: 'Przechowywanie danych tymczasowo dla szybszego dostępu', example: 'Redis caching reduces database load significantly.', category: 'backend' },
+  { id: 39, word: 'Load balancing', translation: 'Równoważenie obciążenia', definition: 'Dystrybucja ruchu sieciowego między wiele serwerów', example: 'Load balancing prevents any single server from overloading.', category: 'backend' },
+  { id: 40, word: 'Webhook', translation: 'Webhoook (wywołanie zwrotne HTTP)', definition: 'HTTP callback wywoływany automatycznie po zdarzeniu', example: 'A webhook notifies our app when a payment succeeds.', category: 'backend' },
+  { id: 41, word: 'Session', translation: 'Sesja', definition: 'Tymczasowe przechowywanie danych użytkownika po stronie serwera', example: 'The session expires after 30 minutes of inactivity.', category: 'backend' },
+  { id: 42, word: 'Rate limiting', translation: 'Ograniczanie częstości żądań', definition: 'Kontrola liczby żądań do API w danym czasie', example: 'Rate limiting blocks users who send too many requests.', category: 'backend' },
+  { id: 43, word: 'Microservices', translation: 'Mikroserwisy', definition: 'Architektura dzieląca aplikację na małe, niezależne usługi', example: 'Microservices allow teams to deploy features independently.', category: 'backend' },
+  { id: 44, word: 'GraphQL', translation: 'GraphQL (język zapytań)', definition: 'Język zapytań i środowisko uruchomieniowe dla API', example: 'GraphQL lets clients request exactly the data they need.', category: 'backend' },
+  { id: 45, word: 'gRPC', translation: 'gRPC (protokół zdalnych wywołań)', definition: 'Framework zdalnego wywoływania procedur od Google', example: 'gRPC enables fast communication between microservices.', category: 'backend' },
+
+  // DATABASES
+  { id: 46, word: 'Database', translation: 'Baza danych', definition: 'Zorganizowany zbiór danych przechowywanych elektronicznie', example: 'The database stores all user accounts and orders.', category: 'databases' },
+  { id: 47, word: 'SQL', translation: 'Język zapytań strukturalnych', definition: 'Structured Query Language — język do zarządzania relacyjnymi bazami danych', example: 'SQL SELECT queries retrieve data from tables.', category: 'databases' },
+  { id: 48, word: 'Query', translation: 'Zapytanie', definition: 'Żądanie danych lub akcji skierowane do bazy danych', example: 'The query returns users created in the last 30 days.', category: 'databases' },
+  { id: 49, word: 'Index', translation: 'Indeks (baza danych)', definition: 'Struktura danych przyspieszająca wyszukiwanie w bazie', example: 'Adding an index to the email column speeds up login queries.', category: 'databases' },
+  { id: 50, word: 'Transaction', translation: 'Transakcja', definition: 'Ciąg operacji bazodanowych traktowanych jako całość', example: 'A transaction ensures the order and payment are saved together.', category: 'databases' },
+  { id: 51, word: 'Schema', translation: 'Schemat bazy danych', definition: 'Definicja struktury bazy danych — tabele, kolumny, relacje', example: 'The schema defines the users and orders tables.', category: 'databases' },
+  { id: 52, word: 'Migration', translation: 'Migracja bazy danych', definition: 'Zarządzanie zmianami struktury bazy danych w czasie', example: 'The migration adds a phone_number column to users.', category: 'databases' },
+  { id: 53, word: 'ORM', translation: 'Mapowanie obiektowo-relacyjne', definition: 'Object-Relational Mapping — narzędzie mapujące obiekty na tabele', example: 'Prisma ORM lets you write type-safe database queries.', category: 'databases' },
+  { id: 54, word: 'NoSQL', translation: 'Nierelacyjna baza danych', definition: 'Bazy danych niestosujące tabelarycznego modelu relacyjnego', example: 'MongoDB is a popular NoSQL document database.', category: 'databases' },
+  { id: 55, word: 'Sharding', translation: 'Shardowanie (partycjonowanie)', definition: 'Podział danych na mniejsze fragmenty rozproszone po wielu serwerach', example: 'Sharding distributes the database across multiple nodes.', category: 'databases' },
+  { id: 56, word: 'Replication', translation: 'Replikacja', definition: 'Kopiowanie danych na wiele serwerów dla niezawodności', example: 'Database replication ensures data is never lost.', category: 'databases' },
+  { id: 57, word: 'ACID', translation: 'Właściwości ACID transakcji', definition: 'Atomicity, Consistency, Isolation, Durability — właściwości transakcji', example: 'ACID compliance ensures data integrity in banking apps.', category: 'databases' },
+  { id: 58, word: 'Join', translation: 'Złączenie tabel', definition: 'Operacja SQL łącząca wiersze z dwóch lub więcej tabel', example: 'A JOIN combines orders with customer data.', category: 'databases' },
+  { id: 59, word: 'Primary key', translation: 'Klucz główny', definition: 'Unikalny identyfikator wiersza w tabeli', example: 'The user_id is the primary key of the users table.', category: 'databases' },
+  { id: 60, word: 'Foreign key', translation: 'Klucz obcy', definition: 'Kolumna odwołująca się do klucza głównego innej tabeli', example: 'The order_id foreign key links orders to users.', category: 'databases' },
+
+  // CLOUD
+  { id: 61, word: 'Cloud computing', translation: 'Przetwarzanie w chmurze', definition: 'Dostarczanie usług obliczeniowych przez internet', example: 'Cloud computing allows scaling without physical servers.', category: 'cloud' },
+  { id: 62, word: 'Serverless', translation: 'Bezserwerowe', definition: 'Model przetwarzania, w którym dostawca zarządza infrastrukturą serwerową', example: 'AWS Lambda is a popular serverless compute service.', category: 'cloud' },
+  { id: 63, word: 'Scalability', translation: 'Skalowalność', definition: 'Zdolność systemu do obsługi rosnącego obciążenia', example: 'Auto-scaling adds servers when traffic spikes.', category: 'cloud' },
+  { id: 64, word: 'SaaS', translation: 'Oprogramowanie jako usługa', definition: 'Software as a Service — aplikacje dostępne przez internet', example: 'Slack and GitHub are examples of SaaS products.', category: 'cloud' },
+  { id: 65, word: 'IaaS', translation: 'Infrastruktura jako usługa', definition: 'Infrastructure as a Service — wynajem infrastruktury obliczeniowej', example: 'AWS EC2 is an IaaS offering virtual machines.', category: 'cloud' },
+  { id: 66, word: 'CDN', translation: 'Sieć dostarczania treści', definition: 'Content Delivery Network — sieć serwerów dostarczających treści', example: 'A CDN serves static files from servers close to users.', category: 'cloud' },
+  { id: 67, word: 'Region', translation: 'Region (chmura)', definition: 'Geograficzny obszar z klastrami centrów danych', example: 'Deploying to the eu-west-1 region reduces latency in Europe.', category: 'cloud' },
+  { id: 68, word: 'Availability zone', translation: 'Strefa dostępności', definition: 'Izolowane centrum danych w ramach regionu chmury', example: 'Using multiple availability zones prevents single points of failure.', category: 'cloud' },
+  { id: 69, word: 'Object storage', translation: 'Magazyn obiektowy', definition: 'Skalowalne przechowywanie danych nieustrukturyzowanych', example: 'S3 object storage hosts static website assets.', category: 'cloud' },
+  { id: 70, word: 'Auto scaling', translation: 'Automatyczne skalowanie', definition: 'Automatyczne dostosowywanie zasobów obliczeniowych do obciążenia', example: 'Auto scaling adds instances during Black Friday traffic.', category: 'cloud' },
+
+  // DEVOPS
+  { id: 71, word: 'CI/CD', translation: 'Ciągła integracja i dostarczanie', definition: 'Continuous Integration/Continuous Delivery — automatyczne budowanie i wdrażanie', example: 'CI/CD pipelines deploy code to production automatically.', category: 'devops' },
+  { id: 72, word: 'Docker', translation: 'Docker (konteneryzacja)', definition: 'Platforma do tworzenia i uruchamiania aplikacji w kontenerach', example: 'Docker containers ensure consistent environments.', category: 'devops' },
+  { id: 73, word: 'Kubernetes', translation: 'Kubernetes (orkiestracja)', definition: 'System orkiestracji kontenerów zarządzający ich wdrożeniem', example: 'Kubernetes automatically restarts failed containers.', category: 'devops' },
+  { id: 74, word: 'Pipeline', translation: 'Potok (pipeline)', definition: 'Seria zautomatyzowanych kroków przetwarzania lub wdrożenia', example: 'The CI pipeline runs tests before every merge.', category: 'devops' },
+  { id: 75, word: 'Git', translation: 'Git (kontrola wersji)', definition: 'Rozproszony system kontroli wersji kodu', example: 'Git tracks every change made to the codebase.', category: 'devops' },
+  { id: 76, word: 'Deployment', translation: 'Wdrożenie', definition: 'Proces udostępniania nowej wersji oprogramowania', example: 'The deployment went live at midnight with no downtime.', category: 'devops' },
+  { id: 77, word: 'Infrastructure as Code', translation: 'Infrastruktura jako kod', definition: 'Zarządzanie infrastrukturą IT za pomocą plików konfiguracyjnych', example: 'Terraform enables Infrastructure as Code for cloud resources.', category: 'devops' },
+  { id: 78, word: 'Monitoring', translation: 'Monitorowanie', definition: 'Ciągłe śledzenie wydajności i stanu systemu', example: 'Monitoring alerts the team when CPU usage exceeds 90%.', category: 'devops' },
+  { id: 79, word: 'Rollback', translation: 'Wycofanie zmian', definition: 'Przywrócenie poprzedniej wersji aplikacji po błędzie', example: 'The team performed a rollback after the buggy deploy.', category: 'devops' },
+  { id: 80, word: 'Container', translation: 'Kontener', definition: 'Lekki, izolowany pakiet aplikacji z jej zależnościami', example: 'Each microservice runs in its own container.', category: 'devops' },
+  { id: 81, word: 'Image', translation: 'Obraz (kontener)', definition: 'Niemodyfikowalny szablon do tworzenia kontenerów', example: 'The Docker image includes Node.js and app dependencies.', category: 'devops' },
+  { id: 82, word: 'Registry', translation: 'Rejestr (obrazów)', definition: 'Repozytorium przechowujące obrazy kontenerów', example: 'Docker Hub is a public container registry.', category: 'devops' },
+
+  // CYBERSECURITY
+  { id: 83, word: 'Encryption', translation: 'Szyfrowanie', definition: 'Kodowanie danych w sposób uniemożliwiający odczyt bez klucza', example: 'HTTPS uses encryption to protect data in transit.', category: 'cybersecurity' },
+  { id: 84, word: 'Firewall', translation: 'Zapora sieciowa', definition: 'System bezpieczeństwa kontrolujący ruch sieciowy', example: 'The firewall blocks all inbound traffic on port 22.', category: 'cybersecurity' },
+  { id: 85, word: 'Vulnerability', translation: 'Podatność/luka', definition: 'Słabość systemu, którą może wykorzystać atakujący', example: 'The SQL injection vulnerability exposed the user database.', category: 'cybersecurity' },
+  { id: 86, word: 'Penetration testing', translation: 'Testy penetracyjne', definition: 'Symulowany atak na system w celu wykrycia słabości', example: 'Penetration testing revealed an XSS vulnerability.', category: 'cybersecurity' },
+  { id: 87, word: 'Phishing', translation: 'Phishing (wyłudzanie)', definition: 'Atak polegający na podszywaniu się pod zaufany podmiot', example: 'A phishing email tricked employees into revealing passwords.', category: 'cybersecurity' },
+  { id: 88, word: 'Zero-day', translation: 'Exploit dnia zerowego', definition: 'Nieznana publicznie luka bezpieczeństwa przed wydaniem poprawki', example: 'The zero-day exploit was sold on the dark web.', category: 'cybersecurity' },
+  { id: 89, word: 'Hash', translation: 'Hash (skrót kryptograficzny)', definition: 'Jednokierunkowa funkcja zamieniająca dane na ciąg znaków o stałej długości', example: 'Passwords are stored as SHA-256 hashes in the database.', category: 'cybersecurity' },
+  { id: 90, word: 'SSL/TLS', translation: 'Protokół szyfrowania SSL/TLS', definition: 'Protokoły kryptograficzne zapewniające bezpieczną komunikację', example: 'SSL/TLS certificates enable HTTPS on websites.', category: 'cybersecurity' },
+  { id: 91, word: 'DDoS', translation: 'Atak rozproszonej odmowy usługi', definition: 'Distributed Denial of Service — przeciążenie serwera fałszywymi żądaniami', example: 'A DDoS attack took the website offline for two hours.', category: 'cybersecurity' },
+  { id: 92, word: 'Two-factor auth', translation: 'Dwuskładnikowe uwierzytelnianie', definition: '2FA — wymaganie dwóch form weryfikacji tożsamości', example: 'Two-factor auth requires a phone code in addition to a password.', category: 'cybersecurity' },
+
+  // NETWORKING
+  { id: 93, word: 'IP address', translation: 'Adres IP', definition: 'Unikalny numeryczny identyfikator urządzenia w sieci', example: 'The server IP address is 192.168.1.100.', category: 'networking' },
+  { id: 94, word: 'DNS', translation: 'System nazw domenowych', definition: 'Domain Name System — tłumaczy nazwy domen na adresy IP', example: 'DNS resolves example.com to 93.184.216.34.', category: 'networking' },
+  { id: 95, word: 'HTTP', translation: 'Protokół przesyłania hipertekstu', definition: 'HyperText Transfer Protocol — podstawowy protokół internetu', example: 'HTTP GET requests fetch web pages from servers.', category: 'networking' },
+  { id: 96, word: 'Protocol', translation: 'Protokół sieciowy', definition: 'Zestaw reguł regulujących komunikację między urządzeniami', example: 'TCP is a reliable network protocol.', category: 'networking' },
+  { id: 97, word: 'Latency', translation: 'Opóźnienie', definition: 'Czas potrzebny do przesłania danych z punktu A do B', example: 'Low latency is critical for real-time gaming.', category: 'networking' },
+  { id: 98, word: 'Bandwidth', translation: 'Przepustowość', definition: 'Maksymalna ilość danych przesyłanych w jednostce czasu', example: 'Streaming 4K video requires high bandwidth.', category: 'networking' },
+  { id: 99, word: 'Proxy', translation: 'Serwer proxy', definition: 'Serwer pośredniczący między klientem a serwerem docelowym', example: 'A reverse proxy distributes traffic to backend servers.', category: 'networking' },
+  { id: 100, word: 'WebSocket', translation: 'WebSocket (protokół)', definition: 'Protokół komunikacji dwukierunkowej w czasie rzeczywistym', example: 'WebSockets enable live chat without page refreshes.', category: 'networking' },
+  { id: 101, word: 'VPN', translation: 'Wirtualna sieć prywatna', definition: 'Virtual Private Network — szyfrowany tunel przez publiczną sieć', example: 'A VPN hides your IP address and encrypts traffic.', category: 'networking' },
+  { id: 102, word: 'Port', translation: 'Port sieciowy', definition: 'Numeryczny identyfikator punktu komunikacyjnego', example: 'Web servers typically listen on port 80 or 443.', category: 'networking' },
+  { id: 103, word: 'TCP/IP', translation: 'Protokół TCP/IP', definition: 'Podstawowy zestaw protokołów komunikacji internetowej', example: 'TCP/IP is the foundation of modern internet communication.', category: 'networking' },
+  { id: 104, word: 'Packet', translation: 'Pakiet (sieciowy)', definition: 'Mała jednostka danych przesyłana przez sieć', example: 'Network packets are reassembled at the destination.', category: 'networking' },
+];
+
+// ============================================================
+//  APP STATE
+// ============================================================
+let state = {
+  currentPage: 'learn',
+  currentCategory: 'all',
+  filteredWords: [...VOCABULARY],
+  currentIndex: 0,
+  isFlipped: false,
+  score: 0,
+  bestScore: 0,
+  knownWords: new Set(),
+  sessionKnown: 0,
+  sessionDone: 0,
+  streak: 0,
+  startTime: Date.now(),
+  totalStudyTime: 0,
+  quizQuestions: [],
+  quizIndex: 0,
+  quizScore: 0,
+  quizAnswered: false,
+  isDark: false,
+  leaderboard: [],
+};
+
+// ============================================================
+//  LOCALSTORAGE
+// ============================================================
+function saveState() {
+  const data = {
+    score: state.score,
+    bestScore: state.bestScore,
+    knownWords: [...state.knownWords],
+    totalStudyTime: state.totalStudyTime + (Date.now() - state.startTime),
+    streak: state.streak,
+    isDark: state.isDark,
+    leaderboard: state.leaderboard,
+  };
+  localStorage.setItem('itvocab_state', JSON.stringify(data));
+}
+
+function loadState() {
+  const raw = localStorage.getItem('itvocab_state');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    state.score = data.score || 0;
+    state.bestScore = data.bestScore || 0;
+    state.knownWords = new Set(data.knownWords || []);
+    state.totalStudyTime = data.totalStudyTime || 0;
+    state.streak = data.streak || 0;
+    state.isDark = data.isDark || false;
+    state.leaderboard = data.leaderboard || [];
+  } catch(e) {}
+}
+
+// ============================================================
+//  THEME
+// ============================================================
+function toggleTheme() {
+  state.isDark = !state.isDark;
+  applyTheme();
+  saveState();
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', state.isDark ? 'dark' : 'light');
+  document.getElementById('themeIconSun').style.display = state.isDark ? 'none' : '';
+  document.getElementById('themeIconMoon').style.display = state.isDark ? '' : 'none';
+}
+
+// ============================================================
+//  PAGE NAVIGATION
+// ============================================================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  document.getElementById('page-' + page).classList.add('active');
+  const navBtn = document.getElementById('nav-' + page);
+  if (navBtn) navBtn.classList.add('active');
+
+  state.currentPage = page;
+  closeSidebar();
+
+  const titles = { learn: '// fiszki.learn', wordlist: '// słownik.all', quiz: '// quiz.mode', stats: '// statystyki' };
+  document.getElementById('headerTitle').textContent = titles[page] || '// it.vocab';
+
+  if (page === 'stats') renderStats();
+  if (page === 'wordlist') renderWordlist();
+}
+
+// ============================================================
+//  SIDEBAR
+// ============================================================
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// ============================================================
+//  CATEGORY FILTERS
+// ============================================================
+function renderCategoryFilters() {
+  const container = document.getElementById('categoryFilters');
+  let html = `
+    <button class="cat-filter-btn ${state.currentCategory === 'all' ? 'active' : ''}" onclick="filterCategory('all')">
+      <span class="cat-dot" style="background:#94a3b8"></span>
+      Wszystkie
+      <span class="cat-count">${VOCABULARY.length}</span>
+    </button>
+  `;
+  for (const [key, cat] of Object.entries(CATEGORIES)) {
+    const count = VOCABULARY.filter(w => w.category === key).length;
+    const isDark = state.isDark;
+    html += `
+      <button class="cat-filter-btn ${state.currentCategory === key ? 'active' : ''}" onclick="filterCategory('${key}')">
+        <span class="cat-dot" style="background:${cat.color}"></span>
+        ${cat.label}
+        <span class="cat-count">${count}</span>
+      </button>
+    `;
+  }
+  container.innerHTML = html;
+}
+
+function filterCategory(cat) {
+  state.currentCategory = cat;
+  state.filteredWords = cat === 'all' ? [...VOCABULARY] : VOCABULARY.filter(w => w.category === cat);
+  state.currentIndex = 0;
+  renderCategoryFilters();
+  renderCard();
+  updateProgress();
+  if (state.currentPage === 'wordlist') renderWordlist();
+}
+
+// ============================================================
+//  FLASHCARD RENDER
+// ============================================================
+function renderCard() {
+  const area = document.getElementById('flashcardArea');
+  const words = state.filteredWords;
+
+  if (words.length === 0) {
+    area.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+      <p>Brak słówek dla tej kategorii</p>
+    </div>`;
+    return;
+  }
+
+  // All done?
+  if (state.currentIndex >= words.length) {
+    renderCompletion();
+    return;
+  }
+
+  const w = words[state.currentIndex];
+  const cat = CATEGORIES[w.category];
+  const isKnown = state.knownWords.has(w.id);
+
+  // Category color
+  const catBg = state.isDark ? cat.dark : cat.bg;
+
+  area.innerHTML = `
+    <div class="card-meta">
+      <span class="card-counter">${state.currentIndex + 1} / ${words.length}</span>
+      <span class="card-cat-badge" style="background:${catBg};color:${cat.color}">${cat.label}</span>
+      ${isKnown ? `<span style="font-size:11px;color:#059669;font-weight:600;display:flex;align-items:center;gap:4px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Znane
+      </span>` : ''}
+    </div>
+
+    <div class="flip-card-container" onclick="flipCard()">
+      <div class="flip-card" id="flipCard">
+        <!-- FRONT -->
+        <div class="flip-card-front">
+          <div class="card-word">${w.word}</div>
+          <div class="card-pronunciation">${w.category}</div>
+          <div class="card-front-category">${cat.label}</div>
+          <div class="flip-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+            Kliknij, by obrócić
+          </div>
+        </div>
+        <!-- BACK -->
+        <div class="flip-card-back">
+          <div>
+            <div style="font-size:12px;opacity:0.7;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">${w.word}</div>
+            <div class="card-translation">${w.translation}</div>
+            <div class="card-definition">${w.definition}</div>
+          </div>
+          <div class="card-example">${w.example}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-controls">
+      <button class="btn btn-outline" onclick="prevCard()" title="Poprzednia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="btn btn-dont-know" onclick="markCard(false)" id="btnDontKnow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        Nie znam
+      </button>
+      <button class="btn btn-know" onclick="markCard(true)" id="btnKnow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Znam
+      </button>
+      <button class="btn btn-next" onclick="nextCard()">
+        Dalej
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  `;
+
+  state.isFlipped = false;
+  updateProgress();
+  updateSidebar();
+}
+
+function renderCompletion() {
+  const area = document.getElementById('flashcardArea');
+  const total = state.filteredWords.length;
+  const knownCount = state.filteredWords.filter(w => state.knownWords.has(w.id)).length;
+  const pct = Math.round((knownCount / total) * 100);
+
+  area.innerHTML = `
+    <div class="completion-screen">
+      <div class="completion-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div class="completion-title">Sesja ukończona! 🎉</div>
+      <div class="completion-subtitle">
+        Znasz <strong>${knownCount}</strong> z ${total} słówek (${pct}%).<br>
+        Twój wynik: <strong>${state.score} pkt</strong>
+      </div>
+      <div class="completion-btns">
+        <button class="btn btn-next" onclick="restartCards()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+          Zacznij od nowa
+        </button>
+        <button class="btn btn-know" onclick="startQuiz()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          Zrób Quiz
+        </button>
+      </div>
+    </div>
+  `;
+  updateProgress();
+}
+
+// ============================================================
+//  CARD INTERACTIONS
+// ============================================================
+function flipCard() {
+  const card = document.getElementById('flipCard');
+  if (!card) return;
+  state.isFlipped = !state.isFlipped;
+  card.classList.toggle('flipped', state.isFlipped);
+}
+
+function markCard(known) {
+  const word = state.filteredWords[state.currentIndex];
+  if (!word) return;
+
+  if (known) {
+    state.knownWords.add(word.id);
+    state.score += 10;
+    state.streak++;
+    state.sessionKnown++;
+    if (state.score > state.bestScore) state.bestScore = state.score;
+
+    // Show point popup
+    showPointPopup('+10', '#059669');
+    showToast('Świetnie! +10 punktów 🎯', 'success');
+  } else {
+    state.knownWords.delete(word.id);
+    state.streak = 0;
+    showToast('Nie szkodzi, wrócimy do tego!', 'info');
+  }
+
+  state.sessionDone++;
+  document.getElementById('headerScore').textContent = state.score;
+  saveState();
+  nextCard();
+}
+
+function nextCard() {
+  if (state.currentIndex < state.filteredWords.length) {
+    state.currentIndex++;
+    renderCard();
+  }
+}
+
+function prevCard() {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderCard();
+  }
+}
+
+function restartCards() {
+  state.currentIndex = 0;
+  renderCard();
+  updateProgress();
+}
+
+function shuffleCards() {
+  for (let i = state.filteredWords.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [state.filteredWords[i], state.filteredWords[j]] = [state.filteredWords[j], state.filteredWords[i]];
+  }
+  state.currentIndex = 0;
+  renderCard();
+  showToast('Kolejność kart przetasowana!', 'info');
+  showPage('learn');
+}
+
+function resetProgress() {
+  if (!confirm('Na pewno zresetować cały postęp? Stracisz punkty i historię nauki.')) return;
+  state.score = 0;
+  state.bestScore = 0;
+  state.knownWords = new Set();
+  state.streak = 0;
+  state.totalStudyTime = 0;
+  state.sessionKnown = 0;
+  state.sessionDone = 0;
+  state.currentIndex = 0;
+  saveState();
+  document.getElementById('headerScore').textContent = 0;
+  renderCard();
+  updateSidebar();
+  showToast('Postęp zresetowany', 'error');
+}
+
+// ============================================================
+//  PROGRESS
+// ============================================================
+function updateProgress() {
+  const total = state.filteredWords.length;
+  const done = Math.min(state.currentIndex, total);
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressFraction').textContent = `${done} / ${total}`;
+  document.getElementById('navBadge').textContent = `${done}/${total}`;
+}
+
+function updateSidebar() {
+  document.getElementById('sidebarScore').textContent = state.score;
+  document.getElementById('sidebarKnown').textContent = state.knownWords.size;
+  document.getElementById('sidebarStreak').textContent = state.streak;
+  document.getElementById('sidebarTotal').textContent = VOCABULARY.length;
+}
+
+// ============================================================
+//  WORDLIST
+// ============================================================
+function renderWordlist() {
+  const grid = document.getElementById('wordlistGrid');
+  const searchVal = document.getElementById('searchInput').value.toLowerCase();
+  let words = state.currentCategory === 'all' ? VOCABULARY : VOCABULARY.filter(w => w.category === state.currentCategory);
+
+  if (searchVal) {
+    words = words.filter(w =>
+      w.word.toLowerCase().includes(searchVal) ||
+      w.translation.toLowerCase().includes(searchVal) ||
+      w.definition.toLowerCase().includes(searchVal)
+    );
+  }
+
+  document.getElementById('wordlistSubtitle').textContent = `Wyświetlono ${words.length} słówek`;
+
+  if (words.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <p>Brak wyników dla "${searchVal}"</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = words.map(w => {
+    const cat = CATEGORIES[w.category];
+    const isKnown = state.knownWords.has(w.id);
+    const catBg = state.isDark ? cat.dark : cat.bg;
+    return `
+      <div class="word-card" onclick="goToWord(${w.id})">
+        ${isKnown ? `<div class="word-card-known"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>` : ''}
+        <div class="word-card-header">
+          <div class="word-card-word">${w.word}</div>
+          <span class="word-card-cat" style="background:${catBg};color:${cat.color}">${cat.label}</span>
+        </div>
+        <div class="word-card-translation">${w.translation}</div>
+        <div class="word-card-definition">${w.definition}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function goToWord(id) {
+  const idx = state.filteredWords.findIndex(w => w.id === id);
+  if (idx !== -1) {
+    state.currentIndex = idx;
+    showPage('learn');
+    renderCard();
+  }
+}
+
+function handleSearch(val) {
+  if (state.currentPage === 'wordlist') {
+    renderWordlist();
+  } else {
+    showPage('wordlist');
+  }
+}
+
+// ============================================================
+//  QUIZ
+// ============================================================
+function startQuiz() {
+  showPage('quiz');
+
+  // Build 15 random questions from vocabulary
+  const pool = [...VOCABULARY].sort(() => Math.random() - 0.5).slice(0, 15);
+
+  state.quizQuestions = pool.map(word => {
+    // Get 3 wrong options from same or different categories
+    const wrongs = VOCABULARY
+      .filter(w => w.id !== word.id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3)
+      .map(w => w.translation);
+
+    const options = [...wrongs, word.translation].sort(() => Math.random() - 0.5);
+    return { word, options, correct: word.translation };
+  });
+
+  state.quizIndex = 0;
+  state.quizScore = 0;
+  state.quizAnswered = false;
+
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const content = document.getElementById('quizContent');
+
+  if (state.quizIndex >= state.quizQuestions.length) {
+    renderQuizResults();
+    return;
+  }
+
+  const q = state.quizQuestions[state.quizIndex];
+  const progress = Math.round((state.quizIndex / state.quizQuestions.length) * 100);
+
+  content.innerHTML = `
+    <div class="quiz-area">
+      <div class="quiz-progress-row">
+        <div class="quiz-track"><div class="quiz-fill" style="width:${progress}%"></div></div>
+        <span class="quiz-count">${state.quizIndex + 1}/${state.quizQuestions.length}</span>
+      </div>
+
+      <div class="quiz-question-card">
+        <div class="quiz-q-number">Pytanie ${state.quizIndex + 1}</div>
+        <div class="quiz-q-word">${q.word.word}</div>
+        <div class="quiz-q-prompt">Wybierz poprawne tłumaczenie:</div>
+      </div>
+
+      <div class="quiz-options">
+        ${q.options.map((opt, i) => `
+          <button class="quiz-option" onclick="selectAnswer('${opt.replace(/'/g, "\\'")}', this)" data-answer="${opt}">
+            <span style="font-family:var(--font-mono);font-size:11px;opacity:0.5;margin-right:6px;">${String.fromCharCode(65+i)}</span>
+            ${opt}
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizQuestion()">
+        ${state.quizIndex + 1 < state.quizQuestions.length ? 'Następne pytanie →' : 'Zobacz wyniki →'}
+      </button>
+    </div>
+  `;
+  state.quizAnswered = false;
+}
+
+function selectAnswer(selected, btnEl) {
+  if (state.quizAnswered) return;
+  state.quizAnswered = true;
+
+  const q = state.quizQuestions[state.quizIndex];
+  const isCorrect = selected === q.correct;
+
+  // Disable all buttons
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.answer === q.correct) btn.classList.add('correct');
+    else if (btn === btnEl && !isCorrect) btn.classList.add('wrong');
+  });
+
+  // Feedback
+  const feedback = document.getElementById('quizFeedback');
+  if (isCorrect) {
+    state.quizScore++;
+    state.score += 5;
+    document.getElementById('headerScore').textContent = state.score;
+    feedback.textContent = `✓ Poprawnie! "${q.word.word}" = ${q.correct}`;
+    feedback.className = 'quiz-feedback show correct-fb';
+    showPointPopup('+5', '#059669');
+  } else {
+    feedback.textContent = `✗ Błąd. Poprawna odpowiedź: ${q.correct}`;
+    feedback.className = 'quiz-feedback show wrong-fb';
+  }
+
+  document.getElementById('quizNextBtn').classList.add('show');
+  saveState();
+}
+
+function nextQuizQuestion() {
+  state.quizIndex++;
+  renderQuizQuestion();
+}
+
+function renderQuizResults() {
+  const content = document.getElementById('quizContent');
+  const total = state.quizQuestions.length;
+  const pct = Math.round((state.quizScore / total) * 100);
+
+  let emoji = '😔';
+  if (pct >= 90) emoji = '🏆';
+  else if (pct >= 70) emoji = '🎉';
+  else if (pct >= 50) emoji = '👍';
+
+  // Save to leaderboard
+  const entry = {
+    score: state.quizScore * 5,
+    pct,
+    total,
+    date: new Date().toLocaleDateString('pl'),
+  };
+  state.leaderboard.unshift(entry);
+  state.leaderboard = state.leaderboard.slice(0, 10); // keep top 10
+  saveState();
+
+  content.innerHTML = `
+    <div class="quiz-results">
+      <div class="quiz-result-emoji">${emoji}</div>
+      <div class="quiz-result-score">${pct}%</div>
+      <div class="quiz-result-label">
+        ${pct >= 70 ? 'Świetny wynik! Tak trzymaj!' : 'Ćwicz dalej, dasz radę!'}
+      </div>
+      <div class="quiz-result-stats">
+        <div class="quiz-result-stat">
+          <div class="quiz-result-stat-val">${state.quizScore}</div>
+          <div class="quiz-result-stat-label">Poprawne</div>
+        </div>
+        <div class="quiz-result-stat">
+          <div class="quiz-result-stat-val">${total - state.quizScore}</div>
+          <div class="quiz-result-stat-label">Błędne</div>
+        </div>
+        <div class="quiz-result-stat">
+          <div class="quiz-result-stat-val">+${state.quizScore * 5}</div>
+          <div class="quiz-result-stat-label">Punkty</div>
+        </div>
+      </div>
+      <div class="quiz-result-btns">
+        <button class="btn btn-outline" onclick="startQuiz()" style="flex:1;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/></svg>
+          Powtórz
+        </button>
+        <button class="btn btn-next" onclick="showPage('learn')" style="flex:1;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+          Fiszki
+        </button>
+      </div>
+    </div>
+  `;
+
+  updateSidebar();
+}
+
+// ============================================================
+//  STATS
+// ============================================================
+function renderStats() {
+  const content = document.getElementById('statsContent');
+  const knownCount = state.knownWords.size;
+  const totalTime = state.totalStudyTime + (Date.now() - state.startTime);
+  const mins = Math.floor(totalTime / 60000);
+  const pct = Math.round((knownCount / VOCABULARY.length) * 100);
+
+  const quizAvg = state.leaderboard.length > 0
+    ? Math.round(state.leaderboard.reduce((a, b) => a + b.pct, 0) / state.leaderboard.length)
+    : 0;
+
+  content.innerHTML = `
+    <!-- Stats cards -->
+    <div class="stats-grid">
+      ${statCard('#dbeafe', '#2563eb', starIcon(), state.score, 'Łączny wynik', '★')}
+      ${statCard('#dcfce7', '#059669', checkIcon(), knownCount, 'Znane słówka', `z ${VOCABULARY.length}`)}
+      ${statCard('#fef3c7', '#d97706', trophyIcon(), state.bestScore, 'Najlepszy wynik', 'pkt')}
+      ${statCard('#ede9fe', '#7c3aed', clockIcon(), mins + ' min', 'Czas nauki', '')}
+      ${statCard('#dbeafe', '#0ea5e9', percentIcon(), pct + '%', 'Opanowane', 'słówek')}
+      ${statCard('#fce7f3', '#db2777', fireIcon(), state.streak, 'Aktywna seria', '🔥')}
+    </div>
+
+    <!-- Category breakdown -->
+    <div class="category-breakdown">
+      <div class="section-title">// postęp_po_kategorii</div>
+      ${Object.entries(CATEGORIES).map(([key, cat]) => {
+        const total = VOCABULARY.filter(w => w.category === key).length;
+        const known = VOCABULARY.filter(w => w.category === key && state.knownWords.has(w.id)).length;
+        const pctCat = total > 0 ? Math.round((known / total) * 100) : 0;
+        return `
+          <div class="cat-stat-row">
+            <div class="cat-stat-name">${cat.label}</div>
+            <div class="cat-stat-bar-wrap">
+              <div class="cat-stat-bar" style="width:${pctCat}%;background:${cat.color}"></div>
+            </div>
+            <div class="cat-stat-pct">${pctCat}%</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard">
+      <div class="section-title">// ranking_quizów</div>
+      ${state.leaderboard.length === 0
+        ? '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:14px;">Brak wyników — zrób quiz, żeby zobaczyć ranking!</div>'
+        : state.leaderboard.slice(0, 8).map((entry, i) => {
+          const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'other';
+          const rankIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1);
+          return `
+            <div class="leaderboard-row">
+              <div class="lb-rank ${rankClass}">${rankIcon}</div>
+              <div class="lb-name">Quiz ${entry.date}</div>
+              <div class="lb-date">${entry.pct}% poprawnych</div>
+              <div class="lb-score">+${entry.score}</div>
+            </div>
+          `;
+        }).join('')
+      }
+    </div>
+  `;
+}
+
+function statCard(bg, color, icon, value, label, sub) {
+  const darkBg = state.isDark ? 'rgba(37,99,235,0.1)' : bg;
+  return `
+    <div class="stat-card">
+      <div class="stat-icon-wrap" style="background:${darkBg}">
+        <span style="color:${color}">${icon}</span>
+      </div>
+      <div class="stat-value">${value}</div>
+      <div class="stat-label">${label}</div>
+      <div class="stat-delta">${sub}</div>
+    </div>
+  `;
+}
+
+// SVG icon helpers
+function starIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>`; }
+function checkIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`; }
+function trophyIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>`; }
+function clockIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`; }
+function percentIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`; }
+function fireIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`; }
+
+// ============================================================
+//  TOAST NOTIFICATIONS
+// ============================================================
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.animation = 'toastOut 0.3s ease forwards';
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
+// ============================================================
+//  POINT POPUP
+// ============================================================
+function showPointPopup(text, color) {
+  const el = document.createElement('div');
+  el.className = 'point-popup';
+  el.textContent = text;
+  el.style.color = color;
+  el.style.left = (window.innerWidth / 2 - 30) + 'px';
+  el.style.top = (window.innerHeight / 2 - 80) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+function init() {
+  loadState();
+  applyTheme();
+  renderCategoryFilters();
+  renderCard();
+  updateProgress();
+  updateSidebar();
+  document.getElementById('headerScore').textContent = state.score;
+
+  // Save study time every minute
+  setInterval(() => {
+    state.totalStudyTime += 60000;
+    saveState();
+  }, 60000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
