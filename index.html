@@ -138,6 +138,69 @@ body::after {
 }
 
 /* ============================================
+   BUTTON ANIMATIONS
+============================================ */
+@keyframes btnPulseGreen {
+  0%   { transform: scale(1); box-shadow: 0 4px 14px rgba(5,150,105,0.3); }
+  40%  { transform: scale(1.12); box-shadow: 0 8px 30px rgba(5,150,105,0.6); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); box-shadow: 0 4px 14px rgba(5,150,105,0.3); }
+}
+
+@keyframes btnPulseRed {
+  0%   { transform: scale(1); box-shadow: 0 4px 14px rgba(220,38,38,0.3); }
+  40%  { transform: scale(1.12); box-shadow: 0 8px 30px rgba(220,38,38,0.6); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); box-shadow: 0 4px 14px rgba(220,38,38,0.3); }
+}
+
+@keyframes btnPulseBlue {
+  0%   { transform: scale(1); box-shadow: 0 4px 14px rgba(37,99,235,0.3); }
+  40%  { transform: scale(1.1); box-shadow: 0 8px 30px rgba(37,99,235,0.6); }
+  70%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cardSlideOutLeft {
+  0%   { opacity: 1; transform: translateX(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateX(-120%) rotate(-8deg); }
+}
+
+@keyframes cardSlideOutRight {
+  0%   { opacity: 1; transform: translateX(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateX(120%) rotate(8deg); }
+}
+
+@keyframes cardSlideIn {
+  0%   { opacity: 0; transform: translateX(60px) scale(0.95); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes cardSlideInFromLeft {
+  0%   { opacity: 0; transform: translateX(-60px) scale(0.95); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes shakeCard {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-12px) rotate(-2deg); }
+  40%  { transform: translateX(10px) rotate(2deg); }
+  60%  { transform: translateX(-8px) rotate(-1deg); }
+  80%  { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+
+.btn-know.animating    { animation: btnPulseGreen 0.4s cubic-bezier(0.4,0,0.2,1); }
+.btn-dont-know.animating { animation: btnPulseRed 0.4s cubic-bezier(0.4,0,0.2,1); }
+.btn-next.animating    { animation: btnPulseBlue 0.35s cubic-bezier(0.4,0,0.2,1); }
+
+.flip-card-container.slide-out-right { animation: cardSlideOutRight 0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
+.flip-card-container.slide-out-left  { animation: cardSlideOutLeft  0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
+.flip-card-container.slide-in        { animation: cardSlideIn       0.35s cubic-bezier(0.4,0,0.2,1) both; }
+.flip-card-container.slide-in-left   { animation: cardSlideInFromLeft 0.35s cubic-bezier(0.4,0,0.2,1) both; }
+.flip-card-container.shake           { animation: shakeCard 0.4s cubic-bezier(0.4,0,0.2,1); }
+
+/* ============================================
    SIDEBAR
 ============================================ */
 .sidebar {
@@ -2238,14 +2301,26 @@ function markCard(known) {
   const word = state.filteredWords[state.currentIndex];
   if (!word) return;
 
+  // Animacja przycisku
+  const btnId = known ? 'btnKnow' : 'btnDontKnow';
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    btn.classList.add('animating');
+    btn.addEventListener('animationend', () => btn.classList.remove('animating'), { once: true });
+  }
+
+  // Animacja karty
+  const container = document.querySelector('.flip-card-container');
+  if (container) {
+    container.classList.add(known ? 'slide-out-right' : 'shake');
+  }
+
   if (known) {
     state.knownWords.add(word.id);
     state.score += 10;
     state.streak++;
     state.sessionKnown++;
     if (state.score > state.bestScore) state.bestScore = state.score;
-
-    // Show point popup
     showPointPopup('+10', '#059669');
     showToast('Świetnie! +10 punktów 🎯', 'success');
   } else {
@@ -2257,7 +2332,105 @@ function markCard(known) {
   state.sessionDone++;
   document.getElementById('headerScore').textContent = state.score;
   saveState();
-  nextCard();
+
+  setTimeout(() => {
+    state.currentIndex++;
+    renderCard();
+    // Animacja wejścia nowej karty
+    const newContainer = document.querySelector('.flip-card-container');
+    if (newContainer) {
+      newContainer.classList.add('slide-in');
+      newContainer.addEventListener('animationend', () => newContainer.classList.remove('slide-in'), { once: true });
+    }
+  }, known ? 350 : 420);
+}
+
+function nextCard() {
+  const container = document.querySelector('.flip-card-container');
+  if (container) {
+    container.classList.add('slide-out-right');
+  }
+
+  const btn = document.querySelector('.btn-next');
+  if (btn) {
+    btn.classList.add('animating');
+    btn.addEventListener('animationend', () => btn.classList.remove('animating'), { once: true });
+  }
+
+  setTimeout(() => {
+    if (state.currentIndex < state.filteredWords.length) {
+      state.currentIndex++;
+      renderCard();
+      const newContainer = document.querySelector('.flip-card-container');
+      if (newContainer) {
+        newContainer.classList.add('slide-in');
+        newContainer.addEventListener('animationend', () => newContainer.classList.remove('slide-in'), { once: true });
+      }
+    }
+  }, 300);
+}
+
+function prevCard() {
+  const container = document.querySelector('.flip-card-container');
+  if (container) {
+    container.classList.add('slide-out-left');
+  }
+
+  setTimeout(() => {
+    if (state.currentIndex > 0) {
+      state.currentIndex--;
+      renderCard();
+      const newContainer = document.querySelector('.flip-card-container');
+      if (newContainer) {
+        newContainer.classList.add('slide-in-left');
+        newContainer.addEventListener('animationend', () => newContainer.classList.remove('slide-in-left'), { once: true });
+      }
+    }
+  }, 300);
+}
+
+function nextCard() {
+  const container = document.querySelector('.flip-card-container');
+  if (container) {
+    container.classList.add('slide-out-right');
+  }
+
+  const btn = document.querySelector('.btn-next');
+  if (btn) {
+    btn.classList.add('animating');
+    btn.addEventListener('animationend', () => btn.classList.remove('animating'), { once: true });
+  }
+
+  setTimeout(() => {
+    if (state.currentIndex < state.filteredWords.length) {
+      state.currentIndex++;
+      renderCard();
+      const newContainer = document.querySelector('.flip-card-container');
+      if (newContainer) {
+        newContainer.classList.add('slide-in');
+        newContainer.addEventListener('animationend', () => newContainer.classList.remove('slide-in'), { once: true });
+      }
+    }
+  }, 300);
+}
+
+function prevCard() {
+  const container = document.querySelector('.flip-card-container');
+  if (container) {
+    container.classList.add('slide-out-left');
+  }
+
+  setTimeout(() => {
+    if (state.currentIndex > 0) {
+      state.currentIndex--;
+      renderCard();
+      const newContainer = document.querySelector('.flip-card-container');
+      if (newContainer) {
+        newContainer.classList.add('slide-in-left');
+        newContainer.addEventListener('animationend', () => newContainer.classList.remove('slide-in-left'), { once: true });
+      }
+    }
+  }, 300);
 }
 
 function nextCard() {
