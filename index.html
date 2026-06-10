@@ -550,12 +550,13 @@ body::after {
 }
 .menu-toggle svg { width: 18px; height: 18px; }
 
-/* ============================================
+/* ===========================================
    PAGE WRAPPER / VIEWS
 ============================================ */
 .page {
   flex: 1;
   padding: 28px;
+  padding-bottom: 60px;
   display: none;
   animation: fadeSlideIn 0.35s cubic-bezier(0.4,0,0.2,1) both;
 }
@@ -1292,7 +1293,9 @@ body::after {
   margin-bottom: 8px;
   gap: 8px;
 }
-
+#page-learn {
+  overflow: hidden;
+}
 .word-card-word {
   font-family: var(--font-mono);
   font-size: 17px;
@@ -1713,7 +1716,7 @@ body::after {
 <!-- FOOTER -->
 <style>
 .app-footer {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: var(--sidebar-width);
   right: 0;
