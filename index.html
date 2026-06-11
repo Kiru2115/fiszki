@@ -363,6 +363,7 @@ body::after {
   width: 100%;
   padding: 8px 12px;
   border: none;
+  border-left: 3px solid transparent;
   background: transparent;
   color: var(--text-secondary);
   font-size: 12.5px;
@@ -372,6 +373,22 @@ body::after {
   transition: all var(--transition);
   text-align: left;
   font-family: var(--font-sans);
+}
+
+.cat-filter-btn:hover {
+  background: transparent;
+  color: inherit;
+}
+[data-theme="dark"] .cat-filter-btn:hover {
+  background: rgba(37,99,235,0.1);
+  color: var(--blue-400);
+}
+
+.cat-filter-btn.active {
+  font-weight: 600;
+}
+[data-theme="dark"] .cat-filter-btn.active {
+  filter: brightness(1.3);
 }
 
 .cat-filter-btn:hover { background: var(--blue-50); color: var(--blue-600); }
@@ -679,7 +696,7 @@ body::after {
   width: 100%;
   max-width: 580px;
   height: 340px;
-  perspective: 1200px;
+  perspective: 900px;
   cursor: pointer;
 }
 
@@ -687,7 +704,7 @@ body::after {
   width: 100%; height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transition: transform 0.55s cubic-bezier(0.34, 1.1, 0.64, 1);
 }
 
 .flip-card.flipped { transform: rotateY(180deg); }
@@ -824,52 +841,100 @@ body::after {
 
 .btn {
   flex: 1;
-  padding: 13px 20px;
-  border: none;
+  padding: 12px 18px;
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition);
   display: flex; align-items: center; justify-content: center;
   gap: 7px;
+  letter-spacing: 0.01em;
 }
-.btn svg { width: 16px; height: 16px; }
+.btn svg { width: 15px; height: 15px; flex-shrink: 0; }
 
 .btn-know {
-  background: linear-gradient(135deg, #059669, #10b981);
-  color: white;
-  box-shadow: 0 4px 14px rgba(5,150,105,0.3);
+  background: var(--bg-secondary);
+  color: #059669;
+  border-color: #86efac;
 }
-.btn-know:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(5,150,105,0.4); }
-.btn-know:active { transform: translateY(0); }
+.btn-know:hover {
+  background: #dcfce7;
+  border-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5,150,105,0.15);
+}
+[data-theme="dark"] .btn-know {
+  background: rgba(5,150,105,0.08);
+  color: #34d399;
+  border-color: rgba(5,150,105,0.3);
+}
+[data-theme="dark"] .btn-know:hover {
+  background: rgba(5,150,105,0.18);
+  border-color: #34d399;
+}
 
 .btn-dont-know {
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  color: white;
-  box-shadow: 0 4px 14px rgba(220,38,38,0.3);
+  background: var(--bg-secondary);
+  color: #dc2626;
+  border-color: #fca5a5;
 }
-.btn-dont-know:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(220,38,38,0.4); }
-.btn-dont-know:active { transform: translateY(0); }
+.btn-dont-know:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220,38,38,0.15);
+}
+[data-theme="dark"] .btn-dont-know {
+  background: rgba(220,38,38,0.08);
+  color: #f87171;
+  border-color: rgba(220,38,38,0.3);
+}
+[data-theme="dark"] .btn-dont-know:hover {
+  background: rgba(220,38,38,0.18);
+  border-color: #f87171;
+}
 
 .btn-next {
-  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
-  color: white;
-  box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+  background: var(--bg-secondary);
+  color: var(--blue-600);
+  border-color: var(--blue-200);
 }
-.btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
-.btn-next:active { transform: translateY(0); }
+.btn-next:hover {
+  background: var(--blue-50);
+  border-color: var(--blue-400);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37,99,235,0.12);
+}
+[data-theme="dark"] .btn-next {
+  background: rgba(37,99,235,0.08);
+  color: var(--blue-400);
+  border-color: rgba(37,99,235,0.3);
+}
+[data-theme="dark"] .btn-next:hover {
+  background: rgba(37,99,235,0.18);
+  border-color: var(--blue-400);
+}
 
 .btn-outline {
   background: var(--bg-secondary);
-  color: var(--text-secondary);
-  border: 1.5px solid var(--border-color);
+  color: var(--text-muted);
+  border-color: var(--border-color);
   flex: 0;
-  padding: 13px 16px;
+  padding: 12px 14px;
 }
-.btn-outline:hover { border-color: var(--blue-400); color: var(--blue-600); background: var(--blue-50); }
-[data-theme="dark"] .btn-outline:hover { background: rgba(37,99,235,0.1); }
+.btn-outline:hover {
+  border-color: var(--blue-300);
+  color: var(--blue-500);
+  background: var(--blue-50);
+}
+[data-theme="dark"] .btn-outline:hover {
+  background: rgba(37,99,235,0.08);
+}
+
+.btn-know:active, .btn-dont-know:active, .btn-next:active { transform: translateY(0); }
 
 /* Point popup animation */
 .point-popup {
@@ -1308,7 +1373,7 @@ body::after {
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 600;
-  padding: 3px 8px;
+  padding: 3px 5px;
   border-radius: 100px;
   flex-shrink: 0;
 }
@@ -1482,6 +1547,31 @@ body::after {
 .sidebar-overlay.active {
   display: block;
   pointer-events: all;
+}
+@keyframes flashGreen {
+  0%   { box-shadow: inset 0 0 0 3px #059669, 0 0 0 0 rgba(5,150,105,0.4); }
+  50%  { box-shadow: inset 0 0 0 4px #059669, 0 0 0 12px rgba(5,150,105,0); }
+  100% { box-shadow: inset 0 0 0 3px #059669, 0 0 0 0 rgba(5,150,105,0); background: rgba(5,150,105,0.06); }
+}
+.flip-card-container.flash-green .flip-card-front,
+.flip-card-container.flash-green .flip-card-back {
+  animation: flashGreen 0.5s ease forwards;
+  border-radius: var(--radius-xl);
+}
+@keyframes pulseGreen {
+  0%   { box-shadow: 0 0 0 0 rgba(5,150,105,0.5); }
+  60%  { box-shadow: 0 0 0 16px rgba(5,150,105,0); }
+  100% { box-shadow: 0 4px 16px rgba(5,150,105,0.35); }
+}
+@keyframes flashRed {
+  0%   { box-shadow: inset 0 0 0 3px #dc2626, 0 0 0 0 rgba(220,38,38,0.4); }
+  50%  { box-shadow: inset 0 0 0 4px #dc2626, 0 0 0 12px rgba(220,38,38,0); }
+  100% { box-shadow: inset 0 0 0 3px #dc2626, 0 0 0 0 rgba(220,38,38,0); background: rgba(220,38,38,0.04); }
+}
+.flip-card-container.flash-red .flip-card-front,
+.flip-card-container.flash-red .flip-card-back {
+  animation: flashRed 0.4s ease forwards;
+  border-radius: var(--radius-xl);
 }
 /* ============================================
    RESPONSIVE
@@ -1792,45 +1882,574 @@ body::after {
 //  DATA — 100+ IT vocabulary words
 // ============================================================
 const CATEGORIES = {
-  book1:          { label: 'Book 1',         color: '#0284c7', bg: '#e0f2fe', dark: 'rgba(2,132,199,0.2)'   },
-  book2:          { label: 'Book 2',         color: '#c026d3', bg: '#fae8ff', dark: 'rgba(192,38,211,0.2)'  },
-  book3:          { label: 'Book 3',         color: '#ea580c', bg: '#fff7ed', dark: 'rgba(234,88,12,0.2)'   },
-  programming:    { label: 'Programming',    color: '#2563eb', bg: '#eff6ff', dark: 'rgba(37,99,235,0.2)'   },
-  frontend:       { label: 'Frontend',       color: '#7c3aed', bg: '#f5f3ff', dark: 'rgba(124,58,237,0.2)'  },
-  backend:        { label: 'Backend',        color: '#16a34a', bg: '#f0fdf4', dark: 'rgba(22,163,74,0.2)'   },
-  databases:      { label: 'Databases',      color: '#ca8a04', bg: '#fefce8', dark: 'rgba(202,138,4,0.2)'   },
-  cloud:          { label: 'Cloud',          color: '#0891b2', bg: '#ecfeff', dark: 'rgba(8,145,178,0.2)'   },
-  devops:         { label: 'DevOps',         color: '#dc2626', bg: '#fef2f2', dark: 'rgba(220,38,38,0.2)'   },
-  cybersecurity:  { label: 'Cybersecurity',  color: '#db2777', bg: '#fdf2f8', dark: 'rgba(219,39,119,0.2)'  },
-  networking:     { label: 'Networking',     color: '#0d9488', bg: '#f0fdfa', dark: 'rgba(13,148,136,0.2)'  },
-  peripherals:    { label: 'Peripherals',    color: '#d97706', bg: '#fffbeb', dark: 'rgba(217,119,6,0.2)'   },
+  "Book 1": { label: 'Book 1', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`, color: '#0284c7', bg: '#e0f2fe', dark: 'rgba(2,132,199,0.2)' },
+  "book2":  { label: 'Book 2', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>`, color: '#c026d3', bg: '#fae8ff', dark: 'rgba(192,38,211,0.2)' },
+  "book3":  { label: 'Book 3', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>`, color: '#ea580c', bg: '#fff7ed', dark: 'rgba(234,88,12,0.2)' },
+  programming:   { label: 'Programming',   icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`, color: '#2563eb', bg: '#eff6ff', dark: 'rgba(37,99,235,0.2)' },
+  frontend:      { label: 'Frontend',      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>`, color: '#7c3aed', bg: '#f5f3ff', dark: 'rgba(124,58,237,0.2)' },
+  backend:       { label: 'Backend',       icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="4" rx="1"/><rect x="2" y="10" width="20" height="4" rx="1"/><rect x="2" y="17" width="20" height="4" rx="1"/><circle cx="18" cy="5" r="1" fill="currentColor"/><circle cx="18" cy="12" r="1" fill="currentColor"/><circle cx="18" cy="19" r="1" fill="currentColor"/></svg>`, color: '#16a34a', bg: '#f0fdf4', dark: 'rgba(22,163,74,0.2)' },
+  databases:     { label: 'Databases',     icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`, color: '#ca8a04', bg: '#fefce8', dark: 'rgba(202,138,4,0.2)' },
+  cloud:         { label: 'Cloud',         icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`, color: '#0891b2', bg: '#ecfeff', dark: 'rgba(8,145,178,0.2)' },
+  devops:        { label: 'DevOps',        icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>`, color: '#dc2626', bg: '#fef2f2', dark: 'rgba(220,38,38,0.2)' },
+  cybersecurity: { label: 'Cybersecurity', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`, color: '#db2777', bg: '#fdf2f8', dark: 'rgba(219,39,119,0.2)' },
+  networking:    { label: 'Networking',    icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`, color: '#0d9488', bg: '#f0fdfa', dark: 'rgba(13,148,136,0.2)' },
+  peripherals:   { label: 'Peripherals',   icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" stroke-width="3"/></svg>`, color: '#d97706', bg: '#fffbeb', dark: 'rgba(217,119,6,0.2)' },
 };
 
 const VOCABULARY = [
   // BOOK 1 - Unit 1
-  { id: 1001, word: 'Computer', translation: 'Komputer', definition: 'Elektroniczne urządzenie przetwarzające dane według zestawu instrukcji.', example: 'I use my computer every day for work.', category: 'book1', unit: 'Unit 1' },
-  { id: 1002, word: 'Keyboard', translation: 'Klawiatura', definition: 'Urządzenie wejściowe z klawiszami do wpisywania tekstu.', example: 'She types very fast on her keyboard.', category: 'book1', unit: 'Unit 1' },
-
-  // BOOK 1 - Unit 2
-  { id: 1003, word: 'Software', translation: 'Oprogramowanie', definition: 'Programy i aplikacje działające na komputerze.', example: 'We need to update the software on all computers.', category: 'book1', unit: 'Unit 2' },
-  { id: 1004, word: 'Hardware', translation: 'Sprzęt komputerowy', definition: 'Fizyczne elementy komputera które można dotknąć.', example: 'The hardware needs to be replaced after five years.', category: 'book1', unit: 'Unit 2' },
-
-  // BOOK 2 - Unit 1
-  { id: 2001, word: 'Server', translation: 'Serwer', definition: 'Komputer lub program udostępniający zasoby i usługi innym urządzeniom w sieci.', example: 'The server went down for maintenance last night.', category: 'book2', unit: 'Unit 1' },
-  { id: 2002, word: 'Client', translation: 'Klient', definition: 'Urządzenie lub program korzystający z zasobów serwera.', example: 'The client sends a request to the server.', category: 'book2', unit: 'Unit 1' },
-
-  // BOOK 2 - Unit 2
-  { id: 2003, word: 'Encryption', translation: 'Szyfrowanie', definition: 'Zamiana danych w nieczytelną formę chroniącą je przed nieuprawnionym dostępem.', example: 'All messages are protected by encryption.', category: 'book2', unit: 'Unit 2' },
-  { id: 2004, word: 'Backup', translation: 'Kopia zapasowa', definition: 'Duplikat danych przechowywany na wypadek awarii lub utraty oryginału.', example: 'Always make a backup before updating the system.', category: 'book2', unit: 'Unit 2' },
-
+  { id: 1000, word: 'Code', translation: 'Kod', definition: 'Zestaw słów i znaków, które dają instrukcje komputerowi.', example: 'The developer wrote code to build the new application.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3001, word: 'Data', translation: 'Dane', definition: 'Informacje, które można wprowadzać i wykorzystywać w komputerze.', example: 'The scientist collected data from the experiment.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3002, word: 'Data processing', translation: 'Przetwarzanie danych', definition: 'Czynność wprowadzania, używania lub manipulowania danymi za pomocą komputerów.', example: 'Data processing is essential in modern business operations.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3003, word: 'Encode', translation: 'Kodować', definition: 'Konwertować dane do pożądanej formy w celu transmisji lub przechowywania, tak aby nikt nie mógł ich odczytać.', example: 'The system will encode your password before storing it.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3004, word: 'Hardware', translation: 'Sprzęt komputerowy', definition: 'Fizyczne elementy komputera.', example: 'The technician repaired the hardware components of the computer.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3005, word: 'Information security', translation: 'Bezpieczeństwo informacji', definition: 'Czynność lub proces ochrony informacji i zapobiegania dostępowi do nich przez innych.', example: 'Information security is a top priority for banks and hospitals.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3006, word: 'Online', translation: 'Online', definition: 'Dostępny lub odbywający się w Internecie.', example: 'She completed her entire course online.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3007, word: 'Quality assurance', translation: 'Zapewnienie jakości', definition: 'Czynność sprawdzania produktów pod kątem problemów.', example: 'The quality assurance team tested the software before its release.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3008, word: 'Software', translation: 'Oprogramowanie', definition: 'Program lub instrukcja, która sprawia, że komputer wykonuje określone zadanie.', example: 'The company developed new software for managing inventory.', category: 'Book 1', unit: 'Unit 1' },
+  { id: 3009, word: 'Technical support', translation: 'Wsparcie techniczne', definition: 'Zadanie polegające na pomaganiu ludziom w używaniu i rozumieniu technologii.', example: 'She called technical support to fix her internet connection.', category: 'Book 1', unit: 'Unit 1' },
+ 
+  // Unit 2
+  { id: 3010, word: 'Desktop computer', translation: 'Komputer stacjonarny', definition: 'Komputer wystarczająco mały, aby używać go przy biurku, ale zbyt duży, aby go nosić.', example: 'He uses a desktop computer at work for heavy design tasks.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3011, word: 'Laptop', translation: 'Laptop', definition: 'Komputer wystarczająco mały, aby można go było nosić i używać wszędzie.', example: 'She brought her laptop to the café to finish her report.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3012, word: 'Mainframe', translation: 'Mainframe', definition: 'Bardzo wydajny komputer, który może przetwarzać duże ilości danych.', example: 'Banks use mainframes to process millions of transactions daily.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3013, word: 'Server', translation: 'Serwer', definition: 'Komputer łączący wiele komputerów ze sprzętem.', example: 'The server went down, causing the website to be unavailable.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3014, word: 'Smartphone', translation: 'Smartfon', definition: 'Telefon, który można zabrać ze sobą, aby dzwonić i korzystać z Internetu w dowolnym miejscu.', example: 'He uses his smartphone to check emails on the go.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3015, word: 'Supercomputer', translation: 'Superkomputer', definition: 'Duży komputer zbudowany do przetwarzania dużych ilości informacji z wyższą prędkością niż inne komputery.', example: 'Scientists use a supercomputer to simulate climate change models.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3016, word: 'Tablet', translation: 'Tablet', definition: 'Komputer mniejszy niż laptop z ekranem dotykowym, używany do przeglądania Internetu i sprawdzania poczty.', example: 'She reads e-books on her tablet every evening.', category: 'Book 1', unit: 'Unit 2' },
+  { id: 3017, word: 'Workstation', translation: 'Stacja robocza', definition: 'Bardzo szybki komputer uruchamiający wydajne programy robocze.', example: 'The graphic designer uses a powerful workstation to render 3D models.', category: 'Book 1', unit: 'Unit 2' },
+ 
+  // Unit 3
+  { id: 3018, word: 'Case', translation: 'Obudowa', definition: 'Obudowa, która przechowuje komponenty komputera.', example: 'He upgraded his PC by buying a larger case with better airflow.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3019, word: 'Disk drive', translation: 'Napęd dysku', definition: 'Urządzenie, które odczytuje i/lub zapisuje dane na dysku, np. dysk twardy lub wymienne urządzenia pamięci.', example: 'The disk drive made a strange noise before the computer crashed.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3020, word: 'Expansion card', translation: 'Karta rozszerzeń', definition: 'Dodatkowe płytki drukowane używane do zwiększenia funkcjonalności komputera.', example: 'He installed a graphics expansion card to improve gaming performance.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3021, word: 'Fan', translation: 'Wentylator', definition: 'Urządzenie, które przemieszcza chłodne powietrze na komponenty komputera wewnątrz obudowy.', example: 'The fan inside the computer keeps the processor from overheating.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3022, word: 'Hard drive', translation: 'Dysk twardy', definition: 'Urządzenie do przechowywania danych, które zapisuje dane na magnetycznych talerzach.', example: 'He saved all his files on an external hard drive.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3023, word: 'Heat sink', translation: 'Radiator', definition: 'Element odprowadzający ciepło od pobliskich komponentów komputera.', example: 'The heat sink prevents the CPU from overheating during intensive tasks.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3024, word: 'Motherboard', translation: 'Płyta główna', definition: 'Twarda płyta z gniazdami, do której przyłączone są układy elektroniczne komputera.', example: 'The technician replaced the damaged motherboard in the laptop.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3025, word: 'Power supply', translation: 'Zasilacz', definition: 'Podzespół dostarczający energię elektryczną do wszystkich części komputera.', example: 'A faulty power supply can damage the other components of a computer.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3026, word: 'Processor', translation: 'Procesor', definition: 'Element wykonujący instrukcje programów komputerowych.', example: 'A faster processor allows the computer to run multiple programs smoothly.', category: 'Book 1', unit: 'Unit 3' },
+  { id: 3027, word: 'RAM', translation: 'Pamięć RAM', definition: 'Pamięć o dostępie swobodnym, do której można szybko uzyskać dostęp.', example: 'Adding more RAM improved the speed of his computer significantly.', category: 'Book 1', unit: 'Unit 3' },
+ 
+  // Unit 4
+  { id: 3028, word: 'Input device', translation: 'Urządzenie wejściowe', definition: 'Dowolny sprzęt używany do wprowadzania informacji do komputera, np. klawiatura, mysz, mikrofon.', example: 'A keyboard and a mouse are the most common input devices.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3029, word: 'Keyboard', translation: 'Klawiatura', definition: 'Zestaw przycisków używanych do wprowadzania informacji do komputera.', example: 'She typed the report quickly on her mechanical keyboard.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3030, word: 'LCD', translation: 'Wyświetlacz ciekłokrystaliczny', definition: 'Typ wyświetlacza tworzony przez kryształy ciekłe, używany w cienkich monitorach.', example: 'The LCD monitor displays sharp and clear images.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3031, word: 'Microphone', translation: 'Mikrofon', definition: 'Urządzenie używane do nagrywania dźwięku.', example: 'He used a microphone to record his podcast.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3032, word: 'Monitor', translation: 'Monitor', definition: 'Ekran wyświetlający tekst, wideo lub obrazy.', example: 'She bought a larger monitor to improve her work setup.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3033, word: 'Mouse', translation: 'Mysz', definition: 'Małe urządzenie używane do przesuwania kursora i wybierania elementów na ekranie komputera.', example: 'He clicked the mouse to open the file.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3034, word: 'Peripheral', translation: 'Urządzenie peryferyjne', definition: 'Urządzenie, które można podłączyć do komputera.', example: 'A printer is a common peripheral used in offices.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3035, word: 'Printer', translation: 'Drukarka', definition: 'Urządzenie podłączone do komputera, które przenosi tekst lub obrazy na papier.', example: 'She sent the document to the printer to get a hard copy.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3036, word: 'Scanner', translation: 'Skaner', definition: 'Urządzenie używane do przenoszenia drukowanych dokumentów i zdjęć do systemu komputerowego.', example: 'He used a scanner to digitize old family photographs.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3037, word: 'Scroll wheel', translation: 'Kółko przewijania', definition: 'Narzędzie w środkowej części myszy używane do przewijania w górę i w dół strony bez używania paska przewijania.', example: 'She used the scroll wheel to quickly navigate through the document.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3038, word: 'Touchscreen', translation: 'Ekran dotykowy', definition: 'Monitor pozwalający użytkownikom wchodzić w interakcję z komputerem przez dotykanie ekranu.', example: 'The cashier used a touchscreen to process the order.', category: 'Book 1', unit: 'Unit 4' },
+  { id: 3039, word: 'USB', translation: 'Złącze USB', definition: 'Powszechnie używany typ połączenia lub portu do podłączania urządzenia peryferyjnego do komputera.', example: 'She plugged in a USB drive to transfer the files.', category: 'Book 1', unit: 'Unit 4' },
+ 
+  // Unit 5
+  { id: 3040, word: 'CAT-5 cable', translation: 'Kabel CAT-5', definition: 'Standardowe kable łączące komputery z siecią.', example: 'The technician connected the computers using a CAT-5 cable.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3041, word: 'Configuration', translation: 'Konfiguracja', definition: 'Część procesu konfiguracji sieci określająca ustawienia trasy, adresy IP, hasła, kanał Wi-Fi i pasmo itp.', example: 'The IT specialist completed the router configuration for the office network.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3042, word: 'DHCP', translation: 'Protokół dynamicznej konfiguracji hosta', definition: 'System protokołu TCP/IP dla sieci komputerowych umożliwiający otrzymywanie adresów IP i innych informacji konfiguracyjnych.', example: 'The DHCP server automatically assigned IP addresses to all connected devices.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3043, word: 'Internet', translation: 'Internet', definition: 'Ogólnoświatowa sieć komputerów.', example: 'She searched the Internet to find the answer to her question.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3044, word: 'IP address', translation: 'Adres IP', definition: 'Grupa liczb identyfikujących komputer w sieci.', example: 'The website was blocked because the IP address was flagged.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3045, word: 'LAN', translation: 'Lokalna sieć komputerowa', definition: 'Sieć komputerowa łącząca grupę komputerów i innych urządzeń na ograniczonym obszarze przez Ethernet lub Wi-Fi.', example: 'All the computers in the office are connected through a LAN.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3046, word: 'Network', translation: 'Sieć', definition: 'Grupa komputerów połączonych w celu udostępniania danych lub komunikacji.', example: 'The company set up a secure network for its employees.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3047, word: 'Power cycle', translation: 'Cykl zasilania', definition: 'Ponowne uruchomienie urządzenia w sieci, czyli wyłączenie i włączenie go lub odłączenie od zasilania.', example: 'The technician told her to power cycle the router to fix the connection.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3048, word: 'Router', translation: 'Router', definition: 'Urządzenie wysyłające pakiety danych do sieci komputerowych przez Internet.', example: 'He restarted the router to restore the internet connection.', category: 'Book 1', unit: 'Unit 5' },
+  { id: 3049, word: 'WLAN', translation: 'Bezprzewodowa sieć lokalna', definition: 'Sieć komputerowa łącząca kilka urządzeń bez kabli, za pomocą fal radiowych lub sygnałów podczerwieni, na ograniczonym obszarze.', example: 'The hotel offered a free WLAN connection to its guests.', category: 'Book 1', unit: 'Unit 5' },
+ 
+  // Unit 6
+  { id: 3050, word: 'Desktop', translation: 'Pulpit', definition: 'Wszystko, co użytkownik widzi na ekranie komputera.', example: 'He organized the icons on his desktop for easier access.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3051, word: 'Drag', translation: 'Przeciągać', definition: 'Przesuwać pliki, foldery lub ikony po pulpicie.', example: 'She dragged the file into the new folder.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3052, word: 'Folder', translation: 'Folder', definition: 'Przechowuje i organizuje pliki i dokumenty na komputerze.', example: 'He created a new folder to organize his project files.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3053, word: 'Graphical User Interface (GUI)', translation: 'Graficzny interfejs użytkownika', definition: 'System operacyjny używający ikon do reprezentowania programów i plików, umożliwiający użytkownikom dostęp do nich.', example: 'The new operating system features an intuitive graphical user interface.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3054, word: 'Icon', translation: 'Ikona', definition: 'Obrazek reprezentujący coś na komputerze.', example: 'She double-clicked the icon to open the program.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3055, word: 'Maximize', translation: 'Maksymalizować', definition: 'Powiększyć okno tak, aby wypełniało cały ekran komputera lub pulpit.', example: 'He maximized the browser window to see the full webpage.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3056, word: 'Menu', translation: 'Menu', definition: 'Na pulpicie zakres opcji lub poleceń, które użytkownik może kliknąć w zależności od tego, co chce zrobić.', example: 'She clicked on the file menu to save her document.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3057, word: 'Minimize', translation: 'Minimalizować', definition: 'Sprawić, że okno zniknie z ekranu bez jego zamykania.', example: 'He minimized the chat window while working on his presentation.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3058, word: 'OS', translation: 'System operacyjny', definition: 'Podstawowe oprogramowanie na każdym komputerze, które kontroluje jego funkcje i procesy oraz pozwala działać innym programom.', example: 'She updated her OS to get the latest security features.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3059, word: 'Pointer', translation: 'Wskaźnik', definition: 'Mała strzałka pozwalająca użytkownikowi wybrać, co zrobić na komputerze.', example: 'He moved the pointer to click on the link.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3060, word: 'Shortcut', translation: 'Skrót', definition: 'Ikona przeniesiona na pulpit, ułatwiająca otwieranie pliku lub programu.', example: 'She created a shortcut on her desktop to open the app faster.', category: 'Book 1', unit: 'Unit 6' },
+  { id: 3061, word: 'Window', translation: 'Okno', definition: 'Prostokąt na pulpicie monitora komputerowego wyświetlający plik lub program, niezależny od ekranu pulpitu.', example: 'He opened a new window to compare two documents side by side.', category: 'Book 1', unit: 'Unit 6' },
+ 
+  // Unit 7
+  { id: 3062, word: 'Compatibility', translation: 'Kompatybilność', definition: 'Zdolność jednego systemu lub oprogramowania do współpracy z innym.', example: 'Check the compatibility of the software before installing it.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3063, word: 'Document', translation: 'Dokument', definition: 'Plik utworzony w programie do przetwarzania tekstu.', example: 'She saved the document before closing the program.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3064, word: 'Font', translation: 'Czcionka', definition: 'Styl wpisanych znaków w dokumencie.', example: 'He changed the font to make the title stand out.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3065, word: 'Format', translation: 'Format', definition: 'Typ pliku. Różne pliki mogą nie działać w różnych programach lub oprogramowaniu.', example: 'She saved the image in JPEG format to reduce the file size.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3066, word: 'Formatting', translation: 'Formatowanie', definition: 'Styl słów w dokumencie.', example: 'He applied bold formatting to the headings in the report.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3067, word: 'Layout', translation: 'Układ', definition: 'Sposób ułożenia elementów w dokumencie.', example: 'The designer changed the layout to make the page more readable.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3068, word: 'Macro', translation: 'Makro', definition: 'Seria zautomatyzowanych poleceń pogrupowanych przez użytkownika jako jedno polecenie, w celu oszczędności czasu podczas wykonywania często używanych zadań.', example: 'She recorded a macro to automatically format her monthly reports.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3069, word: 'Spell check', translation: 'Sprawdzanie pisowni', definition: 'Funkcja sprawdzająca dokument pod kątem błędów ortograficznych.', example: 'Always run spell check before sending an important email.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3070, word: 'Template', translation: 'Szablon', definition: 'Gotowy lub dostosowany układ dokumentu służący jako model dla użytkownika.', example: 'She used a template to quickly create a professional resume.', category: 'Book 1', unit: 'Unit 7' },
+  { id: 3071, word: 'Word processing program', translation: 'Program do przetwarzania tekstu', definition: 'Specjalistyczne oprogramowanie używane do pisania i poprawiania tekstów na komputerze.', example: 'He wrote his thesis using a word processing program.', category: 'Book 1', unit: 'Unit 7' },
+ 
+  // Unit 8
+  { id: 3072, word: 'Attachment', translation: 'Załącznik', definition: 'Plik wysyłany razem z wiadomością e-mail.', example: 'She sent the report as an attachment to her email.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3073, word: 'Domain name', translation: 'Nazwa domeny', definition: 'Zestaw słów i liter identyfikujących firmę lub adres w Internecie.', example: 'The company registered a new domain name for its website.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3074, word: 'Email address', translation: 'Adres e-mail', definition: 'Lokalizacja online, do której można dostarczać wiadomości elektroniczne.', example: 'Please send your application to our email address.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3075, word: 'Email client', translation: 'Klient poczty e-mail', definition: 'Program offline, który odbiera, wysyła i przechowuje pocztę użytkownika na określonym komputerze.', example: 'He uses an email client to manage all his accounts in one place.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3076, word: 'ISP', translation: 'Dostawca usług internetowych', definition: 'Firma, która zapewnia swoim klientom dostęp do Internetu, adresy e-mail i przestrzeń dyskową.', example: 'She switched to a faster ISP to improve her internet speed.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3077, word: 'Password', translation: 'Hasło', definition: 'Zestaw tajnych liter i/lub cyfr umożliwiający dostęp do pliku, usługi, dokumentu lub konta na komputerze.', example: 'She changed her password after noticing suspicious activity on her account.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3078, word: 'POP3', translation: 'Protokół POP3', definition: 'System odbierający i pobierający pocztę e-mail z serwera, a następnie usuwający ją z serwera bez przechowywania.', example: 'His email client uses POP3 to download messages from the server.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3079, word: 'SMTP', translation: 'Protokół SMTP', definition: 'System umożliwiający użytkownikom komputerów wysyłanie wiadomości e-mail do innych użytkowników.', example: 'The server uses SMTP to send outgoing emails to recipients.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3080, word: 'Username', translation: 'Nazwa użytkownika', definition: 'Nazwa lub kod identyfikujący osobę na komputerze i umożliwiający dostęp do pliku, usługi lub konta.', example: 'Enter your username and password to log in to the system.', category: 'Book 1', unit: 'Unit 8' },
+  { id: 3081, word: 'Webmail', translation: 'Poczta internetowa', definition: 'Internetowa usługa e-mail, do której użytkownicy mają dostęp przez przeglądarkę internetową na dowolnym urządzeniu. E-mail jest przechowywany na serwerze, a nie na urządzeniu.', example: 'She checked her webmail from a public library computer while travelling.', category: 'Book 1', unit: 'Unit 8' },
+ 
+  // Unit 9
+  { id: 3082, word: 'HTML', translation: 'Hipertekstowy język znaczników', definition: 'Język komputerowy używany do wyświetlania słów i obrazów w sieci World Wide Web.', example: 'She learned HTML to build her first website.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3083, word: 'Http', translation: 'Protokół HTTP', definition: 'Część adresu internetowego umożliwiająca komputerowi łączenie się z serwerami sieciowymi i wysyłanie stron HTML do przeglądarki użytkownika.', example: 'The website uses http to transfer data between the server and the browser.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3084, word: 'Hyperlink', translation: 'Hiperłącze', definition: 'Słowo lub obraz na stronie internetowej, które można kliknąć, aby przejść do innej strony.', example: 'She clicked the hyperlink to read the full article.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3085, word: 'Meta tag', translation: 'Metatag', definition: 'Tekst używany w kodach HTML strony internetowej, aby dostarczać wyszukiwarkom informacji o witrynie.', example: 'The developer added meta tags to improve the website\'s search engine ranking.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3086, word: 'Search engine', translation: 'Wyszukiwarka', definition: 'Program komputerowy pozwalający ludziom wyszukiwać informacje, produkty itp. w Internecie za pomocą słów kluczowych.', example: 'She used a search engine to find information for her essay.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3087, word: 'URL', translation: 'Adres URL', definition: 'Tekst i symbole tworzące adres strony internetowej.', example: 'He copied the URL and pasted it into the browser to open the page.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3088, word: 'Web browser', translation: 'Przeglądarka internetowa', definition: 'Aplikacja programowa używająca wyszukiwarki do lokalizowania, uzyskiwania dostępu i wyświetlania informacji na serwerach sieciowych.', example: 'She opened her web browser to check the news.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3089, word: 'Web host', translation: 'Hostingodawca', definition: 'Firma zapewniająca miejsce na serwerze dla strony internetowej w Internecie.', example: 'He chose a reliable web host to ensure his site is always online.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3090, word: 'Website', translation: 'Strona internetowa', definition: 'Zbiór powiązanych stron w Internecie zawierający informacje, zdjęcia itp., zazwyczaj opublikowany przez osobę, grupę lub firmę.', example: 'The company launched a new website to promote its products.', category: 'Book 1', unit: 'Unit 9' },
+  { id: 3091, word: 'Www', translation: 'Sieć World Wide Web', definition: 'System stron internetowych, informacji, zdjęć itp. dostępnych w Internecie.', example: 'She typed www before the domain name to access the website.', category: 'Book 1', unit: 'Unit 9' },
+ 
+  // Unit 10
+  { id: 3092, word: 'Contrast', translation: 'Kontrast', definition: 'Ilość różnicy między ciemnymi a jasnymi obszarami obrazu.', example: 'She increased the contrast to make the text easier to read.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3093, word: 'Crop', translation: 'Przycinać', definition: 'Odcinać niepożądane części obrazu.', example: 'He cropped the photo to remove the unwanted background.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3094, word: 'Exposure', translation: 'Ekspozycja', definition: 'W fotografii ilość światła docierającego do matrycy aparatu.', example: 'The photo was too dark because of incorrect exposure settings.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3095, word: 'Graphic editing program', translation: 'Program do edycji grafiki', definition: 'Program komputerowy pozwalający zmieniać różne aspekty obrazu.', example: 'She used a graphic editing program to remove blemishes from the portrait.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3096, word: 'Graphics', translation: 'Grafika', definition: 'Obrazy na komputerze, w książce lub magazynie itp.', example: 'The presentation included impressive graphics to illustrate the data.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3097, word: 'JPEG', translation: 'Format JPEG', definition: 'Format pliku kompresujący pliki graficzne.', example: 'She saved the photograph as a JPEG to reduce its file size.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3098, word: 'Pixel', translation: 'Piksel', definition: 'Jedna z małych kropek tworzących obraz na ekranie komputera lub telewizora.', example: 'The image was blurry because it had too few pixels.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3099, word: 'Resize', translation: 'Zmieniać rozmiar', definition: 'Zmieniać rozmiar, szerokość lub wysokość obrazu.', example: 'He resized the image to fit the website banner dimensions.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3100, word: 'Resolution', translation: 'Rozdzielczość', definition: 'Jakość szczegółów wyświetlanych na obrazie, opisywana w PPI lub DPI, czyli liczba pikseli lub kropek na cal obrazu.', example: 'The printer produces high-quality prints thanks to its high resolution.', category: 'Book 1', unit: 'Unit 10' },
+  { id: 3101, word: 'Tint', translation: 'Odcień', definition: 'Mała ilość koloru w czymś.', example: 'She added a blue tint to the background of the image.', category: 'Book 1', unit: 'Unit 10' },
+ 
+  // Unit 11
+  { id: 3102, word: 'Cell', translation: 'Komórka', definition: 'Jednostka arkusza kalkulacyjnego przechowująca informację.', example: 'She entered the sales figures into the correct cell of the spreadsheet.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3103, word: 'Database', translation: 'Baza danych', definition: 'Duża grupa danych zorganizowanych w systemie komputerowym, umożliwiająca łatwe wyszukiwanie informacji.', example: 'The hospital stores all patient records in a secure database.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3104, word: 'Database field', translation: 'Pole bazy danych', definition: 'W bazie danych kategoria przechowująca określony typ informacji; zgrupowane pola tworzą rekord dla konkretnego tematu.', example: 'The employee name is stored in a separate database field.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3105, word: 'Formula', translation: 'Formuła', definition: 'Dowolne obliczenie matematyczne wykonywane w arkuszu kalkulacyjnym.', example: 'She entered a formula to automatically calculate the total sales.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3106, word: 'Function', translation: 'Funkcja', definition: 'Instrukcja matematyczna wykonująca określone obliczenie w arkuszu kalkulacyjnym, np. sumowanie zestawu wartości.', example: 'He used the SUM function to add up all the expenses in the column.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3107, word: 'Operator', translation: 'Operator', definition: 'Symbol w formule wykonujący określone obliczenie, np. znak plus (+).', example: 'She used the multiplication operator to calculate the total cost.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3108, word: 'Query', translation: 'Zapytanie', definition: 'Wyszukiwanie lokalizujące wszystkie informacje określonego typu w bazie danych.', example: 'He ran a query to find all customers who made a purchase last month.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3109, word: 'Sort', translation: 'Sortować', definition: 'Układać informacje w bazie danych w określony sposób.', example: 'She sorted the contact list alphabetically by last name.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3110, word: 'Spreadsheet', translation: 'Arkusz kalkulacyjny', definition: 'Program komputerowy organizujący informacje i wykonujący obliczenia.', example: 'He used a spreadsheet to track his monthly budget.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3111, word: 'Table', translation: 'Tabela', definition: 'Zestaw wierszy i kolumn informacji w bazie danych.', example: 'The database contains a table with all the product information.', category: 'Book 1', unit: 'Unit 11' },
+  { id: 3112, word: 'Worksheet', translation: 'Arkusz', definition: 'Pojedyncza strona arkusza kalkulacyjnego.', example: 'She added a new worksheet to track the quarterly results.', category: 'Book 1', unit: 'Unit 11' },
+ 
+  // Unit 12
+  { id: 3113, word: 'Appearance', translation: 'Wygląd', definition: 'Sposób, w jaki wygląda strona internetowa.', example: 'The designer improved the appearance of the website with a new color scheme.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3114, word: 'Coding', translation: 'Kodowanie', definition: 'Język programowania tworzący stronę internetową.', example: 'She spent hours coding the new features for the website.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3115, word: 'Content', translation: 'Treść', definition: 'Materiał na stronie internetowej, w tym tekst i grafika.', example: 'The website content was updated to reflect the new company policy.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3116, word: 'CSS', translation: 'Kaskadowe arkusze stylów', definition: 'Język określający styl (np. czcionki, kolor, odstępy) elementów HTML na stronie internetowej.', example: 'She used CSS to change the font and color of the headings on the page.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3117, word: 'Functionality', translation: 'Funkcjonalność', definition: 'Zdolność różnych elementów strony internetowej do współpracy ze sobą.', example: 'The developer tested the functionality of the new shopping cart feature.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3118, word: 'Navigation', translation: 'Nawigacja', definition: 'Czynność wyszukiwania i łatwego znajdowania informacji na stronie internetowej.', example: 'The website\'s navigation was redesigned to make it more user-friendly.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3119, word: 'Usability', translation: 'Użyteczność', definition: 'Łatwość korzystania ze strony internetowej przez osobę.', example: 'The team conducted tests to improve the usability of the app.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3120, word: 'Visibility', translation: 'Widoczność', definition: 'Łatwość, z jaką ludzie znajdują stronę internetową na podstawie jej pozycji w wyszukiwarkach.', example: 'They worked on SEO to increase the visibility of the website.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3121, word: 'Web design', translation: 'Projektowanie stron internetowych', definition: 'Czynność lub praktyka określania wyglądu strony internetowej.', example: 'She studied web design to pursue a career in the tech industry.', category: 'Book 1', unit: 'Unit 12' },
+  { id: 3122, word: 'Web development', translation: 'Tworzenie stron internetowych', definition: 'Czynność lub praktyka określania sposobu działania strony internetowej.', example: 'He specializes in web development using JavaScript and Python.', category: 'Book 1', unit: 'Unit 12' },
+ 
+  // Unit 13
+  { id: 3123, word: 'Clip art', translation: 'Grafika clipart', definition: 'Elektroniczne grafiki, które można używać w publikacjach.', example: 'She added clip art to make the school newsletter more visually appealing.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3124, word: 'Comprehensive layout', translation: 'Kompletny makieta', definition: 'Etap prawie ukończonej wersji układu strony publikacji.', example: 'The designer presented the comprehensive layout before printing began.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3125, word: 'Desktop publishing', translation: 'Wydawnictwo komputerowe', definition: 'Sztuka używania oprogramowania do układu strony w celu projektowania gotowych, nadających się do druku dokumentów.', example: 'He used desktop publishing to create the company\'s annual brochure.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3126, word: 'Desktop publishing software', translation: 'Oprogramowanie do wydawnictwa komputerowego', definition: 'Zaawansowany program komputerowy używany do tworzenia układów stron.', example: 'She used desktop publishing software to design the magazine layout.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3127, word: 'Electronic page', translation: 'Strona elektroniczna', definition: 'Oprogramowanie wyświetlające elektroniczną treść paginowaną.', example: 'The e-reader displayed each electronic page clearly on the screen.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3128, word: 'Electronic paper', translation: 'Elektroniczny papier', definition: 'Urządzenie wyświetlające przypominające papierowe książki.', example: 'The new e-reader uses electronic paper technology for a natural reading experience.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3129, word: 'Electrostatic printing', translation: 'Druk elektrostatyczny', definition: 'Metoda drukowania wykorzystująca elektryczność statyczną.', example: 'The office uses electrostatic printing for high-volume document production.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3130, word: 'Graphic communications', translation: 'Komunikacja graficzna', definition: 'Nauka wysyłania emocjonalnych i perswazyjnych wizualnych wiadomości do określonych grup docelowych w celu osiągnięcia celów komunikacyjnych.', example: 'She studied graphic communications to work in advertising.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3131, word: 'Offset lithography', translation: 'Litografia offsetowa', definition: 'Metoda drukowania, w której najpierw używana jest pośrednia powierzchnia (gumowy cylinder) do odcisku, który następnie jest przenoszony na papier.', example: 'The printing company uses offset lithography for high-quality magazine production.', category: 'Book 1', unit: 'Unit 13' },
+  { id: 3132, word: 'Page layout', translation: 'Układ strony', definition: 'Proces rozmieszczania tekstu i grafiki na stronie.', example: 'The editor reviewed the page layout before sending the magazine to print.', category: 'Book 1', unit: 'Unit 13' },
+ 
+  // Unit 14
+  { id: 3133, word: 'Bandwidth', translation: 'Przepustowość', definition: 'Miara ilości informacji, które sieć komputerowa może wysyłać lub odbierać. Wysoka przepustowość umożliwia szybkie ładowanie obrazów i stron internetowych.', example: 'Streaming HD videos requires a lot of bandwidth.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3134, word: 'Codec', translation: 'Koder-dekoder', definition: 'Element sprzętu do wideokonferencji. Koduje wychodzące sygnały analogowe do formy cyfrowej i dekoduje je po odebraniu.', example: 'The videoconferencing system uses a codec to compress and transmit video signals.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3135, word: 'Dedicated system', translation: 'System dedykowany', definition: 'System zawierający wszystkie niezbędne komponenty do wideokonferencji jako zestaw.', example: 'The boardroom was equipped with a dedicated system for high-quality videoconferencing.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3136, word: 'Document sharing', translation: 'Udostępnianie dokumentów', definition: 'Funkcja niektórych systemów wideokonferencyjnych umożliwiająca wszystkim uczestnikom przeglądanie i edytowanie tego samego dokumentu.', example: 'Document sharing allowed the team to collaborate on the report during the video call.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3137, word: 'Echo-cancellation', translation: 'Redukcja echa', definition: 'Proces zmniejszający ilość echa słyszanego przez uczestników wideokonferencji.', example: 'The system\'s echo-cancellation feature made the call much clearer.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3138, word: 'Multipoint videoconference', translation: 'Wideokonferencja wielopunktowa', definition: 'Wideokonferencja między osobami w trzech lub więcej różnych lokalizacjach.', example: 'The company held a multipoint videoconference with offices in three countries.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3139, word: 'Video bridge', translation: 'Most wideo', definition: 'Urządzenie umożliwiające organizowanie wielopunktowych wideokonferencji przez łączenie połączeń z kilku różnych lokalizacji.', example: 'They used a video bridge to connect participants from five different cities.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3140, word: 'Videoconferencing', translation: 'Wideokonferencja', definition: 'Prowadzenie spotkania lub rozmowy między dwiema lub więcej osobami w różnych lokalizacjach przy użyciu technologii komputerowej.', example: 'Videoconferencing became essential for remote teams during the pandemic.', category: 'Book 1', unit: 'Unit 14' },
+  { id: 3141, word: 'Webcam', translation: 'Kamera internetowa', definition: 'Mała kamera wideo wbudowana w laptopy lub podłączona do monitora komputerów stacjonarnych, używana do połączeń wideo przez przesyłanie dźwięku i obrazu przez Internet.', example: 'She bought a high-definition webcam for her online meetings.', category: 'Book 1', unit: 'Unit 14' },
+ 
+  // Unit 15
+  { id: 3142, word: 'Affiliate', translation: 'Partner handlowy', definition: 'Osoba lub firma kierująca ruch internetowy na stronę innej firmy w zamian za procent od sprzedaży.', example: 'The blogger became an affiliate of the online store and earned a commission on every sale.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3143, word: 'Banner', translation: 'Baner', definition: 'Prostokątna grafika na stronie internetowej reklamująca firmę.', example: 'She clicked on a banner advertisement that appeared at the top of the website.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3144, word: 'Brick and mortar', translation: 'Sklep stacjonarny', definition: 'Firma działająca w fizycznej lokalizacji zamiast online.', example: 'Despite the rise of online shopping, some customers prefer brick and mortar stores.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3145, word: 'Certificate authority', translation: 'Urząd certyfikacji', definition: 'Organizacja tworząca, oferująca i weryfikująca niezawodne certyfikaty cyfrowe.', example: 'The website received its SSL certificate from a trusted certificate authority.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3146, word: 'Digital certificate', translation: 'Certyfikat cyfrowy', definition: 'Elektroniczny dokument potwierdzający własność firmy online.', example: 'The online store displays its digital certificate to assure customers of its security.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3147, word: 'E-commerce', translation: 'Handel elektroniczny', definition: 'Kupowanie lub sprzedawanie towarów przez Internet.', example: 'E-commerce has grown rapidly over the past decade.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3148, word: 'FAQS', translation: 'Najczęściej zadawane pytania', definition: 'Zestaw pytań i odpowiedzi zamieszczonych na stronie internetowej, aby dostarczać użytkownikom informacji, których często szukają.', example: 'Before contacting support, she checked the FAQS section of the website.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3149, word: 'Page view', translation: 'Odsłona strony', definition: 'Żądanie komputera o załadowanie strony witryny. Można je zliczać, aby analizować liczbę osób odwiedzających stronę.', example: 'The article received over 10,000 page views in its first day.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3150, word: 'Shopping cart', translation: 'Koszyk zakupowy', definition: 'Część sklepu internetowego wyświetlająca produkty wybrane przez konsumenta do zakupu, ale jeszcze nieopłacone.', example: 'She added three items to her shopping cart before completing the purchase.', category: 'Book 1', unit: 'Unit 15' },
+  { id: 3151, word: 'Traffic', translation: 'Ruch na stronie', definition: 'Całkowita liczba użytkowników odwiedzających i przeglądających stronę internetową w określonym czasie.', example: 'The new marketing campaign significantly increased traffic to their website.', category: 'Book 1', unit: 'Unit 15' },
+  // BOOK 2
+  { id: 2000, word: 'Bit', translation: 'Bit', definition: 'Najmniejsza jednostka danych komputerowych.', example: 'A single bit can represent either a 0 or a 1.', category: 'book2', unit: 'Unit 1' },
+  { id: 2001, word: 'Bit size', translation: 'Rozmiar bitowy', definition: 'Miara liczby bitów, do których procesor może jednocześnie uzyskać dostęp.', example: 'A 64-bit size processor can handle more data at once than a 32-bit one.', category: 'book2', unit: 'Unit 1' },
+  { id: 2002, word: 'Bus speed', translation: 'Prędkość magistrali', definition: 'Miara ilości danych przesyłanych przez magistralę (obwód) w danym czasie. Mierzona w MHz.', example: 'A higher bus speed allows more data to move between components faster.', category: 'book2', unit: 'Unit 1' },
+  { id: 2003, word: 'DIMM', translation: 'Dwurzędowy moduł pamięci', definition: 'Nowszy typ modułu pamięci wysyłający 64 bity danych do procesora.', example: 'He installed two DIMM sticks to upgrade the computer\'s RAM.', category: 'book2', unit: 'Unit 1' },
+  { id: 2004, word: 'Paging file', translation: 'Plik stronicowania', definition: 'Obszar na dysku twardym, gdzie komputer przechowuje dane, które nie mieszczą się w pamięci RAM.', example: 'When RAM is full, the system uses the paging file to store temporary data.', category: 'book2', unit: 'Unit 1' },
+  { id: 2005, word: 'RAM', translation: 'Pamięć RAM', definition: 'Pamięć o dostępie swobodnym — fizyczne urządzenie tymczasowo przechowujące dane.', example: 'Adding more RAM made the computer run much faster.', category: 'book2', unit: 'Unit 1' },
+  { id: 2006, word: 'SIMM', translation: 'Jednorzędowy moduł pamięci', definition: 'Starszy typ modułu pamięci wysyłający do 32 bitów danych do procesora.', example: 'Older computers used SIMM modules instead of the modern DIMM.', category: 'book2', unit: 'Unit 1' },
+  { id: 2007, word: 'Virtual memory', translation: 'Pamięć wirtualna', definition: 'Metoda przechowywania danych komputerowych, w której komputer tymczasowo zapisuje dane na dysku twardym zamiast w RAM.', example: 'The system used virtual memory when it ran out of RAM during the video edit.', category: 'book2', unit: 'Unit 1' },
+ 
+  // Unit 2
+  { id: 2008, word: 'C', translation: 'Język programowania C', definition: 'Język programowania używany do tworzenia systemów operacyjnych.', example: 'The Unix operating system was originally written in C.', category: 'book2', unit: 'Unit 2' },
+  { id: 2009, word: 'C#', translation: 'Język programowania C#', definition: 'Język programowania stworzony jako alternatywa dla języka Java.', example: 'She used C# to develop a desktop application for Windows.', category: 'book2', unit: 'Unit 2' },
+  { id: 2010, word: 'C++', translation: 'Język programowania C++', definition: 'Język programowania dodający możliwości programowania obiektowego do języka C.', example: 'Game engines are often written in C++ for maximum performance.', category: 'book2', unit: 'Unit 2' },
+  { id: 2011, word: 'Compiler', translation: 'Kompilator', definition: 'Program zamieniający czytelny dla człowieka kod źródłowy na kod maszynowy zrozumiały dla procesora.', example: 'The compiler reported three errors before the program could run.', category: 'book2', unit: 'Unit 2' },
+  { id: 2012, word: 'Computer language', translation: 'Język komputerowy', definition: 'Kod używany przez programistów do tworzenia instrukcji zrozumiałych dla komputera.', example: 'Python is one of the most popular computer languages for beginners.', category: 'book2', unit: 'Unit 2' },
+  { id: 2013, word: 'CPU', translation: 'Procesor centralny', definition: 'Centralna jednostka obliczeniowa — część komputera obsługująca większość przetwarzania instrukcji i kontrolująca funkcje komputera.', example: 'A powerful CPU is essential for video editing and gaming.', category: 'book2', unit: 'Unit 2' },
+  { id: 2014, word: 'Python', translation: 'Język programowania Python', definition: 'Wieloparadygmatyczny, ogólnego przeznaczenia, interpretowany język programowania wysokiego poziomu.', example: 'She wrote a data analysis script using Python and pandas.', category: 'book2', unit: 'Unit 2' },
+  { id: 2015, word: 'Swift', translation: 'Język programowania Swift', definition: 'Język programowania opracowany przez Apple dla różnych systemów operacyjnych, w tym mobilnych i desktopowych.', example: 'He built an iPhone app using Swift and Xcode.', category: 'book2', unit: 'Unit 2' },
+ 
+  // Unit 3
+  { id: 2016, word: 'Antivirus software', translation: 'Oprogramowanie antywirusowe', definition: 'Program wykrywający i usuwający wirusy komputerowe.', example: 'She installed antivirus software to protect her laptop from malware.', category: 'book2', unit: 'Unit 3' },
+  { id: 2017, word: 'Broadband', translation: 'Łącze szerokopasmowe', definition: 'Metoda transmisji danych o wysokiej przepustowości umożliwiająca różne prędkości przesyłania przez światłowód, DSL, satelitę, kabel i inne technologie.', example: 'Broadband internet made it possible to stream HD videos without buffering.', category: 'book2', unit: 'Unit 3' },
+  { id: 2018, word: 'DSL', translation: 'Cyfrowa linia abonencka', definition: 'Szerokopasmowe połączenie internetowe wykorzystujące zwykłe linie telefoniczne.', example: 'They connected to the internet via DSL through their phone line.', category: 'book2', unit: 'Unit 3' },
+  { id: 2019, word: 'Hotspot', translation: 'Hotspot', definition: 'Miejsce (np. lotnisko lub kawiarnia) zapewniające użytkownikom bezprzewodowy dostęp do Internetu przez sieć WLAN.', example: 'She connected her laptop to the hotspot at the airport.', category: 'book2', unit: 'Unit 3' },
+  { id: 2020, word: 'T-1', translation: 'Łącze T-1', definition: 'Typ łącza używanego przez firmy, łączącego wielu użytkowników jednocześnie z Internetem.', example: 'The office upgraded to a T-1 line to support more simultaneous users.', category: 'book2', unit: 'Unit 3' },
+  { id: 2021, word: 'T-3', translation: 'Łącze T-3', definition: 'Wydajne łącze składające się z 28 linii T-1.', example: 'Large data centers often rely on T-3 connections for high-bandwidth needs.', category: 'book2', unit: 'Unit 3' },
+  { id: 2022, word: 'Upgrade', translation: 'Aktualizować', definition: 'Ulepszać program komputerowy lub rodzaj usługi.', example: 'He decided to upgrade his internet plan for faster speeds.', category: 'book2', unit: 'Unit 3' },
+  { id: 2023, word: 'Wi-Fi', translation: 'Sieć bezprzewodowa Wi-Fi', definition: 'Bezprzewodowy protokół sieciowy umożliwiający urządzeniom na ograniczonym obszarze połączenie z bezprzewodowym routerem i Internetem.', example: 'She connected her tablet to the Wi-Fi network at home.', category: 'book2', unit: 'Unit 3' },
+  { id: 2024, word: 'WPS', translation: 'Wi-Fi Protected Setup', definition: 'Wbudowana funkcja bezprzewodowych routerów ułatwiająca i przyspieszająca łączenie urządzeń z routerem bez wpisywania haseł.', example: 'He pressed the WPS button to connect the printer without entering a password.', category: 'book2', unit: 'Unit 3' },
+ 
+  // Unit 4
+  { id: 2025, word: 'Array', translation: 'Macierz dyskowa', definition: 'System przechowywania danych wykorzystujący wiele połączonych dysków używanych jako jedna jednostka.', example: 'The server used a disk array to store large amounts of data reliably.', category: 'book2', unit: 'Unit 4' },
+  { id: 2026, word: 'Cloud computing', translation: 'Przetwarzanie w chmurze', definition: 'Korzystanie z różnych usług, takich jak platformy programistyczne, serwery, przestrzeń dyskowa i oprogramowanie, przez Internet.', example: 'Cloud computing allowed the team to collaborate on files from different countries.', category: 'book2', unit: 'Unit 4' },
+  { id: 2027, word: 'Failure', translation: 'Awaria', definition: 'Sytuacja, gdy napęd dyskowy ulega awarii i nie można uzyskać dostępu do przechowywanych na nim danych.', example: 'A disk failure caused the company to lose several important files.', category: 'book2', unit: 'Unit 4' },
+  { id: 2028, word: 'HDD', translation: 'Dysk twardy', definition: 'Urządzenie do przechowywania danych działające wraz z pamięcią systemu, przechowujące dane na magnetycznych talerzach.', example: 'He backed up his files on an external HDD before reinstalling the system.', category: 'book2', unit: 'Unit 4' },
+  { id: 2029, word: 'Hybrid array', translation: 'Macierz hybrydowa', definition: 'Typ zarządzania pamięcią masową łączący dyski HDD, SSD i pamięć flash.', example: 'The hybrid array balanced speed and storage capacity for the workstation.', category: 'book2', unit: 'Unit 4' },
+  { id: 2030, word: 'RAID', translation: 'Macierz dyskowa RAID', definition: 'Technologia przechowywania danych łącząca wiele dysków w jedną przestrzeń dyskową, znacznie zwiększając wydajność komputera.', example: 'RAID 1 mirrored the data across two drives to prevent data loss.', category: 'book2', unit: 'Unit 4' },
+  { id: 2031, word: 'SATA', translation: 'Interfejs SATA', definition: 'Interfejs do podłączania urządzeń pamięci masowej do płyty głównej w celu transferu danych.', example: 'He connected the new SSD to the motherboard using a SATA cable.', category: 'book2', unit: 'Unit 4' },
+  { id: 2032, word: 'SSD', translation: 'Dysk półprzewodnikowy', definition: 'Urządzenie do przechowywania danych zazwyczaj korzystające z pamięci flash, oferujące szybszy dostęp do danych niż dyski HDD.', example: 'Upgrading to an SSD made the laptop boot in under 10 seconds.', category: 'book2', unit: 'Unit 4' },
+  { id: 2033, word: 'USB flash drive', translation: 'Pendrive', definition: 'Przenośny system pamięci flash używający interfejsu USB do podłączania do komputera i transferu danych.', example: 'She saved the presentation on a USB flash drive to use it at school.', category: 'book2', unit: 'Unit 4' },
+ 
+  // Unit 5
+  { id: 2034, word: 'CCD', translation: 'Przetwornik obrazu CCD', definition: 'Światłoczuły chip lub czujnik zamieniający światło na elektrony w celu rejestrowania cyfrowych zdjęć, używany w aparatach, skanerach i kamerach.', example: 'The CCD in the camera captured sharp images even in low light.', category: 'book2', unit: 'Unit 5' },
+  { id: 2035, word: 'Digital camera', translation: 'Aparat cyfrowy', definition: 'Urządzenie rejestrujące obrazy, które można przechowywać, wyświetlać, edytować i drukować.', example: 'She used a digital camera to photograph the event.', category: 'book2', unit: 'Unit 5' },
+  { id: 2036, word: 'DPI', translation: 'Punkty na cal', definition: 'Liczba punktów na cal mierząca rozdzielczość obrazu.', example: 'The printer produced sharp text at 1200 DPI.', category: 'book2', unit: 'Unit 5' },
+  { id: 2037, word: 'Flash memory', translation: 'Pamięć flash', definition: 'Nośnik używany do przechowywania i transferu danych z urządzenia (np. aparatu cyfrowego) do komputera.', example: 'The photographer transferred photos from the flash memory card to her laptop.', category: 'book2', unit: 'Unit 5' },
+  { id: 2038, word: 'Inkjet printer', translation: 'Drukarka atramentowa', definition: 'Urządzenie używające atramentu do tworzenia dokumentów i obrazów na papierze.', example: 'He printed the photos using an inkjet printer for vibrant colors.', category: 'book2', unit: 'Unit 5' },
+  { id: 2039, word: 'Optical zoom', translation: 'Zoom optyczny', definition: 'Regulacja obiektywu aparatu powiększająca obraz bez utraty jakości.', example: 'She used the optical zoom to photograph birds from a distance.', category: 'book2', unit: 'Unit 5' },
+  { id: 2040, word: 'Transparency adapter', translation: 'Adapter do przeźroczy', definition: 'Urządzenie używane ze skanerem do skanowania przeźroczystych dokumentów, takich jak slajdy.', example: 'He used a transparency adapter to scan old photographic slides.', category: 'book2', unit: 'Unit 5' },
+ 
+  // Unit 6
+  { id: 2041, word: 'AAC', translation: 'Format audio AAC', definition: 'Format pliku muzycznego o wyższej jakości niż MP3.', example: 'She converted her music library to AAC for better sound quality.', category: 'book2', unit: 'Unit 6' },
+  { id: 2042, word: 'Bitrate', translation: 'Przepływność bitowa', definition: 'Miara ilości danych przetwarzanych w jednostce czasu (bitów na sekundę).', example: 'A higher bitrate results in better audio quality but larger file sizes.', category: 'book2', unit: 'Unit 6' },
+  { id: 2043, word: 'Capacity', translation: 'Pojemność', definition: 'Ilość miejsca, jaką odtwarzacz MP3 ma do przechowywania plików.', example: 'The MP3 player had a capacity of 32 GB, enough for thousands of songs.', category: 'book2', unit: 'Unit 6' },
+  { id: 2044, word: 'Decode', translation: 'Dekodować', definition: 'Przywracać plik do jego oryginalnego formatu.', example: 'The software decoded the compressed audio file for playback.', category: 'book2', unit: 'Unit 6' },
+  { id: 2045, word: 'Dock', translation: 'Stacja dokująca', definition: 'Urządzenie podłączające odtwarzacz MP3 do komputera.', example: 'He placed his MP3 player in the dock to sync new songs.', category: 'book2', unit: 'Unit 6' },
+  { id: 2046, word: 'Driver', translation: 'Sterownik', definition: 'Oprogramowanie informujące urządzenie, jak powinno komunikować się z systemem operacyjnym komputera.', example: 'She downloaded the latest driver to fix the printer connection issue.', category: 'book2', unit: 'Unit 6' },
+  { id: 2047, word: 'Freeze', translation: 'Zawieszać się', definition: 'Przestać reagować i przestać działać.', example: 'The computer froze while running too many programs at once.', category: 'book2', unit: 'Unit 6' },
+  { id: 2048, word: 'GB', translation: 'Gigabajt', definition: 'Jednostka miary pojemności dysku twardego równa miliardowi bajtów.', example: 'The new laptop came with 512 GB of storage space.', category: 'book2', unit: 'Unit 6' },
+  { id: 2049, word: 'Playlist', translation: 'Lista odtwarzania', definition: 'Lista piosenek stworzona przez użytkownika odtwarzacza MP3.', example: 'She created a workout playlist with her favorite upbeat songs.', category: 'book2', unit: 'Unit 6' },
+  { id: 2050, word: 'Upload', translation: 'Przesyłać', definition: 'Transferować plik z komputera lub urządzenia do Internetu lub innego urządzenia.', example: 'He uploaded the video to the website after editing it.', category: 'book2', unit: 'Unit 6' },
+ 
+  // Unit 7
+  { id: 2051, word: '5G network', translation: 'Sieć 5G', definition: 'Sieć mobilna piątej generacji zapewniająca wysoką przepustowość, prędkość do 10 Gbps i niskie opóźnienia.', example: 'The 5G network enabled seamless video streaming on his smartphone.', category: 'book2', unit: 'Unit 7' },
+  { id: 2052, word: 'App', translation: 'Aplikacja', definition: 'Oprogramowanie z określoną funkcją, które użytkownicy mogą pobierać, instalować i uruchamiać na urządzeniach elektronicznych, głównie smartfonach i tabletach.', example: 'She downloaded a language learning app on her smartphone.', category: 'book2', unit: 'Unit 7' },
+  { id: 2053, word: 'Bluetooth', translation: 'Bluetooth', definition: 'Bezprzewodowa sieć oparta na falach radiowych łącząca urządzenia kompatybilne z Bluetooth w ograniczonym zasięgu.', example: 'He connected his wireless headphones to the laptop via Bluetooth.', category: 'book2', unit: 'Unit 7' },
+  { id: 2054, word: 'Call waiting', translation: 'Połączenie oczekujące', definition: 'Funkcja niektórych telefonów komórkowych informująca o oczekującym połączeniu podczas rozmowy.', example: 'Call waiting alerted her that her manager was trying to reach her.', category: 'book2', unit: 'Unit 7' },
+  { id: 2055, word: 'Caller ID', translation: 'Identyfikator rozmówcy', definition: 'Funkcja niektórych telefonów komórkowych pokazująca nazwę i numer osoby dzwoniącej.', example: 'She checked the caller ID before answering the unknown number.', category: 'book2', unit: 'Unit 7' },
+  { id: 2056, word: 'Cell phone', translation: 'Telefon komórkowy', definition: 'Bezprzewodowy telefon wysyłający i odbierający dane na określonej częstotliwości energii.', example: 'He forgot his cell phone at home and missed several important calls.', category: 'book2', unit: 'Unit 7' },
+  { id: 2057, word: 'Ringtone', translation: 'Dzwonek', definition: 'Dźwięk lub piosenka odtwarzana przez telefon komórkowy, gdy ktoś dzwoni.', example: 'She set a custom ringtone for her best friend\'s calls.', category: 'book2', unit: 'Unit 7' },
+  { id: 2058, word: 'Text message', translation: 'Wiadomość tekstowa', definition: 'Krótka, pisemna wiadomość wysyłana i odbierana przez telefon komórkowy za pośrednictwem SMS.', example: 'He sent a text message to confirm the meeting time.', category: 'book2', unit: 'Unit 7' },
+  { id: 2059, word: 'Touchscreen', translation: 'Ekran dotykowy', definition: 'Wyświetlacz w niektórych telefonach komórkowych, który obsługuje się przez dotykanie w celu uzyskania dostępu do funkcji i aplikacji.', example: 'She navigated the phone\'s menu using the touchscreen.', category: 'book2', unit: 'Unit 7' },
+  { id: 2060, word: 'Voice activation', translation: 'Aktywacja głosowa', definition: 'Funkcja niektórych telefonów komórkowych umożliwiająca wybieranie numeru głosem zamiast ręcznie.', example: 'He used voice activation to call his wife while driving.', category: 'book2', unit: 'Unit 7' },
+  { id: 2061, word: 'Voicemail', translation: 'Poczta głosowa', definition: 'Funkcja umożliwiająca odsłuchiwanie lub pozostawianie elektronicznych wiadomości głosowych na telefonie komórkowym.', example: 'She left a voicemail for her colleague who didn\'t answer.', category: 'book2', unit: 'Unit 7' },
+ 
+  // Unit 8
+  { id: 2062, word: 'Barcode', translation: 'Kod kreskowy', definition: 'Czytelna maszynowo reprezentacja 12-cyfrowego numeru UPC drukowana na produkcie i skanowana elektronicznie, dostarczająca informacji o produkcie.', example: 'The cashier scanned the barcode to find the price of the item.', category: 'book2', unit: 'Unit 8' },
+  { id: 2063, word: 'Data plan', translation: 'Plan danych', definition: 'Umowa z dostawcą usług telefonii komórkowej określająca ilość danych, z których użytkownik może korzystać.', example: 'She upgraded her data plan to avoid extra charges for streaming.', category: 'book2', unit: 'Unit 8' },
+  { id: 2064, word: 'Email', translation: 'Wiadomość e-mail', definition: 'Elektroniczna wiadomość wysyłana od jednego użytkownika do drugiego.', example: 'He sent an email to the team with the updated project schedule.', category: 'book2', unit: 'Unit 8' },
+  { id: 2065, word: 'EPC', translation: 'Elektroniczny kod produktu', definition: 'Unikalny kod numeryczny używany do identyfikacji dowolnego pojedynczego przedmiotu.', example: 'Each product in the warehouse was tagged with an EPC for tracking.', category: 'book2', unit: 'Unit 8' },
+  { id: 2066, word: 'Instant message', translation: 'Wiadomość błyskawiczna', definition: 'Pisemna wiadomość przesyłana online podczas sesji czatu między użytkownikami korzystającymi z tej samej platformy.', example: 'She sent an instant message to her colleague to ask a quick question.', category: 'book2', unit: 'Unit 8' },
+  { id: 2067, word: 'Scan', translation: 'Skanować', definition: 'Używać lasera do odczytu kodów kreskowych i konwertowania ich na sygnały elektroniczne.', example: 'The cashier scanned each item before placing it in the bag.', category: 'book2', unit: 'Unit 8' },
+  { id: 2068, word: 'Spam', translation: 'Spam', definition: 'Niechciana poczta e-mail, np. reklamy, wysyłana do dużych grup osób.', example: 'His inbox was flooded with spam about online promotions.', category: 'book2', unit: 'Unit 8' },
+  { id: 2069, word: 'Text', translation: 'Wysyłać wiadomość tekstową', definition: 'Wysyłać komuś wiadomość tekstową za pomocą telefonu.', example: 'She texted her friend to let him know she was running late.', category: 'book2', unit: 'Unit 8' },
+  { id: 2070, word: 'UPC', translation: 'Uniwersalny kod produktu', definition: '12-cyfrowy numer używany do identyfikacji produktów konsumenckich.', example: 'The store scanned the UPC to pull up the product details.', category: 'book2', unit: 'Unit 8' },
+ 
+  // Unit 9
+  { id: 2071, word: 'Avatar', translation: 'Awatar', definition: 'Obraz w grze komputerowej reprezentujący osobę.', example: 'She customized her avatar\'s appearance before starting the game.', category: 'book2', unit: 'Unit 9' },
+  { id: 2072, word: 'Blog', translation: 'Blog', definition: 'Strona internetowa, na której osoba pisze posty o swoich odczuciach, myślach, aktywnościach itp.', example: 'He started a blog to share his travel experiences with others.', category: 'book2', unit: 'Unit 9' },
+  { id: 2073, word: 'Forum', translation: 'Forum internetowe', definition: 'Strona internetowa, na której ludzie mogą dyskutować na określony temat.', example: 'She found the answer to her coding problem on a programming forum.', category: 'book2', unit: 'Unit 9' },
+  { id: 2074, word: 'Gaming', translation: 'Granie online', definition: 'Czynność polegająca na graniu w gry online na komputerze.', example: 'He spends his evenings gaming with friends from around the world.', category: 'book2', unit: 'Unit 9' },
+  { id: 2075, word: 'Handle', translation: 'Nazwa użytkownika (pseudonim)', definition: 'Nazwa tworzona przez osobę w celu uzyskania dostępu do konta na komputerze lub stronie internetowej.', example: 'She chose the handle "StarGazer99" for her social media profile.', category: 'book2', unit: 'Unit 9' },
+  { id: 2076, word: 'Post', translation: 'Post', definition: 'Wiadomość lub artykuł na stronie internetowej.', example: 'He published a post about the latest smartphone trends on his blog.', category: 'book2', unit: 'Unit 9' },
+  { id: 2077, word: 'Profile', translation: 'Profil', definition: 'Strona w serwisie społecznościowym zawierająca dane osobowe lub identyfikacyjne.', example: 'She updated her profile photo on the social networking site.', category: 'book2', unit: 'Unit 9' },
+  { id: 2078, word: 'Social networking', translation: 'Sieci społecznościowe', definition: 'Czynność socjalizowania się online z innymi ludźmi na serwisach społecznościowych, forach, blogach itp.', example: 'Social networking helped her reconnect with old school friends.', category: 'book2', unit: 'Unit 9' },
+  { id: 2079, word: 'Virtual world', translation: 'Wirtualny świat', definition: 'Świat online, w którym można spotykać się i wchodzić w interakcje z innymi ludźmi lub graczami komputerowymi.', example: 'They met in a virtual world and eventually became real-life friends.', category: 'book2', unit: 'Unit 9' },
+ 
+  // Unit 10
+  { id: 2080, word: 'Cartographic', translation: 'Kartograficzny', definition: 'Dotyczący danych przechwytywanych i przetwarzanych na potrzeby tworzenia map.', example: 'The team used cartographic data to design an accurate city map.', category: 'book2', unit: 'Unit 10' },
+  { id: 2081, word: 'Correlated', translation: 'Skorelowany', definition: 'Mający pewien rodzaj powiązania lub zależności między dwiema rzeczami.', example: 'The study showed that exercise and productivity are closely correlated.', category: 'book2', unit: 'Unit 10' },
+  { id: 2082, word: 'Data capture', translation: 'Przechwytywanie danych', definition: 'Czynność polegająca na pozyskiwaniu i digitalizowaniu informacji z różnych źródeł w systemie GIS w warstwach.', example: 'Data capture from satellite images helped map the flood zones.', category: 'book2', unit: 'Unit 10' },
+  { id: 2083, word: 'GIS', translation: 'System informacji geograficznej', definition: 'System integrujący wszystkie typy danych lokalizacyjnych jako podstawę do tworzenia map i analizy w celu monitorowania zmian i rozwiązywania problemów.', example: 'The city used GIS to plan new road construction efficiently.', category: 'book2', unit: 'Unit 10' },
+  { id: 2084, word: 'Raster', translation: 'Raster', definition: 'Zbiór danych w postaci wierszy i kolumn z pikselami lub komórkami, gdzie każdy piksel lub komórka reprezentuje wartość.', example: 'The satellite image was stored as a raster with a resolution of 10 meters per pixel.', category: 'book2', unit: 'Unit 10' },
+  { id: 2085, word: 'Remote sensing', translation: 'Teledetekcja', definition: 'Proces pozyskiwania informacji o fizycznych cechach obszaru z dużej odległości, np. za pomocą zdjęć satelitarnych.', example: 'Remote sensing was used to track the spread of wildfires in real time.', category: 'book2', unit: 'Unit 10' },
+  { id: 2086, word: 'Spatial pattern', translation: 'Wzorzec przestrzenny', definition: 'Rozkład poszczególnych elementów w danym miejscu i relacje między nimi w danych.', example: 'Analysts identified a spatial pattern showing higher crime rates near transport hubs.', category: 'book2', unit: 'Unit 10' },
+  { id: 2087, word: 'Vector', translation: 'Wektor', definition: 'Zbiór danych złożony z punktów, linii i wielokątów lub wierzchołków, używanych do reprezentowania czegoś.', example: 'The map was created using vector data for roads and boundaries.', category: 'book2', unit: 'Unit 10' },
+ 
+  // Unit 11
+  { id: 2088, word: 'Account activity', translation: 'Aktywność na koncie', definition: 'Wypłata, wpłata lub przelew na koncie bankowym.', example: 'She checked her account activity to see recent transactions.', category: 'book2', unit: 'Unit 11' },
+  { id: 2089, word: 'Account alert', translation: 'Alert konta', definition: 'Usługa powiadamiająca klientów banku o podejrzanej aktywności na koncie.', example: 'He received an account alert when a large withdrawal was made.', category: 'book2', unit: 'Unit 11' },
+  { id: 2090, word: 'Bank fraud', translation: 'Oszustwo bankowe', definition: 'Przestępstwo polegające na bezprawnym korzystaniu z funduszy bankowych.', example: 'The bank detected bank fraud and froze the account immediately.', category: 'book2', unit: 'Unit 11' },
+  { id: 2091, word: 'Bill pay', translation: 'Płatność rachunków online', definition: 'Usługa bankowa umożliwiająca klientom automatyczne opłacanie rachunków online w jednym miejscu.', example: 'She set up bill pay so her rent is paid automatically each month.', category: 'book2', unit: 'Unit 11' },
+  { id: 2092, word: 'Electronic funds transfer', translation: 'Elektroniczny transfer środków', definition: 'Czynność przenoszenia pieniędzy z jednego konta na drugie za pomocą komputera.', example: 'He used an electronic funds transfer to pay his supplier abroad.', category: 'book2', unit: 'Unit 11' },
+  { id: 2093, word: 'Electronic statement', translation: 'Wyciąg elektroniczny', definition: 'Podsumowanie aktywności konta dostępne na komputerze, ale nie na papierze.', example: 'She switched to electronic statements to reduce paper waste.', category: 'book2', unit: 'Unit 11' },
+  { id: 2094, word: 'Identity theft', translation: 'Kradzież tożsamości', definition: 'Przestępstwo polegające na wykorzystaniu cudzych danych osobowych do kradzieży pieniędzy lub zakupu przedmiotów.', example: 'He discovered identity theft after finding unknown charges on his card.', category: 'book2', unit: 'Unit 11' },
+  { id: 2095, word: 'PIN', translation: 'Osobisty numer identyfikacyjny', definition: 'Numer przypisany posiadaczom kont bankowych, pomagający bankom identyfikować klienta i zachować bezpieczeństwo.', example: 'She entered her PIN at the ATM to withdraw cash.', category: 'book2', unit: 'Unit 11' },
+  { id: 2096, word: 'Site key', translation: 'Klucz witryny', definition: 'Narzędzie bezpieczeństwa internetowego potwierdzające ważność strony internetowej.', example: 'The site key appeared before she entered her password, confirming it was the real bank site.', category: 'book2', unit: 'Unit 11' },
+  { id: 2097, word: 'SSL connection', translation: 'Połączenie SSL', definition: 'Bezpieczne połączenie między dwoma serwerami.', example: 'The bank\'s website uses an SSL connection to protect customer data.', category: 'book2', unit: 'Unit 11' },
+ 
+  // Unit 12
+  { id: 2098, word: 'Boolean operator', translation: 'Operator logiczny', definition: 'Słowo takie jak "and", "not", "or" używane przy łączeniu słów kluczowych w wyszukiwaniu bazy danych, aby zawęzić lub rozszerzyć wyniki.', example: 'She used the Boolean operator "AND" to narrow her library search results.', category: 'book2', unit: 'Unit 12' },
+  { id: 2099, word: 'Catalog', translation: 'Katalog biblioteczny', definition: 'Spis inwentarza książek w bibliotece.', example: 'He searched the catalog to find available books on computer science.', category: 'book2', unit: 'Unit 12' },
+  { id: 2100, word: 'Ebook', translation: 'Książka elektroniczna', definition: 'Książka dostępna online.', example: 'She borrowed an ebook from the library and read it on her tablet.', category: 'book2', unit: 'Unit 12' },
+  { id: 2101, word: 'Ejournal', translation: 'Czasopismo elektroniczne', definition: 'Naukowa publikacja wydawana online.', example: 'He found the latest research in an ejournal on the university database.', category: 'book2', unit: 'Unit 12' },
+  { id: 2102, word: 'EZproxy', translation: 'Serwer zdalnego dostępu EZproxy', definition: 'Program serwera bibliotecznego umożliwiający zdalnym użytkownikom dostęp do elektronicznych materiałów bibliotecznych.', example: 'Students used EZproxy to access journals from home.', category: 'book2', unit: 'Unit 12' },
+  { id: 2103, word: 'Index', translation: 'Indeks biblioteczny', definition: 'Alfabetyczna lista książek w bibliotece.', example: 'She consulted the index to find books about artificial intelligence.', category: 'book2', unit: 'Unit 12' },
+  { id: 2104, word: 'Remote access', translation: 'Zdalny dostęp', definition: 'Możliwość korzystania z zasobów bibliotecznych online spoza biblioteki.', example: 'Remote access allowed students to borrow digital resources from anywhere.', category: 'book2', unit: 'Unit 12' },
+  { id: 2105, word: 'Site license', translation: 'Licencja witryny', definition: 'Licencja umożliwiająca użytkownikom dostęp do oprogramowania niezależnie od ich lokalizacji.', example: 'The university bought a site license so all students could use the software for free.', category: 'book2', unit: 'Unit 12' },
+  { id: 2106, word: 'Subscription', translation: 'Subskrypcja', definition: 'Umowa o korzystanie z czegoś, często wymagająca opłaty.', example: 'She paid for a subscription to access the full database of academic journals.', category: 'book2', unit: 'Unit 12' },
+  { id: 2107, word: 'VPN', translation: 'Wirtualna sieć prywatna', definition: 'Sposób szyfrowania połączenia podczas korzystania ze zdalnego dostępu.', example: 'He connected through a VPN to securely access the company network from home.', category: 'book2', unit: 'Unit 12' },
+ 
+  // Unit 13
+  { id: 2108, word: 'Actuator', translation: 'Napęd', definition: 'Urządzenie wykorzystujące energię do wprawiania robota w ruch.', example: 'The actuator in the robotic arm allowed it to lift heavy objects.', category: 'book2', unit: 'Unit 13' },
+  { id: 2109, word: 'Autonomous', translation: 'Autonomiczny', definition: 'Zdolny do samodzielnego działania bez pomocy ludzi (o robocie).', example: 'The autonomous robot navigated the warehouse without any human guidance.', category: 'book2', unit: 'Unit 13' },
+  { id: 2110, word: 'Drive power', translation: 'Napęd robota', definition: 'Energia wprawiająca robota w ruch.', example: 'The engineer tested the drive power system before deploying the robot.', category: 'book2', unit: 'Unit 13' },
+  { id: 2111, word: 'Dynamic model', translation: 'Model dynamiczny', definition: 'Matematyczny model sił umożliwiających ruch robota.', example: 'The team created a dynamic model to simulate the robot\'s movements.', category: 'book2', unit: 'Unit 13' },
+  { id: 2112, word: 'Enabling device', translation: 'Urządzenie umożliwiające', definition: 'Urządzenie, które osoba aktywuje, aby umożliwić ruch robota.', example: 'The operator pressed the enabling device to allow the robot to start moving.', category: 'book2', unit: 'Unit 13' },
+  { id: 2113, word: 'End-effector', translation: 'Efektor końcowy', definition: 'Dłoń lub narzędzie na końcu manipulatora robota — część robota, która przesuwa lub podnosi przedmioty.', example: 'The end-effector was equipped with a gripper to pick up small components.', category: 'book2', unit: 'Unit 13' },
+  { id: 2114, word: 'Equality constraint', translation: 'Ograniczenie równości', definition: 'Wartość określająca pozycję i ruchy efektora końcowego.', example: 'The equality constraint ensured the robot arm reached the exact target position.', category: 'book2', unit: 'Unit 13' },
+  { id: 2115, word: 'Pendant', translation: 'Pilot robota', definition: 'Urządzenie używane przez osobę do kontrolowania i kierowania ruchami robota.', example: 'The technician used a pendant to manually guide the robot arm during setup.', category: 'book2', unit: 'Unit 13' },
+  { id: 2116, word: 'Robot', translation: 'Robot', definition: 'Poruszająca się maszyna, która może automatycznie wykonywać zadania.', example: 'The factory replaced manual assembly with a robot for faster production.', category: 'book2', unit: 'Unit 13' },
+  { id: 2117, word: 'Robotics', translation: 'Robotyka', definition: 'Naukowe studium robotów, ich budowy i ruchu.', example: 'She studied robotics at university to work in the automotive industry.', category: 'book2', unit: 'Unit 13' },
+  { id: 2118, word: 'Serial robot', translation: 'Robot szeregowy', definition: 'Robot składający się z pojedynczego szeregu połączonych ze sobą przegubów.', example: 'A serial robot was used to weld car parts on the assembly line.', category: 'book2', unit: 'Unit 13' },
+ 
+  // Unit 14
+  { id: 2119, word: 'Active matrix display', translation: 'Wyświetlacz z aktywną matrycą', definition: 'Typ ekranu wytwarzający wysokiej jakości, wyraźne obrazy.', example: 'The active matrix display on the laptop produced sharp and vibrant visuals.', category: 'book2', unit: 'Unit 14' },
+  { id: 2120, word: 'Bitmapped graphic', translation: 'Grafika bitmapowa', definition: 'Obraz, którego piksele składają się z określonej liczby bitów.', example: 'The logo was saved as a bitmapped graphic, which lost quality when enlarged.', category: 'book2', unit: 'Unit 14' },
+  { id: 2121, word: 'Black and white', translation: 'Czarno-biały', definition: 'Obraz lub zdjęcie wyświetlane wyłącznie w czerni, bieli i odcieniach szarości.', example: 'He printed the document in black and white to save color ink.', category: 'book2', unit: 'Unit 14' },
+  { id: 2122, word: 'Download', translation: 'Pobierać', definition: 'Transferować plik lub program z Internetu na komputer lub urządzenie.', example: 'She downloaded the software update before restarting her laptop.', category: 'book2', unit: 'Unit 14' },
+  { id: 2123, word: 'Ergonomic', translation: 'Ergonomiczny', definition: 'Łatwy w użyciu i zaprojektowany tak, aby zapobiegać urazom przy wielokrotnym używaniu.', example: 'He bought an ergonomic chair to reduce back pain during long work sessions.', category: 'book2', unit: 'Unit 14' },
+  { id: 2124, word: 'PDF reader', translation: 'Czytnik PDF', definition: 'Program mogący otwierać i wyświetlać tekst lub obrazy niezależnie od oprogramowania lub systemu operacyjnego użytkownika.', example: 'She installed a PDF reader to open the downloaded manual.', category: 'book2', unit: 'Unit 14' },
+  { id: 2125, word: 'Publication', translation: 'Publikacja', definition: 'Książka lub magazyn wydany przez wydawnictwo dla szerokiej publiczności.', example: 'The research findings appeared in a leading scientific publication.', category: 'book2', unit: 'Unit 14' },
+  { id: 2126, word: 'Reflow', translation: 'Reflow', definition: 'Proces umożliwiający dopasowanie obrazów lub tekstu do ekranów o różnych rozmiarach.', example: 'Reflow adjusted the text layout automatically when she zoomed in on the ebook.', category: 'book2', unit: 'Unit 14' },
+  { id: 2127, word: 'Sub-pixel rendering', translation: 'Renderowanie subpikselowe', definition: 'Proces zwiększający czytelność tekstu na określonych wyświetlaczach.', example: 'Sub-pixel rendering made the small text on the screen much easier to read.', category: 'book2', unit: 'Unit 14' },
+  { id: 2128, word: 'System requirements', translation: 'Wymagania systemowe', definition: 'Sprzęt lub oprogramowanie niezbędne do uruchomienia programu.', example: 'He checked the system requirements before buying the new game.', category: 'book2', unit: 'Unit 14' },
+ 
+  // Unit 15
+  { id: 2129, word: 'Agent', translation: 'Agent (sztuczna inteligencja)', definition: 'Komputer obserwujący i reagujący na warunki w określonym środowisku.', example: 'The AI agent monitored the network and flagged unusual activity.', category: 'book2', unit: 'Unit 15' },
+  { id: 2130, word: 'Algorithm', translation: 'Algorytm', definition: 'Reguła lub zestaw reguł dostarczających kroków lub pytań potrzebnych do rozwiązania problemu.', example: 'The search algorithm returned results ranked by relevance.', category: 'book2', unit: 'Unit 15' },
+  { id: 2131, word: 'Artificial intelligence', translation: 'Sztuczna inteligencja', definition: 'Dziedzina nauki dążąca do tworzenia komputerów i robotów zdolnych do samodzielnego rozumowania, uczenia się i rozwiązywania problemów.', example: 'Artificial intelligence is used to recommend movies on streaming platforms.', category: 'book2', unit: 'Unit 15' },
+  { id: 2132, word: 'Case-based reasoning', translation: 'Rozumowanie przez przypadki', definition: 'Proces wykorzystywania informacji z poprzednich doświadczeń do rozwiązywania nowych problemów.', example: 'The system used case-based reasoning to suggest solutions based on past support tickets.', category: 'book2', unit: 'Unit 15' },
+  { id: 2133, word: 'Cognitive scientist', translation: 'Kognitywista', definition: 'Osoba badająca umysł i procesy myślowe.', example: 'A cognitive scientist joined the AI team to improve human-computer interaction.', category: 'book2', unit: 'Unit 15' },
+  { id: 2134, word: 'Computer vision', translation: 'Widzenie komputerowe', definition: 'Dziedzina i technologia tworzenia komputerów zdolnych do widzenia.', example: 'Computer vision allows self-driving cars to detect pedestrians.', category: 'book2', unit: 'Unit 15' },
+  { id: 2135, word: 'Consciousness', translation: 'Świadomość', definition: 'Stan bycia świadomym siebie i swoich działań.', example: 'Researchers debate whether machines will ever achieve true consciousness.', category: 'book2', unit: 'Unit 15' },
+  { id: 2136, word: 'Heuristics', translation: 'Heurystyka', definition: 'Typ algorytmu zaprojektowanego do znalezienia odpowiedniego rozwiązania problemu, gdy nie jest znane idealne rozwiązanie.', example: 'The route planner used heuristics to find a fast path without checking every option.', category: 'book2', unit: 'Unit 15' },
+  { id: 2137, word: 'Pattern recognition', translation: 'Rozpoznawanie wzorców', definition: 'Proces klasyfikowania obiektów przez badanie ich wizualnego wyglądu.', example: 'Pattern recognition technology identified faces in the security footage.', category: 'book2', unit: 'Unit 15' },
+  { id: 2138, word: 'Robot', translation: 'Robot', definition: 'Poruszająca się maszyna mogąca automatycznie wykonywać zadania.', example: 'The robot sorted packages in the warehouse without any human input.', category: 'book2', unit: 'Unit 15' },
   // BOOK 3 - Unit 1
-  { id: 3001, word: 'Cloud', translation: 'Chmura', definition: 'Przechowywanie i przetwarzanie danych na zdalnych serwerach przez internet.', example: 'Save your files to the cloud so you can access them anywhere.', category: 'book3', unit: 'Unit 1' },
-  { id: 3002, word: 'Firewall', translation: 'Zapora sieciowa', definition: 'System zabezpieczający sieć przed nieautoryzowanym dostępem z zewnątrz.', example: 'The firewall blocked the suspicious connection.', category: 'book3', unit: 'Unit 1' },
+{ id: 1000, word: 'Apple', translation: 'Apple (firma)', definition: 'Firma produkująca komputery Mac i inne produkty informatyczne.', example: 'Apple released a new version of their operating system this year.', category: 'book3', unit: 'Unit 1' },
+{ id: 1001, word: 'Color Matching', translation: 'Dopasowywanie kolorów', definition: 'Zdolność do odtworzenia kolorów dokładnie tak jak wyglądają na ekranie.', example: 'Color matching is essential when designing materials for print.', category: 'book3', unit: 'Unit 1' },
+{ id: 1002, word: 'Customize', translation: 'Dostosować', definition: 'Zmienić coś tak, aby spełniało indywidualne potrzeby i cele użytkownika.', example: 'You can customize the software interface to suit your preferences.', category: 'book3', unit: 'Unit 1' },
+{ id: 1003, word: 'Mac', translation: 'Komputer Mac', definition: 'Typ komputera produkowany przez firmę Apple.', example: 'She bought a new Mac to use for graphic design work.', category: 'book3', unit: 'Unit 1' },
+{ id: 1004, word: 'Microsoft', translation: 'Microsoft (firma)', definition: 'Firma produkująca system operacyjny Windows i inne produkty.', example: 'Microsoft released a new update for their operating system.', category: 'book3', unit: 'Unit 1' },
+{ id: 1005, word: 'OS X', translation: 'System operacyjny OS X', definition: 'System operacyjny firmy Apple przeznaczony dla komputerów Mac.', example: 'OS X is known for its clean interface and stability.', category: 'book3', unit: 'Unit 1' },
+{ id: 1006, word: 'Personal Computer', translation: 'Komputer osobisty', definition: 'Komputer działający pod kontrolą systemu operacyjnego Windows.', example: 'He uses a personal computer for his daily office tasks.', category: 'book3', unit: 'Unit 1' },
+{ id: 1007, word: 'Prepress', translation: 'Przeddruk', definition: 'Procesy związane z układem strony i składem tekstu przed ostatecznym drukiem.', example: 'The prepress team checked all the files before sending them to the printer.', category: 'book3', unit: 'Unit 1' },
+{ id: 1008, word: 'Processing Speed', translation: 'Prędkość przetwarzania', definition: 'Miara tego, jak szybko komputer może wykonywać zadania.', example: 'The new processor doubled the processing speed of the old computer.', category: 'book3', unit: 'Unit 1' },
+{ id: 1009, word: 'Typography', translation: 'Typografia', definition: 'Komputerowe użycie krojów pisma i zarządzanie nimi.', example: 'Good typography makes a website easier to read and more visually appealing.', category: 'book3', unit: 'Unit 1' },
+{ id: 1010, word: 'Video Subsystem', translation: 'Podsystem wideo', definition: 'Część komputera odpowiedzialna za wyświetlanie obrazu na ekranie.', example: 'A powerful video subsystem is necessary for running high-resolution games.', category: 'book3', unit: 'Unit 1' },
+{ id: 1011, word: 'Windows', translation: 'System operacyjny Windows', definition: 'System operacyjny stworzony przez Microsoft, używany na wielu komputerach osobistych.', example: 'Windows is the most widely used operating system in the world.', category: 'book3', unit: 'Unit 1' },
 
-  // BOOK 3 - Unit 2
-  { id: 3003, word: 'Database', translation: 'Baza danych', definition: 'Zorganizowany zbiór danych przechowywanych i zarządzanych elektronicznie.', example: 'All user information is stored in the database.', category: 'book3', unit: 'Unit 2' },
-  { id: 3004, word: 'Query', translation: 'Zapytanie', definition: 'Polecenie wysyłane do bazy danych w celu pobrania lub zmiany danych.', example: 'The query returned 500 results in under a second.', category: 'book3', unit: 'Unit 2' },
+// BOOK 3 - Unit 2
+{ id: 1012, word: 'Command Line', translation: 'Wiersz poleceń', definition: 'Słowo lub fraza wprowadzana do komputera, która powoduje wykonanie określonej operacji.', example: 'He used the command line to navigate through the file system.', category: 'book3', unit: 'Unit 2' },
+{ id: 1013, word: 'Free Software License', translation: 'Licencja wolnego oprogramowania', definition: 'Licencja umożliwiająca użytkownikom modyfikowanie i rozpowszechnianie programów.', example: 'The project was released under a free software license so anyone could contribute.', category: 'book3', unit: 'Unit 2' },
+{ id: 1014, word: 'Linux', translation: 'Linux', definition: 'Komputerowy system operacyjny o otwartym kodzie źródłowym.', example: 'Many web servers run on Linux because of its stability and security.', category: 'book3', unit: 'Unit 2' },
+{ id: 1015, word: 'Linux Distribution', translation: 'Dystrybucja Linuxa', definition: 'Zbiór oprogramowania zbudowany na bazie systemu Linux.', example: 'Ubuntu is one of the most popular Linux distributions for beginners.', category: 'book3', unit: 'Unit 2' },
+{ id: 1016, word: 'Microsoft Office', translation: 'Pakiet biurowy Microsoft Office', definition: 'Pakiet oprogramowania oferujący edytor tekstu, arkusze kalkulacyjne i inne narzędzia biurowe.', example: 'She used Microsoft Office to prepare the presentation for the meeting.', category: 'book3', unit: 'Unit 2' },
+{ id: 1017, word: 'Open Source', translation: 'Otwarte oprogramowanie', definition: 'Oprogramowanie, którego kod źródłowy jest publicznie dostępny i może być swobodnie modyfikowany przez użytkowników.', example: 'Firefox is an open source browser that anyone can contribute to.', category: 'book3', unit: 'Unit 2' },
+{ id: 1018, word: 'OpenOffice', translation: 'OpenOffice', definition: 'Pakiet oprogramowania biurowego o otwartym kodzie źródłowym, podobny do Microsoft Office.', example: 'OpenOffice is a free alternative to Microsoft Office for home users.', category: 'book3', unit: 'Unit 2' },
+{ id: 1019, word: 'Samba', translation: 'Samba (oprogramowanie)', definition: 'Oprogramowanie open-source umożliwiające systemom Unix, Linux i Mac współpracę z systemem Windows w zakresie udostępniania plików i urządzeń.', example: 'Samba allows Linux computers to share files with Windows machines on the same network.', category: 'book3', unit: 'Unit 2' },
+{ id: 1020, word: 'TCP/IP Protocol', translation: 'Protokół TCP/IP', definition: 'Zestaw reguł określających sposób łączenia się komputera z siecią lub internetem.', example: 'All devices on the Internet communicate using the TCP/IP protocol.', category: 'book3', unit: 'Unit 2' },
+{ id: 1021, word: 'Terminal', translation: 'Terminal', definition: 'Komputer umożliwiający użytkownikom wprowadzanie poleceń tekstowych do systemu.', example: 'The administrator used the terminal to restart the server remotely.', category: 'book3', unit: 'Unit 2' },
+{ id: 1022, word: 'Ubuntu', translation: 'Ubuntu', definition: 'System operacyjny oparty na Linuxie z otwartym kodem źródłowym i konfigurowalnym interfejsem graficznym.', example: 'Ubuntu is a popular choice for users switching from Windows to Linux.', category: 'book3', unit: 'Unit 2' },
+{ id: 1023, word: 'Vendor', translation: 'Dostawca oprogramowania', definition: 'Osoba lub firma dystrybuująca programy i narzędzia informatyczne.', example: 'The vendor provided technical support for the software they sold.', category: 'book3', unit: 'Unit 2' },
 
+// BOOK 3 - Unit 3
+{ id: 1024, word: 'Anchor', translation: 'Kotwica (link)', definition: 'Słowo, fraza lub obraz zawierający hiperłącze, które można wykorzystać do nawigacji.', example: 'Click on the anchor text to be redirected to the related webpage.', category: 'book3', unit: 'Unit 3' },
+{ id: 1025, word: 'Applet', translation: 'Aplet', definition: 'Mała aplikacja osadzona w innej aplikacji internetowej, często jako wtyczka.', example: 'The website used a Java applet to display an interactive map.', category: 'book3', unit: 'Unit 3' },
+{ id: 1026, word: 'CAD', translation: 'Projektowanie wspomagane komputerowo', definition: 'Użycie komputera do projektowania obiektów takich jak maszyny czy budynki.', example: 'Engineers use CAD software to design complex mechanical parts.', category: 'book3', unit: 'Unit 3' },
+{ id: 1027, word: 'CBT', translation: 'Szkolenie komputerowe', definition: 'Rodzaj szkolenia lub edukacji, w którym uczniowie ćwiczą pracę z programami na komputerze.', example: 'The company introduced CBT modules so employees could learn at their own pace.', category: 'book3', unit: 'Unit 3' },
+{ id: 1028, word: 'Electronic Bulletin Board', translation: 'Elektroniczna tablica ogłoszeń', definition: 'Internetowe centrum komunikacji umożliwiające użytkownikom elektroniczne udostępnianie plików i informacji.', example: 'Students posted their questions on the electronic bulletin board for the teacher to answer.', category: 'book3', unit: 'Unit 3' },
+{ id: 1029, word: 'FAQS', translation: 'Najczęściej zadawane pytania', definition: 'Lista często zadawanych pytań wraz z odpowiedziami, umieszczana na stronach internetowych.', example: 'Before contacting support, please check the FAQs section on our website.', category: 'book3', unit: 'Unit 3' },
+{ id: 1030, word: 'Flash', translation: 'Flash (format multimedialny)', definition: 'Format multimedialny używany do dodawania filmów, animacji i innych mediów do stron internetowych.', example: 'The old website used Flash to display animated banners.', category: 'book3', unit: 'Unit 3' },
+{ id: 1031, word: 'Media Player', translation: 'Odtwarzacz multimedialny', definition: 'Oprogramowanie do odtwarzania multimediów takich jak filmy i animacje, które można osadzić na stronie internetowej.', example: 'The media player on the website allows visitors to watch tutorial videos.', category: 'book3', unit: 'Unit 3' },
+{ id: 1032, word: 'MPEG', translation: 'Format MPEG', definition: 'Cyfrowy format audio/wideo używany do kompresji filmów do mniejszych plików.', example: 'The video was saved in MPEG format to reduce its file size for online streaming.', category: 'book3', unit: 'Unit 3' },
+{ id: 1033, word: 'Multimedia', translation: 'Multimedia', definition: 'Wszelkiego rodzaju media używane na stronie internetowej, w tym obrazy, animacje, dźwięki i filmy.', example: 'The educational website uses multimedia to make lessons more engaging.', category: 'book3', unit: 'Unit 3' },
+{ id: 1034, word: 'Reliability', translation: 'Niezawodność', definition: 'Prawdopodobieństwo, że coś będzie działać prawidłowo i bez awarii.', example: 'The reliability of the server is crucial for keeping the website online at all times.', category: 'book3', unit: 'Unit 3' },
+
+// BOOK 3 - Unit 4
+{ id: 1035, word: 'Above The Fold', translation: 'Powyżej linii zgięcia', definition: 'Treść na stronie internetowej widoczna bez przewijania po załadowaniu strony.', example: 'Place your most important call-to-action above the fold so visitors see it immediately.', category: 'book3', unit: 'Unit 4' },
+{ id: 1036, word: 'Ad Product', translation: 'Produkt reklamowy', definition: 'Możliwość reklamowania się, np. baner umieszczony na stronie internetowej.', example: 'The website offered several ad products including banners and sponsored posts.', category: 'book3', unit: 'Unit 4' },
+{ id: 1037, word: 'Animated GIF', translation: 'Animowany GIF', definition: 'Połączenie wielu plików GIF w jednej reklamie tworzące animację.', example: 'The marketing team created an animated GIF to make the advertisement more eye-catching.', category: 'book3', unit: 'Unit 4' },
+{ id: 1038, word: 'Campaign', translation: 'Kampania reklamowa', definition: 'Umowa między firmą reklamową a klientem określająca rodzaje reklam, miejsca ich umieszczenia i czas trwania.', example: 'The advertising campaign ran for three months on several major websites.', category: 'book3', unit: 'Unit 4' },
+{ id: 1039, word: 'Click-Through Rate', translation: 'Współczynnik kliknięć', definition: 'Stosunek liczby klikniętych reklam do liczby wyświetlonych reklam.', example: 'The click-through rate improved after the ad design was updated.', category: 'book3', unit: 'Unit 4' },
+{ id: 1040, word: 'Click Tracking', translation: 'Śledzenie kliknięć', definition: 'Proces liczenia i śledzenia liczby kliknięć, które otrzymuje reklama.', example: 'Click tracking helped the team understand which ads performed best.', category: 'book3', unit: 'Unit 4' },
+{ id: 1041, word: 'Commission', translation: 'Prowizja', definition: 'Kwota pobierana przez stronę internetową za hostowanie reklam.', example: 'The website charges a commission for every advertisement displayed.', category: 'book3', unit: 'Unit 4' },
+{ id: 1042, word: 'CPC', translation: 'Koszt za kliknięcie', definition: 'Model cenowy, w którym opłaty są naliczane według liczby kliknięć reklamy.', example: 'The advertiser chose a CPC model to only pay when users clicked on the ad.', category: 'book3', unit: 'Unit 4' },
+{ id: 1043, word: 'CPM', translation: 'Koszt za tysiąc wyświetleń', definition: 'Model cenowy, w którym opłaty naliczane są za każdy tysiąc wyświetleń reklamy.', example: 'The CPM rate was low, but the ad reached millions of users.', category: 'book3', unit: 'Unit 4' },
+{ id: 1044, word: 'Frequency Capping', translation: 'Ograniczenie częstotliwości', definition: 'Proces zapewniający, że konkretny odwiedzający stronę nie widzi tej samej reklamy zbyt wiele razy.', example: 'Frequency capping was set to three views per user to avoid ad fatigue.', category: 'book3', unit: 'Unit 4' },
+{ id: 1045, word: 'Geo Targeting', translation: 'Kierowanie geograficzne', definition: 'Proces wyświetlania reklam w obszarach geograficznych, gdzie są one istotne.', example: 'Geo targeting ensured the winter coat ads were only shown in colder regions.', category: 'book3', unit: 'Unit 4' },
+{ id: 1046, word: 'Hang', translation: 'Zawiesić stronę', definition: 'Uniemożliwić stronie internetowej pełne załadowanie się.', example: 'A poorly coded ad can hang a website and frustrate users.', category: 'book3', unit: 'Unit 4' },
+
+// BOOK 3 - Unit 5
+{ id: 1047, word: 'Automation', translation: 'Automatyzacja', definition: 'Użycie elektronicznie sterowanych systemów do wykonywania zadań bez pomocy człowieka.', example: 'Automation in the factory reduced the number of errors in production.', category: 'book3', unit: 'Unit 5' },
+{ id: 1048, word: 'CAM', translation: 'Komputerowe wspomaganie produkcji', definition: 'Użycie komputerów do sterowania sprzętem produkcyjnym.', example: 'CAM systems allow factories to produce parts with greater precision.', category: 'book3', unit: 'Unit 5' },
+{ id: 1049, word: 'Embedded System', translation: 'System wbudowany', definition: 'Połączenie sprzętu i oprogramowania zaprojektowane do wykonywania określonego zadania.', example: 'The microwave oven contains an embedded system that controls its functions.', category: 'book3', unit: 'Unit 5' },
+{ id: 1050, word: 'Encoder', translation: 'Koder', definition: 'Urządzenie przekształcające informacje mechaniczne na sygnały elektroniczne.', example: 'The encoder converts the rotation of the motor into a digital signal.', category: 'book3', unit: 'Unit 5' },
+{ id: 1051, word: 'Ethernet Network', translation: 'Sieć Ethernet', definition: 'Szybka sieć łącząca komputery ze sobą.', example: 'The office uses an Ethernet network to connect all computers to the server.', category: 'book3', unit: 'Unit 5' },
+{ id: 1052, word: 'Fault Tolerant', translation: 'Odporność na awarie', definition: 'Zdolność systemu do dalszego działania pomimo wystąpienia błędu.', example: 'The fault tolerant system kept running even after one of its components failed.', category: 'book3', unit: 'Unit 5' },
+{ id: 1053, word: 'Integrated Circuit', translation: 'Układ scalony', definition: 'Mały chip zawierający kilka połączonych ze sobą urządzeń elektronicznych.', example: 'Modern smartphones contain millions of integrated circuits on a single chip.', category: 'book3', unit: 'Unit 5' },
+{ id: 1054, word: 'Open System', translation: 'System otwarty', definition: 'System komputerowy, który może współpracować z wieloma różnymi typami maszyn.', example: 'An open system allows hardware from different manufacturers to work together.', category: 'book3', unit: 'Unit 5' },
+{ id: 1055, word: 'Oscilloscope', translation: 'Oscyloskop', definition: 'Urządzenie umożliwiające użytkownikowi podgląd napięcia elektrycznego maszyny.', example: 'The engineer used an oscilloscope to diagnose the fault in the circuit board.', category: 'book3', unit: 'Unit 5' },
+{ id: 1056, word: 'Priority Inversion', translation: 'Inwersja priorytetów', definition: 'Opóźnienie w systemie komputerowym, gdy zadanie o niskim priorytecie jest obsługiwane przed zadaniem o wysokim priorytecie.', example: 'A priority inversion caused the critical process to wait longer than expected.', category: 'book3', unit: 'Unit 5' },
+{ id: 1057, word: 'Latency', translation: 'Opóźnienie', definition: 'Czas między zakończeniem jednej komunikacji komputerowej a początkiem następnej.', example: 'High latency in the network caused delays during the video conference.', category: 'book3', unit: 'Unit 5' },
+{ id: 1058, word: 'Redundancy', translation: 'Redundancja', definition: 'Włączenie zduplikowanych komponentów do systemu w celu utrzymania produkcji gdy jeden komponent zawiedzie.', example: 'Redundancy in the power supply ensured the server stayed online during the outage.', category: 'book3', unit: 'Unit 5' },
+
+// BOOK 3 - Unit 6
+{ id: 1059, word: 'Basecamp', translation: 'Basecamp (narzędzie projektowe)', definition: 'Internetowe narzędzie do zarządzania projektami dostępne dla wielu użytkowników jednocześnie.', example: 'The team used Basecamp to track tasks and deadlines for the project.', category: 'book3', unit: 'Unit 6' },
+{ id: 1060, word: 'Centralize', translation: 'Centralizować', definition: 'Przenieść rzeczy z wielu miejsc i udostępnić je w jednej lokalizacji.', example: 'The company decided to centralize all its data in one secure server.', category: 'book3', unit: 'Unit 6' },
+{ id: 1061, word: 'Color-Coding', translation: 'Kodowanie kolorami', definition: 'Praktyka oznaczania rzeczy różnymi kolorami w celu ich odróżnienia.', example: 'Color-coding the folders made it easier to find documents quickly.', category: 'book3', unit: 'Unit 6' },
+{ id: 1062, word: 'Dashboard', translation: 'Panel sterowania', definition: 'Wyświetlacz na komputerze pokazujący często lub ostatnio używane pliki i programy.', example: 'The project dashboard showed all active tasks and their current status.', category: 'book3', unit: 'Unit 6' },
+{ id: 1063, word: 'Gallery', translation: 'Galeria', definition: 'Kolekcja ikon lub obrazów zorganizowanych w pliku lub na stronie.', example: 'The website has a gallery of photos from the company event.', category: 'book3', unit: 'Unit 6' },
+{ id: 1064, word: 'In Real Time', translation: 'W czasie rzeczywistym', definition: 'Aktualizowanie lub wyświetlanie informacji w tym samym momencie, gdy nowe dane są odbierane.', example: 'The dashboard updates sales figures in real time throughout the day.', category: 'book3', unit: 'Unit 6' },
+{ id: 1065, word: 'Message Board', translation: 'Tablica wiadomości', definition: 'Aplikacja internetowa wyświetlająca i organizująca wiadomości od użytkowników.', example: 'Students posted their homework questions on the class message board.', category: 'book3', unit: 'Unit 6' },
+{ id: 1066, word: 'Microsoft Teams', translation: 'Microsoft Teams', definition: 'Oprogramowanie do wideokonferencji i współpracy zespołowej dostępne online.', example: 'The remote team holds daily meetings using Microsoft Teams.', category: 'book3', unit: 'Unit 6' },
+{ id: 1067, word: 'Skype', translation: 'Skype', definition: 'Oprogramowanie umożliwiające ludziom dzwonienie do siebie za pomocą komputerów zamiast telefonów.', example: 'They used Skype to have a video call with the client in another country.', category: 'book3', unit: 'Unit 6' },
+{ id: 1068, word: 'Telecommuting', translation: 'Telepraca', definition: 'Praca w miejscu innym niż główne biuro, np. w domu, przy użyciu technologii takich jak internet i telefon.', example: 'Telecommuting became very common during the global pandemic.', category: 'book3', unit: 'Unit 6' },
+{ id: 1069, word: 'Toggle', translation: 'Przełączać', definition: 'Przechodzić z jednego pliku lub ustawienia do drugiego.', example: 'You can toggle between dark mode and light mode in the settings menu.', category: 'book3', unit: 'Unit 6' },
+{ id: 1070, word: 'Tour', translation: 'Przewodnik po stronie', definition: 'Seria stron internetowych oferujących informacje o produkcie lub witrynie.', example: 'New users are shown a tour of the platform to help them get started.', category: 'book3', unit: 'Unit 6' },
+{ id: 1071, word: 'Web-Based', translation: 'Internetowy', definition: 'Dostępny w internecie zamiast na dysku lub lokalnie.', example: 'The company switched to a web-based system so employees could access it from anywhere.', category: 'book3', unit: 'Unit 6' },
+{ id: 1072, word: 'Zoom', translation: 'Zoom', definition: 'Oprogramowanie do wideokonferencji dostępne online.', example: 'The whole department joined the Zoom call for the weekly update.', category: 'book3', unit: 'Unit 6' },
+
+// BOOK 3 - Unit 7
+{ id: 1073, word: 'Anti-Antivirus Virus', translation: 'Wirus atakujący programy antywirusowe', definition: 'Wirus komputerowy atakujący i często wyłączający oprogramowanie antywirusowe.', example: 'The anti-antivirus virus disabled the security software before spreading further.', category: 'book3', unit: 'Unit 7' },
+{ id: 1074, word: 'Hacker', translation: 'Haker', definition: 'Osoba, która wykorzystuje sprzęt i oprogramowanie komputerowe do własnych celów.', example: 'A hacker gained access to the company database and stole customer data.', category: 'book3', unit: 'Unit 7' },
+{ id: 1075, word: 'Host Computer', translation: 'Komputer główny', definition: 'Komputer umożliwiający innym komputerom dostęp do sieci poprzez oprogramowanie lub adres sieciowy.', example: 'The host computer manages all connections in the local network.', category: 'book3', unit: 'Unit 7' },
+{ id: 1076, word: 'Imbed', translation: 'Osadzać', definition: 'Sprawić, że coś staje się częścią czegoś innego.', example: 'The virus can imbed itself into the operating system and be very hard to remove.', category: 'book3', unit: 'Unit 7' },
+{ id: 1077, word: 'Infect', translation: 'Zainfekować', definition: 'Zanieczyścić komputer wirusem komputerowym.', example: 'The email attachment infected the computer with malware.', category: 'book3', unit: 'Unit 7' },
+{ id: 1078, word: 'Log In', translation: 'Zalogować się', definition: 'Podać systemowi bezpieczeństwa odpowiednie dane identyfikacyjne w celu uzyskania dostępu do komputera.', example: 'You need to log in with your username and password to access your account.', category: 'book3', unit: 'Unit 7' },
+{ id: 1079, word: 'Overwriting Virus', translation: 'Wirus nadpisujący', definition: 'Wirus komputerowy, który kopiuje swój kod i niszczy pliki oryginalnych danych.', example: 'The overwriting virus permanently destroyed all the documents on the hard drive.', category: 'book3', unit: 'Unit 7' },
+{ id: 1080, word: 'Piggybacking', translation: 'Nieautoryzowany dostęp', definition: 'Uzyskanie dostępu do systemu chronionego hasłem lub bezprzewodowej sieci LAN bez autoryzacji.', example: 'He was caught piggybacking on a neighbour\'s Wi-Fi connection.', category: 'book3', unit: 'Unit 7' },
+{ id: 1081, word: 'Replicate', translation: 'Replikować', definition: 'Tworzyć kopie czegoś.', example: 'The virus can replicate itself hundreds of times within minutes.', category: 'book3', unit: 'Unit 7' },
+{ id: 1082, word: 'Resident Extension', translation: 'Rozszerzenie rezydentne', definition: 'Dodatek do wirusa komputerowego powodujący, że staje się on częścią systemu operacyjnego komputera.', example: 'The resident extension allowed the virus to survive even after a system restart.', category: 'book3', unit: 'Unit 7' },
+{ id: 1083, word: 'Resident Virus', translation: 'Wirus rezydentny', definition: 'Wirus komputerowy, który staje się częścią pliku lub dysku, ale nic nie robi do momentu aktywacji przez zdarzenie wyzwalające.', example: 'The resident virus remained dormant for weeks before activating and corrupting files.', category: 'book3', unit: 'Unit 7' },
+{ id: 1084, word: 'Virus', translation: 'Wirus komputerowy', definition: 'Szkodliwy plik programu komputerowego, który osadza się w komputerze bez wiedzy i zgody właściciela.', example: 'The virus spread to every computer connected to the network.', category: 'book3', unit: 'Unit 7' },
+
+// BOOK 3 - Unit 8
+{ id: 1085, word: 'Card Scanning', translation: 'Skanowanie kart', definition: 'Przechwytywanie danych osobowych przechowywanych na kartach kredytowych, debetowych lub paszportach.', example: 'Card scanning at checkout allows customers to pay quickly and securely.', category: 'book3', unit: 'Unit 8' },
+{ id: 1086, word: 'Cyber', translation: 'Cyber', definition: 'Odnoszący się do komputerów lub internetu.', example: 'The government launched a cyber awareness campaign to educate the public.', category: 'book3', unit: 'Unit 8' },
+{ id: 1087, word: 'Malware', translation: 'Złośliwe oprogramowanie', definition: 'Każdy rodzaj szkodliwego oprogramowania, którego celem jest niszczenie lub kradzież danych.', example: 'The malware was hidden inside a seemingly harmless email attachment.', category: 'book3', unit: 'Unit 8' },
+{ id: 1088, word: 'Pharming', translation: 'Pharming', definition: 'Przekierowywanie użytkowników na fałszywą stronę internetową w celu wyłudzenia ich danych osobowych.', example: 'Pharming redirected bank customers to a fake website that looked identical to the real one.', category: 'book3', unit: 'Unit 8' },
+{ id: 1089, word: 'Phishing', translation: 'Phishing', definition: 'Wyłudzanie danych osobowych poprzez fałszywe wiadomości e-mail i inne aplikacje.', example: 'He received a phishing email pretending to be from his bank asking for his password.', category: 'book3', unit: 'Unit 8' },
+{ id: 1090, word: 'Pretexting', translation: 'Preteksting', definition: 'Wyłudzanie danych osobowych przez telefon pod fałszywym pretekstem.', example: 'The criminal used pretexting to convince the employee to share confidential information.', category: 'book3', unit: 'Unit 8' },
+{ id: 1091, word: 'Scanner', translation: 'Skaner (urządzenie do kradzieży danych)', definition: 'Urządzenie używane do przechwytywania danych osobowych przechowywanych na kartach kredytowych i paszportach.', example: 'A hidden scanner at the ATM was used to steal customers card details.', category: 'book3', unit: 'Unit 8' },
+{ id: 1092, word: 'Spyware', translation: 'Oprogramowanie szpiegujące', definition: 'Rodzaj programu komputerowego zbierającego informacje o zwyczajach przeglądania internetu bez wiedzy użytkownika.', example: 'The spyware secretly recorded every website the user visited.', category: 'book3', unit: 'Unit 8' },
+{ id: 1093, word: 'Trojan Horse', translation: 'Koń trojański', definition: 'Program komputerowy pozornie użyteczny, lecz w rzeczywistości szkodliwy — może śledzić hasła lub niszczyć dane.', example: 'The Trojan horse disguised as a game installer gave hackers access to the system.', category: 'book3', unit: 'Unit 8' },
+{ id: 1094, word: 'Worm', translation: 'Robak komputerowy', definition: 'Rodzaj złośliwego oprogramowania, które replikuje się przez wiadomości e-mail, pochłaniając zasoby sieciowe.', example: 'The worm spread through the company email system and slowed down the entire network.', category: 'book3', unit: 'Unit 8' },
+
+// BOOK 3 - Unit 9
+{ id: 1095, word: 'Attack', translation: 'Atak', definition: 'Próba przełamania zabezpieczeń komputerowych.', example: 'The company suffered a cyberattack that exposed thousands of customer records.', category: 'book3', unit: 'Unit 9' },
+{ id: 1096, word: 'Audit Log', translation: 'Dziennik audytu', definition: 'Zapis tego, kto uzyskał dostęp do systemu komputerowego i jakie działania podjął.', example: 'The audit log showed that an unauthorized user accessed the database at midnight.', category: 'book3', unit: 'Unit 9' },
+{ id: 1097, word: 'Authenticated', translation: 'Uwierzytelniony', definition: 'Oprogramowanie lub program, który jest legalny lub autentyczny.', example: 'Only authenticated users are allowed to access the admin panel.', category: 'book3', unit: 'Unit 9' },
+{ id: 1098, word: 'Backdoor', translation: 'Tylne wejście', definition: 'Ukryty sposób ominięcia zabezpieczeń w komputerach i programach, zwykle wbudowany w oprogramowanie.', example: 'The hackers used a backdoor in the software to bypass the login system.', category: 'book3', unit: 'Unit 9' },
+{ id: 1099, word: 'Bug', translation: 'Błąd w oprogramowaniu', definition: 'Wada lub błąd w oprogramowaniu lub sprzęcie komputerowym.', example: 'A bug in the payment system caused some transactions to fail.', category: 'book3', unit: 'Unit 9' },
+{ id: 1100, word: 'Firewall', translation: 'Zapora sieciowa', definition: 'Program ograniczający dostęp do sieci komputerowej.', example: 'The firewall blocked all unauthorized connection attempts from outside the network.', category: 'book3', unit: 'Unit 9' },
+{ id: 1101, word: 'Intruder', translation: 'Intruz', definition: 'Osoba lub program próbujący uzyskać dostęp do sieci lub komputera bez zezwolenia.', example: 'The security system detected an intruder trying to access the server.', category: 'book3', unit: 'Unit 9' },
+{ id: 1102, word: 'Keylogger', translation: 'Keylogger', definition: 'Rodzaj trojana lub wirusa śledzącego naciśnięcia klawiszy wprowadzane do komputera.', example: 'The keylogger recorded the victim\'s passwords without their knowledge.', category: 'book3', unit: 'Unit 9' },
+{ id: 1103, word: 'Patch', translation: 'Łatka', definition: 'Fragment kodu używany do naprawy wady, błędu lub luki w programie komputerowym.', example: 'The developer released a patch to fix the critical security vulnerability.', category: 'book3', unit: 'Unit 9' },
+{ id: 1104, word: 'Pop-Up', translation: 'Wyskakujące okno', definition: 'Reklama, która nagle pojawia się w nowym oknie przeglądarki internetowej.', example: 'An annoying pop-up appeared every time the user tried to close the page.', category: 'book3', unit: 'Unit 9' },
+{ id: 1105, word: 'Protocol', translation: 'Protokół bezpieczeństwa', definition: 'Zestaw reguł, których należy przestrzegać ze względów bezpieczeństwa.', example: 'All staff must follow the security protocol when handling sensitive data.', category: 'book3', unit: 'Unit 9' },
+{ id: 1106, word: 'Security Breach', translation: 'Naruszenie bezpieczeństwa', definition: 'Naruszenie zasad bezpieczeństwa systemu komputerowego.', example: 'The security breach exposed the personal data of over a million users.', category: 'book3', unit: 'Unit 9' },
+
+// BOOK 3 - Unit 10
+{ id: 1107, word: 'Backup', translation: 'Kopia zapasowa', definition: 'Tworzenie zduplikowanej kopii danych przechowywanych na osobnym dysku lub systemie komputerowym.', example: 'Always make a backup of your files before installing a new operating system.', category: 'book3', unit: 'Unit 10' },
+{ id: 1108, word: 'Block', translation: 'Blokować', definition: 'Uniemożliwiać dostęp do czegoś.', example: 'The parental control software blocks access to inappropriate websites.', category: 'book3', unit: 'Unit 10' },
+{ id: 1109, word: 'Cyber Criminal', translation: 'Cyberprzestępca', definition: 'Osoba używająca komputerów i internetu do popełniania przestępstw, takich jak kradzież tożsamości i oszustwa.', example: 'The cyber criminal was arrested after stealing credit card details from thousands of victims.', category: 'book3', unit: 'Unit 10' },
+{ id: 1110, word: 'Detect', translation: 'Wykryć', definition: 'Odkryć lub znaleźć coś ukrytego.', example: 'The antivirus software detected a threat before it could cause any damage.', category: 'book3', unit: 'Unit 10' },
+{ id: 1111, word: 'False Negative', translation: 'Fałszywy wynik negatywny', definition: 'Przypadek, gdy oprogramowanie antywirusowe błędnie wskazuje, że zainfekowany plik jest czysty.', example: 'The false negative meant the infected file passed through security undetected.', category: 'book3', unit: 'Unit 10' },
+{ id: 1112, word: 'False Positive', translation: 'Fałszywy wynik pozytywny', definition: 'Przypadek, gdy oprogramowanie antywirusowe błędnie wskazuje, że czysty plik jest zainfekowany wirusem.', example: 'The antivirus flagged a safe file as a false positive and deleted it.', category: 'book3', unit: 'Unit 10' },
+{ id: 1113, word: 'Quarantine', translation: 'Kwarantanna', definition: 'Umieszczenie pliku lub programu w całkowitej izolacji, gdzie nie może uzyskać dostępu do innych plików ani ich zainfekować.', example: 'The antivirus moved the suspicious file to quarantine for further analysis.', category: 'book3', unit: 'Unit 10' },
+{ id: 1114, word: 'Rootkit', translation: 'Rootkit', definition: 'Rodzaj wirusa komputerowego stworzony w celu uzyskania pełnej kontroli nad systemem przez nadpisanie części jego systemu operacyjnego.', example: 'The rootkit was so deeply embedded that a full system reinstall was required to remove it.', category: 'book3', unit: 'Unit 10' },
+{ id: 1115, word: 'Security Software', translation: 'Oprogramowanie zabezpieczające', definition: 'Oprogramowanie chroniące komputer przed zagrożeniami takimi jak wirusy i cyberprzestępczość.', example: 'Installing security software is the first step to protecting your computer.', category: 'book3', unit: 'Unit 10' },
+{ id: 1116, word: 'Sweep', translation: 'Przeszukać system', definition: 'Przeszukać system komputerowy w poszukiwaniu wirusów.', example: 'The IT team swept all company computers for malware after the breach.', category: 'book3', unit: 'Unit 10' },
+{ id: 1117, word: 'Virus Removal Software', translation: 'Oprogramowanie do usuwania wirusów', definition: 'Oprogramowanie niszczące wirusy komputerowe i usuwające je z zainfekowanych plików.', example: 'The virus removal software successfully cleaned all infected files on the laptop.', category: 'book3', unit: 'Unit 10' },
+{ id: 1118, word: 'Webpage Analysis', translation: 'Analiza strony internetowej', definition: 'Proces określania bezpieczeństwa strony internetowej w celu sprawdzenia, czy jest bezpieczna dla użytkowników.', example: 'Webpage analysis revealed that the site had several security vulnerabilities.', category: 'book3', unit: 'Unit 10' },
+
+// BOOK 3 - Unit 11
+{ id: 1119, word: 'CDN', translation: 'Sieć dostarczania treści', definition: 'System komputerów w sieci zawierający kopie danych, do których mogą uzyskać dostęp pobliskie osoby.', example: 'Using a CDN reduced the website loading time for users around the world.', category: 'book3', unit: 'Unit 11' },
+{ id: 1120, word: 'Deployment', translation: 'Wdrożenie', definition: 'Instalowanie i uruchamianie nowego oprogramowania na grupie urządzeń sprzętowych.', example: 'The deployment of the new software was completed over the weekend.', category: 'book3', unit: 'Unit 11' },
+{ id: 1121, word: 'Elasticity', translation: 'Elastyczność systemu', definition: 'Zdolność systemu komputerowego do pozyskiwania lub zwalniania zasobów zgodnie z potrzebami użytkownika.', example: 'Cloud elasticity allows the system to handle sudden spikes in user traffic.', category: 'book3', unit: 'Unit 11' },
+{ id: 1122, word: 'IaaS', translation: 'Infrastruktura jako usługa', definition: 'Usługa chmurowa dostarczająca serwery, pamięć masową i zasoby sieciowe.', example: 'The startup used IaaS to avoid the high cost of buying physical servers.', category: 'book3', unit: 'Unit 11' },
+{ id: 1123, word: 'PaaS', translation: 'Platforma jako usługa', definition: 'Usługa chmurowa, w której użytkownicy otrzymują system operacyjny i powiązane komponenty przez internet.', example: 'Developers used PaaS to build and deploy their application without managing infrastructure.', category: 'book3', unit: 'Unit 11' },
+{ id: 1124, word: 'Pay-As-You-Go', translation: 'Płatność za użycie', definition: 'Model zakupu oprogramowania, w którym klient płaci tylko za to, czego faktycznie używa.', example: 'The pay-as-you-go model helped small businesses manage their software costs.', category: 'book3', unit: 'Unit 11' },
+{ id: 1125, word: 'Private Cloud', translation: 'Chmura prywatna', definition: 'Usługa chmurowa oferowana konkretnym użytkownikom, którzy ją zakupili, niedostępna publicznie.', example: 'The hospital stores all patient data on a private cloud for security reasons.', category: 'book3', unit: 'Unit 11' },
+{ id: 1126, word: 'Public Cloud', translation: 'Chmura publiczna', definition: 'Usługa chmurowa dostępna dla wszystkich użytkowników internetu.', example: 'Google Drive is an example of a public cloud storage service.', category: 'book3', unit: 'Unit 11' },
+{ id: 1127, word: 'SaaS', translation: 'Oprogramowanie jako usługa', definition: 'Usługa chmurowa, w której użytkownicy otrzymują aplikacje przez internet w modelu subskrypcyjnym.', example: 'Microsoft 365 is a popular SaaS product used by businesses worldwide.', category: 'book3', unit: 'Unit 11' },
+{ id: 1128, word: 'Scalability', translation: 'Skalowalność', definition: 'Zdolność systemu do zmiany rozmiaru lub rozbudowy w zależności od potrzeb.', example: 'The scalability of the cloud platform allowed the business to grow without disruption.', category: 'book3', unit: 'Unit 11' },
+{ id: 1129, word: 'Utility Computing', translation: 'Obliczenia użytkowe', definition: 'Sposób sprzedaży usług komputerowych jako usług mierzonych, podobnie jak woda i elektryczność.', example: 'Utility computing lets companies pay only for the processing power they actually use.', category: 'book3', unit: 'Unit 11' },
+
+// BOOK 3 - Unit 12
+{ id: 1130, word: 'ADM', translation: 'Automatyczny dystrybutor leków', definition: 'Szpitalne urządzenie odmierzające określone ilości leków do pojemników.', example: 'The ADM ensured that each patient received the exact dosage prescribed by the doctor.', category: 'book3', unit: 'Unit 12' },
+{ id: 1131, word: 'Bar Coding', translation: 'Kodowanie kreskowe', definition: 'System, w którym lekarze skanują leki i dopasowują je do pacjentów.', example: 'Bar coding reduced medication errors by ensuring the right drug reached the right patient.', category: 'book3', unit: 'Unit 12' },
+{ id: 1132, word: 'CDSS', translation: 'System wspomagania decyzji klinicznych', definition: 'System wspomagający lekarzy w diagnozowaniu problemów i sugerujący opcje leczenia.', example: 'The CDSS suggested alternative treatments when the first option was contraindicated.', category: 'book3', unit: 'Unit 12' },
+{ id: 1133, word: 'CPOE', translation: 'Elektroniczny system zleceń lekarskich', definition: 'System umożliwiający lekarzom wypełnianie elektronicznych zleceń.', example: 'CPOE replaced paper prescriptions and reduced errors in medication orders.', category: 'book3', unit: 'Unit 12' },
+{ id: 1134, word: 'EHR', translation: 'Elektroniczna dokumentacja medyczna', definition: 'Skomputeryzowana wersja dokumentacji zdrowotnej pacjenta.', example: 'The EHR system gave doctors instant access to a patient\'s full medical history.', category: 'book3', unit: 'Unit 12' },
+{ id: 1135, word: 'EMM', translation: 'Elektroniczne zarządzanie materiałami', definition: 'System pomagający szpitalom śledzić leki i materiały medyczne.', example: 'EMM helped the pharmacy department avoid running out of essential medications.', category: 'book3', unit: 'Unit 12' },
+{ id: 1136, word: 'Implanted Microchip', translation: 'Wszczepiony mikrochip', definition: 'Tiny urządzenie w ciele człowieka uwalniające określone ilości leków.', example: 'The implanted microchip slowly released pain medication throughout the day.', category: 'book3', unit: 'Unit 12' },
+{ id: 1137, word: 'Interoperability', translation: 'Interoperacyjność', definition: 'Zdolność do łatwego przesyłania lub łączenia elektronicznych danych zdrowotnych z jednego systemu do drugiego.', example: 'Interoperability between hospital systems meant doctors could share patient data instantly.', category: 'book3', unit: 'Unit 12' },
+{ id: 1138, word: 'Lab-On-A-Chip', translation: 'Laboratorium na chipie', definition: 'Małe urządzenie zawierające komórki i płyn, które lekarz może łatwo analizować.', example: 'The lab-on-a-chip device gave test results in minutes instead of hours.', category: 'book3', unit: 'Unit 12' },
+{ id: 1139, word: 'Microrobotic Tweezers', translation: 'Mikrorobotyczne pęsety', definition: 'Bardzo małe pęsety umożliwiające lekarzowi operowanie w ekstremalnie małych lub delikatnych obszarach.', example: 'The surgeon used microrobotic tweezers to remove a tiny blood clot from the brain.', category: 'book3', unit: 'Unit 12' },
+{ id: 1140, word: 'Optic Scanner', translation: 'Skaner optyczny', definition: 'Urządzenie odczytujące i rejestrujące etykiety identyfikacyjne na lekach.', example: 'The optic scanner confirmed the correct medication before it was given to the patient.', category: 'book3', unit: 'Unit 12' },
+{ id: 1141, word: 'PACS', translation: 'System archiwizacji i komunikacji obrazów', definition: 'System przechwytujący i przechowujący obrazy medyczne z różnych źródeł.', example: 'PACS allowed radiologists to access X-ray images from any computer in the hospital.', category: 'book3', unit: 'Unit 12' },
+
+// BOOK 3 - Unit 13
+{ id: 1142, word: 'Egress Filter', translation: 'Filtr wyjściowy', definition: 'Filtr zapobiegający wychodzeniu szkodliwego oprogramowania z sieci.', example: 'The egress filter blocked the malware from sending stolen data outside the network.', category: 'book3', unit: 'Unit 13' },
+{ id: 1143, word: 'Ingress Filter', translation: 'Filtr wejściowy', definition: 'Filtr zapobiegający przedostawaniu się szkodliwego oprogramowania do sieci.', example: 'The ingress filter blocked suspicious traffic before it could enter the company network.', category: 'book3', unit: 'Unit 13' },
+{ id: 1144, word: 'Keyword', translation: 'Słowo kluczowe', definition: 'Termin lub fraza opisująca stronę internetową, dzięki której można ją znaleźć w wyszukiwarce.', example: 'Choosing the right keywords is essential for good search engine optimisation.', category: 'book3', unit: 'Unit 13' },
+{ id: 1145, word: 'Mask', translation: 'Maskować', definition: 'Blokować informacje przed wyświetleniem.', example: 'The system masks sensitive data so it cannot be seen by unauthorised users.', category: 'book3', unit: 'Unit 13' },
+{ id: 1146, word: 'Natural Language', translation: 'Język naturalny', definition: 'Użycie zwrotów z normalnej mowy w wyszukiwarkach internetowych.', example: 'Modern search engines understand natural language queries like where is the nearest pharmacy.', category: 'book3', unit: 'Unit 13' },
+{ id: 1147, word: 'PCI Compliance', translation: 'Zgodność z PCI', definition: 'Przestrzeganie procedur bezpieczeństwa podczas akceptowania kart kredytowych i innych kart online.', example: 'The online store achieved PCI compliance to protect customer payment information.', category: 'book3', unit: 'Unit 13' },
+{ id: 1148, word: 'Redesign', translation: 'Przeprojektowanie', definition: 'Zmiana, dodanie lub usunięcie określonych elementów strony internetowej przy zachowaniu innych.', example: 'The website redesign improved navigation and increased user engagement.', category: 'book3', unit: 'Unit 13' },
+{ id: 1149, word: 'Root Directory', translation: 'Katalog główny', definition: 'Główny katalog systemu plików, od którego wychodzą wszystkie inne gałęzie systemu.', example: 'Do not delete files from the root directory as it may crash the operating system.', category: 'book3', unit: 'Unit 13' },
+{ id: 1150, word: 'Trust Logo', translation: 'Logo zaufania', definition: 'Pieczęć pojawiająca się na stronie internetowej potwierdzająca, że bezpieczeństwo informacji jest zapewnione przez akredytowaną firmę.', example: 'The trust logo reassured customers that their payment details were safe.', category: 'book3', unit: 'Unit 13' },
+{ id: 1151, word: 'Web Portal', translation: 'Portal internetowy', definition: 'Strona internetowa wyświetlająca informacje zebrane z kilku różnych miejsc.', example: 'The company web portal gives employees access to HR tools, news and project updates.', category: 'book3', unit: 'Unit 13' },
+
+// BOOK 3 - Unit 14
+{ id: 1152, word: 'Back End', translation: 'Zaplecze (backend)', definition: 'Coś, co występuje na końcu projektu lub zadania.', example: 'The back end of the project involved testing and final deployment.', category: 'book3', unit: 'Unit 14' },
+{ id: 1153, word: 'Configure', translation: 'Konfigurować', definition: 'Modyfikować lub ustawiać coś tak, aby działało w określony sposób.', example: 'The technician configured the router to improve the network speed.', category: 'book3', unit: 'Unit 14' },
+{ id: 1154, word: 'Cover Letter', translation: 'List motywacyjny', definition: 'Dokument wyjaśniający, dlaczego dana osoba ubiega się o pracę i dlaczego uważa się za odpowiednią kandydaturę.', example: 'Her cover letter clearly explained her passion for software development.', category: 'book3', unit: 'Unit 14' },
+{ id: 1155, word: 'Duty', translation: 'Obowiązek', definition: 'Zadanie, za którego wykonanie ktoś jest odpowiedzialny w pracy.', example: 'One of his duties was to back up the company data every Friday.', category: 'book3', unit: 'Unit 14' },
+{ id: 1156, word: 'File Archiving', translation: 'Archiwizacja plików', definition: 'Proces organizowania plików komputerowych w sposób umożliwiający ich łatwe wyszukiwanie.', example: 'Regular file archiving helped the team find old project documents quickly.', category: 'book3', unit: 'Unit 14' },
+{ id: 1157, word: 'Install', translation: 'Instalować', definition: 'Dodać nowy komponent lub program do komputera lub systemu.', example: 'Please install the latest version of the software before the training session.', category: 'book3', unit: 'Unit 14' },
+{ id: 1158, word: 'Performance Tuning', translation: 'Optymalizacja wydajności', definition: 'Dostosowywanie sieci lub systemu tak, aby działał jak najbardziej efektywnie.', example: 'Performance tuning reduced the website loading time from four seconds to one.', category: 'book3', unit: 'Unit 14' },
+{ id: 1159, word: 'Purge', translation: 'Usuwać dane', definition: 'Usuwać dane lub pliki z komputera.', example: 'The system automatically purges old log files every 30 days.', category: 'book3', unit: 'Unit 14' },
+{ id: 1160, word: 'Résumé', translation: 'Życiorys zawodowy', definition: 'Dokument przedstawiający wykształcenie, historię pracy i kwalifikacje danej osoby, używany przy ubieganiu się o pracę.', example: 'She updated her résumé before applying for the software engineer position.', category: 'book3', unit: 'Unit 14' },
+{ id: 1161, word: 'System Administrator', translation: 'Administrator systemu', definition: 'Osoba, której zadaniem jest zarządzanie i utrzymanie systemu komputerowego.', example: 'The system administrator reset all user passwords after the security breach.', category: 'book3', unit: 'Unit 14' },
+{ id: 1162, word: 'Technical', translation: 'Techniczny', definition: 'Dotyczący informacji z dziedziny nauki i przemysłu.', example: 'The job requires strong technical knowledge of networking and server management.', category: 'book3', unit: 'Unit 14' },
+{ id: 1163, word: 'Troubleshooting', translation: 'Rozwiązywanie problemów', definition: 'Proces identyfikowania i naprawiania problemów technicznych.', example: 'After an hour of troubleshooting, the engineer found the source of the network failure.', category: 'book3', unit: 'Unit 14' },
+{ id: 1164, word: 'Unix', translation: 'Unix', definition: 'Konkretny typ systemu operacyjnego komputera, często używany na serwerach.', example: 'Many internet servers still run on Unix due to its reliability and security.', category: 'book3', unit: 'Unit 14' },
+
+// BOOK 3 - Unit 15
+{ id: 1165, word: 'Component', translation: 'Komponent', definition: 'Część czegoś większego.', example: 'Each component of the system must be tested before the final product is released.', category: 'book3', unit: 'Unit 15' },
+{ id: 1166, word: 'Editor', translation: 'Edytor', definition: 'Program używany do tworzenia i modyfikowania plików.', example: 'He used a code editor to write and test the new application.', category: 'book3', unit: 'Unit 15' },
+{ id: 1167, word: 'Interactive', translation: 'Interaktywny', definition: 'Reagujący na polecenia użytkownika.', example: 'The interactive tutorial guides users step by step through the software.', category: 'book3', unit: 'Unit 15' },
+{ id: 1168, word: 'PHP', translation: 'PHP (język programowania)', definition: 'Język skryptowy używany do tworzenia dynamicznych stron internetowych.', example: 'The website backend was built using PHP to handle user logins and database queries.', category: 'book3', unit: 'Unit 15' },
+{ id: 1169, word: 'Programmer', translation: 'Programista', definition: 'Osoba pisząca programy komputerowe.', example: 'The programmer spent two days fixing the bug in the checkout system.', category: 'book3', unit: 'Unit 15' },
+{ id: 1170, word: 'Script', translation: 'Skrypt', definition: 'Grupa poleceń wykonywanych automatycznie przez system operacyjny lub aplikację.', example: 'A script runs every night to back up the database automatically.', category: 'book3', unit: 'Unit 15' },
+{ id: 1171, word: 'User-Friendly', translation: 'Przyjazny dla użytkownika', definition: 'Łatwy w dostępie i obsłudze.', example: 'The new interface is much more user-friendly than the previous version.', category: 'book3', unit: 'Unit 15' },
+{ id: 1172, word: 'Visual Basic', translation: 'Visual Basic', definition: 'Prosty język programowania z komponentem graficznym.', example: 'She wrote a small automation tool using Visual Basic.', category: 'book3', unit: 'Unit 15' },
+{ id: 1173, word: 'Web Developer', translation: 'Programista stron internetowych', definition: 'Osoba budująca strony internetowe.', example: 'The web developer redesigned the company homepage in just three days.', category: 'book3', unit: 'Unit 15' },
+{ id: 1174, word: 'XML', translation: 'XML (język znaczników)', definition: 'Język programowania używany do kodowania stron internetowych.', example: 'The data was exported in XML format so it could be imported into different systems.', category: 'book3', unit: 'Unit 15' },
   // PROGRAMMING
   { id: 1,  word: 'Algorithm',      translation: 'Algorytm',           definition: 'Przepis na rozwiązanie problemu: lista kroków, które komputer wykonuje jeden po drugim, żeby dojść do wyniku — jak instrukcja obsługi, tylko dla maszyny.', example: 'A sorting algorithm arranges data in a specific order.', category: 'programming' },
   { id: 2,  word: 'Variable',       translation: 'Zmienna',            definition: 'Pudełko z etykietką, w którym program przechowuje dane — liczby, tekst, wyniki. Zawartość pudełka można w każdej chwili podmienić.', example: 'The variable "count" stores the number of users.', category: 'programming' },
@@ -2260,6 +2879,7 @@ let state = {
   quizIndex: 0,
   quizScore: 0,
   quizAnswered: false,
+  quizMode: 'translation',
   isDark: false,
   leaderboard: [],
 };
@@ -2349,8 +2969,11 @@ function closeSidebar() {
 function renderCategoryFilters() {
   const container = document.getElementById('categoryFilters');
   let html = `
-    <button class="cat-filter-btn ${state.currentCategory === 'all' ? 'active' : ''}" onclick="filterCategory('all')">
-      <span class="cat-dot" style="background:#94a3b8"></span>
+    <button class="cat-filter-btn ${state.currentCategory === 'all' ? 'active' : ''}" 
+      onclick="filterCategory('all')"
+      onmouseenter="if(!this.classList.contains('active')){this.style.background='var(--blue-50)';this.style.color='var(--blue-600)';this.style.borderLeftColor='var(--blue-400)';}"
+      onmouseleave="if(!this.classList.contains('active')){this.style.background='';this.style.color='';this.style.borderLeftColor='transparent';}">
+      <span style="display:flex;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
       Wszystkie
       <span class="cat-count">${VOCABULARY.length}</span>
     </button>
@@ -2358,37 +2981,49 @@ function renderCategoryFilters() {
 
   for (const [key, cat] of Object.entries(CATEGORIES)) {
     const count = VOCABULARY.filter(w => w.category === key).length;
+    const isActive = state.currentCategory === key;
+    const catBg = state.isDark ? cat.dark : cat.bg;
+
     html += `
-      <button class="cat-filter-btn ${state.currentCategory === key ? 'active' : ''}" onclick="filterCategory('${key}')">
-        <span class="cat-dot" style="background:${cat.color}"></span>
+      <button class="cat-filter-btn ${isActive ? 'active' : ''}" 
+        onclick="filterCategory('${key}')"
+        onmouseenter="if(!this.classList.contains('active')){this.style.background='${catBg}';this.style.color='${cat.color}';this.style.borderLeftColor='${cat.color}';}"
+        onmouseleave="if(!this.classList.contains('active')){this.style.background='';this.style.color='';this.style.borderLeftColor='transparent';}"
+        style="${isActive ? `background:${catBg};color:${cat.color};border-left:3px solid ${cat.color};font-weight:700;` : ''}">
+        <span style="display:flex;align-items:center;">${cat.icon}</span>
         ${cat.label}
-        <span class="cat-count">${count}</span>
+        <span class="cat-count" style="${isActive ? `color:${cat.color};font-weight:700;` : ''}">${count}</span>
       </button>
     `;
 
-    if (['book1', 'book2', 'book3'].includes(key)) {
+    if (['Book 1', 'book2', 'book3'].includes(key)) {
       const units = [...new Set(
         VOCABULARY
           .filter(w => w.category === key && w.unit)
           .map(w => w.unit)
-      )].sort();
+      )].sort((a, b) => parseInt(a.replace('Unit ', '')) - parseInt(b.replace('Unit ', '')));
 
       if (units.length > 0) {
-        html += `<div class="unit-filters-wrapper" id="unitWrapper_${key}">`;
+        html += `<div class="unit-filters-wrapper ${isActive ? 'open' : ''}" id="unitWrapper_${key}">`;
         html += `
-          <button class="unit-filter-btn ${state.currentUnit === 'all' && state.currentCategory === key ? 'active' : ''}" 
-            onclick="filterUnit('all')">
-            <span class="cat-dot" style="background:#94a3b8;width:6px;height:6px;"></span>
+          <button class="unit-filter-btn ${state.currentUnit === 'all' && isActive ? 'active' : ''}"
+            onclick="filterUnit('all')"
+            onmouseenter="if(!this.classList.contains('active')){this.style.background='${catBg}';this.style.color='${cat.color}';}"
+            onmouseleave="if(!this.classList.contains('active')){this.style.background='';this.style.color='';}">
+            <svg width="10" height="10" viewBox="0 0 10 10" style="flex-shrink:0;opacity:0.5"><circle cx="5" cy="5" r="4" fill="${cat.color}"/></svg>
             Wszystkie unity
             <span class="cat-count">${count}</span>
           </button>
         `;
         units.forEach(unit => {
           const unitCount = VOCABULARY.filter(w => w.category === key && w.unit === unit).length;
+          const unitActive = state.currentUnit === unit && isActive;
           html += `
-            <button class="unit-filter-btn ${state.currentUnit === unit && state.currentCategory === key ? 'active' : ''}" 
-              onclick="filterUnit('${unit}')">
-              <span class="cat-dot" style="background:${cat.color};width:6px;height:6px;"></span>
+            <button class="unit-filter-btn ${unitActive ? 'active' : ''}"
+              onclick="filterUnit('${unit}')"
+              onmouseenter="if(!this.classList.contains('active')){this.style.background='${catBg}';this.style.color='${cat.color}';}"
+              onmouseleave="if(!this.classList.contains('active')){this.style.background='';this.style.color='';}">
+              <svg width="8" height="8" viewBox="0 0 8 8" style="flex-shrink:0;"><circle cx="4" cy="4" r="3" fill="${unitActive ? cat.color : '#94a3b8'}"/></svg>
               ${unit}
               <span class="cat-count">${unitCount}</span>
             </button>
@@ -2401,20 +3036,33 @@ function renderCategoryFilters() {
 
   container.innerHTML = html;
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const wrapper = document.getElementById(`unitWrapper_${state.currentCategory}`);
-      if (wrapper) wrapper.classList.add('open');
-    });
-  });
+  const wrapper = document.getElementById(`unitWrapper_${state.currentCategory}`);
+  if (wrapper) {
+    wrapper.classList.add('open');
+  }
 }
 
 function filterCategory(cat) {
+  const prevCategory = state.currentCategory;
   state.currentCategory = cat;
   state.currentUnit = 'all';
   state.filteredWords = cat === 'all' ? [...VOCABULARY] : VOCABULARY.filter(w => w.category === cat);
   state.currentIndex = 0;
   renderCategoryFilters();
+
+  // Jeśli zmieniamy na kategorię z unitami i przychodzimy z innej kategorii
+  if (prevCategory !== cat && ['Book 1', 'book2', 'book3'].includes(cat)) {
+    const wrapper = document.getElementById(`unitWrapper_${cat}`);
+    if (wrapper) {
+      wrapper.classList.remove('open');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          wrapper.classList.add('open');
+        });
+      });
+    }
+  }
+
   renderCard();
   updateProgress();
   if (state.currentPage === 'wordlist') renderWordlist();
@@ -2451,7 +3099,6 @@ function renderCard() {
     return;
   }
 
-  // All done?
   if (state.currentIndex >= words.length) {
     renderCompletion();
     return;
@@ -2460,14 +3107,16 @@ function renderCard() {
   const w = words[state.currentIndex];
   const cat = CATEGORIES[w.category];
   const isKnown = state.knownWords.has(w.id);
-
-  // Category color
   const catBg = state.isDark ? cat.dark : cat.bg;
+
+  const categoryLine = w.unit
+    ? `<div class="card-front-category" style="background:${catBg};color:${cat.color}">${cat.label} · ${w.unit}</div>`
+    : `<div class="card-front-category" style="background:${catBg};color:${cat.color}">${cat.label}</div>`;
 
   area.innerHTML = `
     <div class="card-meta">
       <span class="card-counter">${state.currentIndex + 1} / ${words.length}</span>
-      <span class="card-cat-badge" style="background:${catBg};color:${cat.color}">${cat.label}</span>
+      <span class="card-cat-badge" style="background:${catBg};color:${cat.color}">${cat.label}${w.unit ? ' · ' + w.unit : ''}</span>
       ${isKnown ? `<span style="font-size:11px;color:#059669;font-weight:600;display:flex;align-items:center;gap:4px;">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Znane
       </span>` : ''}
@@ -2475,17 +3124,14 @@ function renderCard() {
 
     <div class="flip-card-container" onclick="flipCard()">
       <div class="flip-card" id="flipCard">
-        <!-- FRONT -->
         <div class="flip-card-front">
           <div class="card-word">${w.word}</div>
-          <div class="card-pronunciation">${w.category}</div>
-          <div class="card-front-category">${cat.label}</div>
+          ${categoryLine}
           <div class="flip-hint">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
             Kliknij, by obrócić
           </div>
         </div>
-        <!-- BACK -->
         <div class="flip-card-back">
           <div>
             <div style="font-size:12px;opacity:0.7;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">${w.word}</div>
@@ -2577,8 +3223,10 @@ function markCard(known) {
   // Animacja karty
   const container = document.querySelector('.flip-card-container');
   if (container) {
-    container.classList.add(known ? 'slide-out-right' : 'shake');
+    container.classList.add(known ? 'flash-green' : 'flash-red');
+    setTimeout(() => { if (!known) container.classList.add('shake'); }, 0);
   }
+  if (known) showKnownConfirmation();
 
   if (known) {
     state.knownWords.add(word.id);
@@ -2586,7 +3234,6 @@ function markCard(known) {
     state.streak++;
     state.sessionKnown++;
     if (state.score > state.bestScore) state.bestScore = state.score;
-    showPointPopup('+10', '#059669');
     showToast('Świetnie! +10 punktów 🎯', 'success');
   } else {
     state.knownWords.delete(word.id);
@@ -2654,30 +3301,6 @@ function prevCard() {
   }, 300);
 }
 
-function nextCard() {
-  const container = document.querySelector('.flip-card-container');
-  if (container) {
-    container.classList.add('slide-out-right');
-  }
-
-  const btn = document.querySelector('.btn-next');
-  if (btn) {
-    btn.classList.add('animating');
-    btn.addEventListener('animationend', () => btn.classList.remove('animating'), { once: true });
-  }
-
-  setTimeout(() => {
-    if (state.currentIndex < state.filteredWords.length) {
-      state.currentIndex++;
-      renderCard();
-      const newContainer = document.querySelector('.flip-card-container');
-      if (newContainer) {
-        newContainer.classList.add('slide-in');
-        newContainer.addEventListener('animationend', () => newContainer.classList.remove('slide-in'), { once: true });
-      }
-    }
-  }, 300);
-}
 
 function prevCard() {
   const container = document.querySelector('.flip-card-container');
@@ -2697,21 +3320,6 @@ function prevCard() {
     }
   }, 300);
 }
-
-function nextCard() {
-  if (state.currentIndex < state.filteredWords.length) {
-    state.currentIndex++;
-    renderCard();
-  }
-}
-
-function prevCard() {
-  if (state.currentIndex > 0) {
-    state.currentIndex--;
-    renderCard();
-  }
-}
-
 function restartCards() {
   state.currentIndex = 0;
   renderCard();
@@ -2774,6 +3382,11 @@ function renderWordlist() {
   const searchVal = document.getElementById('searchInput').value.toLowerCase();
   let words = state.currentCategory === 'all' ? VOCABULARY : VOCABULARY.filter(w => w.category === state.currentCategory);
 
+  // Filtrowanie po unicie
+  if (state.currentUnit !== 'all') {
+    words = words.filter(w => w.unit === state.currentUnit);
+  }
+
   if (searchVal) {
     words = words.filter(w =>
       w.word.toLowerCase().includes(searchVal) ||
@@ -2782,12 +3395,14 @@ function renderWordlist() {
     );
   }
 
-  document.getElementById('wordlistSubtitle').textContent = `Wyświetlono ${words.length} słówek`;
+  let subtitle = `Wyświetlono ${words.length} słówek`;
+  if (state.currentUnit !== 'all') subtitle += ` · ${state.currentUnit}`;
+  document.getElementById('wordlistSubtitle').textContent = subtitle;
 
   if (words.length === 0) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <p>Brak wyników dla "${searchVal}"</p>
+      <p>Brak wyników${searchVal ? ` dla "${searchVal}"` : ''}</p>
     </div>`;
     return;
   }
@@ -2801,7 +3416,7 @@ function renderWordlist() {
         ${isKnown ? `<div class="word-card-known"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>` : ''}
         <div class="word-card-header">
           <div class="word-card-word">${w.word}</div>
-          <span class="word-card-cat" style="background:${catBg};color:${cat.color}">${cat.label}</span>
+          <span class="word-card-cat" style="background:${catBg};color:${cat.color}">${cat.label}${w.unit ? ' · ' + w.unit : ''}</span>
         </div>
         <div class="word-card-translation">${w.translation}</div>
         <div class="word-card-definition">${w.definition}</div>
@@ -2830,109 +3445,220 @@ function handleSearch(val) {
 // ============================================================
 //  QUIZ
 // ============================================================
-function renderQuizQuestionCount() {
+function selectQuizMode(mode) {
+  state.quizMode = mode;
+
+  ['translation', 'definition'].forEach(m => {
+    const btn = document.getElementById(`modeBtn_${m}`);
+    if (!btn) return;
+    const isSelected = m === mode;
+    if (isSelected) {
+      btn.style.borderColor = m === 'definition' ? '#16a34a' : 'var(--blue-400)';
+      btn.style.background = m === 'definition' ? '#f0fdf4' : 'var(--blue-50)';
+      btn.style.color = m === 'definition' ? '#16a34a' : 'var(--blue-700)';
+      btn.style.boxShadow = m === 'definition'
+        ? '0 0 0 3px rgba(22,163,74,0.12)'
+        : '0 0 0 3px rgba(37,99,235,0.12)';
+    } else {
+      btn.style.borderColor = 'var(--border-color)';
+      btn.style.background = 'var(--bg-secondary)';
+      btn.style.color = 'var(--text-secondary)';
+      btn.style.boxShadow = 'none';
+    }
+  });
+
+  const alert = document.getElementById('quizAlert');
+  if (alert) alert.style.display = 'none';
+
+  updateStartBtn();
+}
+function renderQuizModeSelect() {
   const content = document.getElementById('quizContent');
+  let categoryName;
+  if (state.currentCategory === 'all') categoryName = 'Wszystkie kategorie';
+  else if (state.currentUnit !== 'all') categoryName = `${CATEGORIES[state.currentCategory]?.label} · ${state.currentUnit}`;
+  else categoryName = CATEGORIES[state.currentCategory]?.label || state.currentCategory;
 
-  const categoryName = state.currentCategory === 'all'
-    ? 'Wszystkie kategorie'
-    : CATEGORIES[state.currentCategory]?.label || state.currentCategory;
-
-  const available = state.filteredWords.length;
+  const cat = state.currentCategory !== 'all' ? CATEGORIES[state.currentCategory] : null;
+  const catColor = cat ? cat.color : 'var(--blue-600)';
+  const catBg = cat ? (state.isDark ? cat.dark : cat.bg) : 'var(--blue-50)';
 
   content.innerHTML = `
     <div class="quiz-area">
-      <div style="text-align:center;padding:40px 20px;">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;font-family:var(--font-mono);">Kategoria</div>
-        <div style="font-size:16px;font-weight:700;color:var(--text-accent);margin-bottom:28px;">${categoryName} (${available} słówek)</div>
-        <div style="font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:16px;">Ile pytań?</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-${[10, 20, 30].map(n => `
-            <button
-              onclick="beginQuiz(${n})"
-              ${available < n ? 'disabled title="Za mało słówek w tej kategorii"' : ''}
-              style="
-                padding:14px 24px;
-                border-radius:12px;
-                border:2px solid ${available >= n ? 'var(--blue-400)' : 'var(--border-color)'};
-                background:${available >= n ? 'var(--bg-secondary)' : 'var(--bg-primary)'};
-                color:${available >= n ? 'var(--text-primary)' : 'var(--text-muted)'};
-                font-family:var(--font-mono);
-                font-size:18px;
-                font-weight:700;
-                cursor:${available >= n ? 'pointer' : 'not-allowed'};
-                transition:all 0.2s;
-                opacity:${available >= n ? '1' : '0.4'};
-              "
-              onmouseover="if(${available >= n}) this.style.background='var(--blue-600)';this.style.color='white';"
-              onmouseout="if(${available >= n}) this.style.background='var(--bg-secondary)';this.style.color='var(--text-primary)';"
-            >${n}</button>
-          `).join('')}
-          <button
-            onclick="beginQuiz(${available})"
-            style="
-              padding:14px 24px;
-              border-radius:12px;
-              border:2px solid var(--blue-400);
-              background:var(--bg-secondary);
-              color:var(--text-primary);
-              font-family:var(--font-mono);
-              font-size:18px;
-              font-weight:700;
-              cursor:pointer;
-              transition:all 0.2s;
-            "
-            onmouseover="this.style.background='var(--blue-600)';this.style.color='white';"
-            onmouseout="this.style.background='var(--bg-secondary)';this.style.color='var(--text-primary)';"
-          >Cała kategoria</button>
+
+      <!-- Nagłówek kategorii -->
+      <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+        <div style="width:42px;height:42px;border-radius:12px;background:${catBg};display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid ${catColor}22;">
+          <span style="color:${catColor};display:flex;align-items:center;">
+            ${cat ? cat.icon : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`}
+          </span>
         </div>
-        <div style="margin-top:16px;font-size:12px;color:var(--text-muted);">
-          Przyciemnione = za mało słówek w kategorii
+        <div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:2px;">Aktywna kategoria</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text-primary);">${categoryName}</div>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <div style="font-family:var(--font-mono);font-size:20px;font-weight:700;color:${catColor};">${state.filteredWords.length}</div>
+          <div style="font-size:11px;color:var(--text-muted);">słówek</div>
         </div>
       </div>
+
+      <!-- Wybór trybu -->
+      <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:22px;margin-bottom:16px;">
+        <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          // tryb_quizu
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+          <button id="modeBtn_translation" onclick="selectQuizMode('translation')"
+            style="padding:18px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border-color);background:var(--bg-secondary);color:var(--text-secondary);font-family:var(--font-sans);font-size:13.5px;font-weight:600;cursor:pointer;transition:all 0.22s;text-align:left;position:relative;overflow:hidden;">
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--blue-50);display:flex;align-items:center;justify-content:center;margin-bottom:10px;border:1.5px solid var(--blue-100);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue-500)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12H21"/><path d="M12 3C15 6 15 18 12 21C9 18 9 6 12 3Z"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">Tłumaczenia</div>
+            <div style="font-size:11.5px;color:var(--text-muted);font-weight:400;line-height:1.4;">Wybierz polskie tłumaczenie słowa</div>
+          </button>
+
+          <button id="modeBtn_definition" onclick="selectQuizMode('definition')"
+            style="padding:18px 16px;border-radius:var(--radius-md);border:1.5px solid var(--border-color);background:var(--bg-secondary);color:var(--text-secondary);font-family:var(--font-sans);font-size:13.5px;font-weight:600;cursor:pointer;transition:all 0.22s;text-align:left;position:relative;overflow:hidden;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin-bottom:10px;border:1.5px solid #bbf7d0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M4 19.5C4 18.12 5.12 17 6.5 17H20"/><path d="M6.5 2H20V22H6.5C5.12 22 4 20.88 4 19.5V4.5C4 3.12 5.12 2 6.5 2Z"/><path d="M8 7h8M8 11h6"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">Definicje</div>
+            <div style="font-size:11.5px;color:var(--text-muted);font-weight:400;line-height:1.4;">Odgadnij słowo na podstawie opisu</div>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Wybór liczby pytań -->
+      <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:22px;margin-bottom:16px;">
+        <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          // liczba_pytań
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+          ${[10, 20, 30].map(n => {
+            const disabled = state.filteredWords.length < n;
+            return `
+              <button id="countBtn_${n}" onclick="${disabled ? '' : `selectQuizCount(${n})`}"
+                style="padding:14px 8px;border-radius:var(--radius-md);border:1.5px solid var(--border-color);background:var(--bg-secondary);color:${disabled ? 'var(--text-muted)' : 'var(--text-primary)'};font-family:var(--font-mono);font-size:18px;font-weight:700;cursor:${disabled ? 'not-allowed' : 'pointer'};opacity:${disabled ? '0.4' : '1'};transition:all 0.22s;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                ${n}
+                <span style="font-family:var(--font-sans);font-size:10px;font-weight:400;color:var(--text-muted);">pytań</span>
+              </button>
+            `;
+          }).join('')}
+          <button id="countBtn_all" onclick="selectQuizCount(${state.filteredWords.length})"
+            style="padding:14px 8px;border-radius:var(--radius-md);border:1.5px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-family:var(--font-mono);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.22s;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            Wszystkie
+            <span style="font-family:var(--font-sans);font-size:10px;font-weight:400;color:var(--text-muted);">${state.filteredWords.length} pyt.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Alert gdy nie wybrano trybu -->
+      <div id="quizAlert" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:var(--radius-md);padding:12px 16px;margin-bottom:14px;font-size:13px;color:#dc2626;font-weight:500;display:none;align-items:center;gap:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Wybierz najpierw tryb quizu (Tłumaczenia lub Definicje)
+      </div>
+
+      <!-- Przycisk START -->
+      <button onclick="startQuizWithValidation()" id="quizStartBtn"
+        style="width:100%;padding:16px;border-radius:var(--radius-md);border:1.5px solid var(--blue-200);background:var(--bg-secondary);color:var(--blue-600);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:0.01em;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        Rozpocznij quiz
+      </button>
+
     </div>
   `;
+
+  state.quizMode = null;
+  state.quizCount = null;
+  }
+
+function selectQuizCount(n) {
+  state.quizCount = n;
+
+  [10, 20, 30, 'all'].forEach(v => {
+    const btn = document.getElementById(`countBtn_${v}`);
+    if (!btn) return;
+    const isSelected = (v === 'all' ? state.filteredWords.length : v) === n;
+    if (isSelected) {
+      btn.style.borderColor = 'var(--blue-400)';
+      btn.style.background = 'var(--blue-50)';
+      btn.style.color = 'var(--blue-700)';
+    } else {
+      btn.style.borderColor = 'var(--border-color)';
+      btn.style.background = 'var(--bg-secondary)';
+      btn.style.color = btn.style.opacity === '0.4' ? 'var(--text-muted)' : 'var(--text-primary)';
+    }
+  });
+
+  updateStartBtn();
 }
+
+function updateStartBtn() {
+  const btn = document.getElementById('quizStartBtn');
+  if (!btn) return;
+  const ready = state.quizMode && state.quizCount;
+  if (ready) {
+    btn.style.background = 'linear-gradient(135deg, var(--blue-700), var(--blue-500))';
+    btn.style.color = 'white';
+    btn.style.borderColor = 'transparent';
+    btn.style.boxShadow = '0 4px 14px rgba(37,99,235,0.3)';
+  } else {
+    btn.style.background = 'var(--bg-secondary)';
+    btn.style.color = 'var(--text-muted)';
+    btn.style.borderColor = 'var(--border-color)';
+    btn.style.boxShadow = 'none';
+  }
+}
+
+function startQuizWithValidation() {
+  if (!state.quizMode) {
+    const alert = document.getElementById('quizAlert');
+    if (alert) { alert.style.display = 'flex'; }
+    return;
+  }
+  if (!state.quizCount) {
+    state.quizCount = Math.min(10, state.filteredWords.length);
+  }
+  beginQuiz(state.quizCount);
+}
+
 function beginQuiz(questionCount) {
+  if (!state.quizMode) state.quizMode = 'translation';
   const pool = [...state.filteredWords].sort(() => Math.random() - 0.5).slice(0, questionCount);
 
   state.quizQuestions = pool.map(word => {
-    const wrongs = VOCABULARY
-      .filter(w => w.id !== word.id)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3)
-      .map(w => w.translation);
-
-    const options = [...wrongs, word.translation].sort(() => Math.random() - 0.5);
-    return { word, options, correct: word.translation };
+    if (state.quizMode === 'translation') {
+      const wrongs = VOCABULARY
+        .filter(w => w.id !== word.id)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+        .map(w => w.translation);
+      const options = [...wrongs, word.translation].sort(() => Math.random() - 0.5);
+      return { word, options, correct: word.translation, mode: 'translation' };
+    } else {
+      const wrongs = VOCABULARY
+        .filter(w => w.id !== word.id)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+        .map(w => w.word);
+      const options = [...wrongs, word.word].sort(() => Math.random() - 0.5);
+      return { word, options, correct: word.word, mode: 'definition' };
+    }
   });
 
   state.quizIndex = 0;
   state.quizScore = 0;
   state.quizAnswered = false;
-
   renderQuizQuestion();
 }
-function startQuiz(questionCount = 15) {
+function startQuiz() {
   showPage('quiz');
-
-  const pool = [...state.filteredWords].sort(() => Math.random() - 0.5).slice(0, questionCount);
-
-  state.quizQuestions = pool.map(word => {
-    const wrongs = VOCABULARY
-      .filter(w => w.id !== word.id)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3)
-      .map(w => w.translation);
-
-    const options = [...wrongs, word.translation].sort(() => Math.random() - 0.5);
-    return { word, options, correct: word.translation };
-  });
-
-  state.quizIndex = 0;
-  state.quizScore = 0;
-  state.quizAnswered = false;
-
-  renderQuizQuestionCount();
+  renderQuizModeSelect();
 }
 
 function renderQuizQuestion() {
@@ -2954,9 +3680,11 @@ function renderQuizQuestion() {
       </div>
 
       <div class="quiz-question-card">
-        <div class="quiz-q-number">Pytanie ${state.quizIndex + 1}</div>
-        <div class="quiz-q-word">${q.word.word}</div>
-        <div class="quiz-q-prompt">Wybierz poprawne tłumaczenie:</div>
+        <div class="quiz-q-number">Pytanie ${state.quizIndex + 1} · ${q.mode === 'definition' ? 'Definicje' : 'Tłumaczenia'}</div>
+        <div class="quiz-q-word" style="font-size:${q.mode === 'definition' ? '16px' : '36px'};line-height:1.5;">
+          ${q.mode === 'definition' ? q.word.definition : q.word.word}
+        </div>
+        <div class="quiz-q-prompt">${q.mode === 'definition' ? 'Które słowo opisuje ta definicja?' : 'Wybierz poprawne tłumaczenie:'}</div>
       </div>
 
       <div class="quiz-options">
@@ -2997,7 +3725,9 @@ function selectAnswer(selected, btnEl) {
     state.quizScore++;
     state.score += 5;
     document.getElementById('headerScore').textContent = state.score;
-    feedback.textContent = `✓ Poprawnie! "${q.word.word}" = ${q.correct}`;
+    feedback.textContent = q.mode === 'definition'
+      ? `✓ Poprawnie! Definicja opisywała: "${q.correct}"`
+      : `✓ Poprawnie! "${q.word.word}" = ${q.correct}`;
     feedback.className = 'quiz-feedback show correct-fb';
     showPointPopup('+5', '#059669');
   } else {
@@ -3024,16 +3754,24 @@ function renderQuizResults() {
   else if (pct >= 70) emoji = '🎉';
   else if (pct >= 50) emoji = '👍';
 
-  const categoryName = state.currentCategory === 'all'
-    ? 'Wszystkie kategorie'
-    : CATEGORIES[state.currentCategory]?.label || state.currentCategory;
+  let categoryName;
+  if (state.currentCategory === 'all') {
+    categoryName = 'Wszystkie kategorie';
+  } else if (state.currentUnit !== 'all') {
+    categoryName = `${CATEGORIES[state.currentCategory]?.label} · ${state.currentUnit}`;
+  } else {
+    categoryName = CATEGORIES[state.currentCategory]?.label || state.currentCategory;
+  }
 
-  // Save to leaderboard
+  const modeName = state.quizMode === 'definition' ? 'Definicje' : 'Tłumaczenia';
   const entry = {
     score: state.quizScore * 5,
     pct,
     total,
     date: new Date().toLocaleDateString('pl'),
+    mode: state.quizMode,
+    modeName,
+    categoryName,
   };
   state.leaderboard.unshift(entry);
   state.leaderboard = state.leaderboard.slice(0, 10);
@@ -3086,60 +3824,107 @@ function renderStats() {
   const knownCount = state.knownWords.size;
   const totalTime = state.totalStudyTime + (Date.now() - state.startTime);
   const mins = Math.floor(totalTime / 60000);
-  const pct = Math.round((knownCount / VOCABULARY.length) * 100);
-
-  const quizAvg = state.leaderboard.length > 0
-    ? Math.round(state.leaderboard.reduce((a, b) => a + b.pct, 0) / state.leaderboard.length)
-    : 0;
+  const pct = knownCount > 0 ? Math.round((knownCount / VOCABULARY.length) * 100) : 0;
 
   content.innerHTML = `
-    <!-- Stats cards -->
     <div class="stats-grid">
-      ${statCard('#dbeafe', '#2563eb', starIcon(), state.score, 'Łączny wynik', '★')}
+      ${statCard('#dbeafe', '#2563eb', starIcon(), state.score, 'Łączny wynik', 'punkty')}
       ${statCard('#dcfce7', '#059669', checkIcon(), knownCount, 'Znane słówka', `z ${VOCABULARY.length}`)}
-      ${statCard('#fef3c7', '#d97706', trophyIcon(), state.bestScore, 'Najlepszy wynik', 'pkt')}
-      ${statCard('#ede9fe', '#7c3aed', clockIcon(), mins + ' min', 'Czas nauki', '')}
-      ${statCard('#dbeafe', '#0ea5e9', percentIcon(), pct + '%', 'Opanowane', 'słówek')}
-      ${statCard('#fce7f3', '#db2777', fireIcon(), state.streak, 'Aktywna seria', '🔥')}
+      ${statCard('#fef3c7', '#d97706', trophyIcon(), state.bestScore, 'Najlepszy wynik', 'rekord')}
+      ${statCard('#ede9fe', '#7c3aed', clockIcon(), mins + ' min', 'Czas nauki', 'łącznie')}
+      ${statCard('#e0f2fe', '#0891b2', percentIcon(), pct + '%', 'Opanowane', 'słówek')}
+      ${statCard('#fce7f3', '#db2777', fireIcon(), state.streak, 'Aktywna seria', 'z rzędu')}
     </div>
 
-    <!-- Category breakdown -->
     <div class="category-breakdown">
       <div class="section-title">// postęp_po_kategorii</div>
       ${Object.entries(CATEGORIES).map(([key, cat]) => {
         const total = VOCABULARY.filter(w => w.category === key).length;
         const known = VOCABULARY.filter(w => w.category === key && state.knownWords.has(w.id)).length;
         const pctCat = total > 0 ? Math.round((known / total) * 100) : 0;
+        const catBg = state.isDark ? cat.dark : cat.bg;
         return `
           <div class="cat-stat-row">
-            <div class="cat-stat-name">${cat.label}</div>
+            <div class="cat-stat-name" style="display:flex;align-items:center;gap:7px;">
+              <span style="display:flex;align-items:center;color:${cat.color};flex-shrink:0;">${cat.icon}</span>
+              <span>${cat.label}</span>
+            </div>
             <div class="cat-stat-bar-wrap">
               <div class="cat-stat-bar" style="width:${pctCat}%;background:${cat.color}"></div>
             </div>
-            <div class="cat-stat-pct">${pctCat}%</div>
+            <div class="cat-stat-pct" style="color:${pctCat > 0 ? cat.color : 'var(--text-muted)'};">${pctCat}%</div>
           </div>
         `;
       }).join('')}
     </div>
 
-    <!-- Leaderboard -->
     <div class="leaderboard">
       <div class="section-title">// ranking_quizów</div>
       ${state.leaderboard.length === 0
-        ? '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:14px;">Brak wyników — zrób quiz, żeby zobaczyć ranking!</div>'
+        ? `<div style="text-align:center;padding:36px 20px;">
+            <div style="width:48px;height:48px;background:var(--blue-50);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue-400)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+            </div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:4px;">Brak wyników quizów</div>
+            <div style="font-size:12px;color:var(--text-muted);">Zrób quiz, żeby zobaczyć ranking!</div>
+          </div>`
         : state.leaderboard.slice(0, 8).map((entry, i) => {
-          const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'other';
-          const rankIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1);
+          const medals = [
+            { color: '#f59e0b', bg: '#fef3c7', darkBg: 'rgba(245,158,11,0.15)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>` },
+            { color: '#64748b', bg: '#f1f5f9', darkBg: 'rgba(100,116,139,0.15)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>` },
+            { color: '#b45309', bg: '#fef3c7', darkBg: 'rgba(180,83,9,0.15)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>` },
+          ];
+          const medal = medals[i] || null;
+          const rankBg = medal ? (state.isDark ? medal.darkBg : medal.bg) : 'var(--bg-primary)';
+          const rankColor = medal ? medal.color : 'var(--text-muted)';
+          const rankContent = medal ? medal.icon : `<span style="font-family:var(--font-mono);font-size:11px;">${i+1}</span>`;
+          const barPct = entry.pct || 0;
           return `
-            <div class="leaderboard-row">
-              <div class="lb-rank ${rankClass}">${rankIcon}</div>
-              <div class="lb-name">Quiz ${entry.date}</div>
-              <div class="lb-date">${entry.pct}% poprawnych</div>
-              <div class="lb-score">+${entry.score}</div>
+            <div class="leaderboard-row" style="flex-direction:column;align-items:stretch;padding:14px 0;gap:8px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:32px;height:32px;border-radius:10px;background:${rankBg};color:${rankColor};display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid ${rankColor}22;">
+                  ${rankContent}
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:6px;">
+                    ${entry.mode === 'definition'
+                      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h6"/></svg>`
+                      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--blue-500)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12H21"/><path d="M12 3C15 6 15 18 12 21C9 18 9 6 12 3Z"/></svg>`
+                    }
+                    ${entry.modeName || 'Quiz'}
+                  </div>
+                  <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${entry.categoryName || 'Wszystkie'} · ${entry.date} · ${entry.total} pyt.</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:${barPct >= 70 ? '#059669' : barPct >= 50 ? '#d97706' : '#dc2626'};">${barPct}%</div>
+                  <div style="font-size:11px;color:var(--text-muted);">+${entry.score} pkt</div>
+                </div>
+              </div>
+              <div style="height:5px;background:var(--border-color);border-radius:100px;overflow:hidden;margin-left:44px;">
+                <div style="height:100%;width:${barPct}%;background:${barPct >= 70 ? '#059669' : barPct >= 50 ? '#d97706' : '#dc2626'};border-radius:100px;transition:width 0.6s ease;"></div>
+              </div>
             </div>
           `;
         }).join('')
       }
+    </div>
+  `;
+}
+
+function statCard(bg, color, icon, value, label, sub) {
+  const darkBg = state.isDark ? `rgba(0,0,0,0.15)` : bg;
+  const borderCol = state.isDark ? `${color}33` : `${color}22`;
+  return `
+    <div class="stat-card" style="border-color:${borderCol};">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div class="stat-icon-wrap" style="background:${darkBg};border:1.5px solid ${borderCol};">
+          <span style="color:${color};">${icon}</span>
+        </div>
+        <div style="width:6px;height:6px;border-radius:50%;background:${color};opacity:0.5;"></div>
+      </div>
+      <div class="stat-value" style="color:${color};">${value !== null && value !== undefined ? value : '0'}</div>
+      <div class="stat-label">${label}</div>
+      <div class="stat-delta" style="color:${color};opacity:0.7;">${sub}</div>
     </div>
   `;
 }
@@ -3194,7 +3979,64 @@ function showPointPopup(text, color) {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 1200);
 }
+function showKnownConfirmation() {
+  const existing = document.getElementById('knownConfirmOverlay');
+  if (existing) existing.remove();
 
+  const cardContainer = document.querySelector('.flip-card-container');
+  if (!cardContainer) return;
+  const rect = cardContainer.getBoundingClientRect();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'knownConfirmOverlay';
+  overlay.style.cssText = `
+    position: fixed;
+    left: ${rect.right - 86}px;
+    top: ${rect.top + 10}px;
+    pointer-events: none;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: scale(0.5) translateY(8px);
+    transition: opacity 0.2s ease, transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  `;
+  overlay.innerHTML = `
+    <div style="
+      width: 50px; height: 50px;
+      background: #059669;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      animation: pulseGreen 0.5s ease forwards;
+    ">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+           stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div style="
+      background: #059669; color: white;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+    ">+10 pkt</div>
+  `;
+  document.body.appendChild(overlay);
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    overlay.style.opacity = '1';
+    overlay.style.transform = 'scale(1) translateY(0)';
+  }));
+
+  setTimeout(() => {
+    overlay.style.opacity = '0';
+    overlay.style.transform = 'scale(0.8) translateY(-14px)';
+    overlay.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
+    setTimeout(() => overlay.remove(), 230);
+  }, 950);
+}
 // ============================================================
 //  INIT
 // ============================================================
