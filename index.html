@@ -1491,12 +1491,19 @@ body::after {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
 }
 
 .unit-filters-wrapper.open {
   max-height: 500px;
   opacity: 1;
+  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease 0.05s;
+}
+
+.unit-filters-wrapper.closing {
+  max-height: 0 !important;
+  opacity: 0;
+  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
 }
 .unit-filter-btn {
   display: flex;
@@ -1516,7 +1523,7 @@ body::after {
   font-family: var(--font-sans);
 }
 .unit-filter-btn:hover {
-  background: var(--blue-50);
+  background: var(--blue-100);
   color: var(--blue-600);
 }
 [data-theme="dark"] .unit-filter-btn:hover {
@@ -2983,6 +2990,7 @@ function renderCategoryFilters() {
     const count = VOCABULARY.filter(w => w.category === key).length;
     const isActive = state.currentCategory === key;
     const catBg = state.isDark ? cat.dark : cat.bg;
+    const hasUnits = ['Book 1', 'book2', 'book3'].includes(key);
 
     html += `
       <button class="cat-filter-btn ${isActive ? 'active' : ''}" 
@@ -2993,10 +3001,11 @@ function renderCategoryFilters() {
         <span style="display:flex;align-items:center;">${cat.icon}</span>
         ${cat.label}
         <span class="cat-count" style="${isActive ? `color:${cat.color};font-weight:700;` : ''}">${count}</span>
+        ${hasUnits ? `<svg id="arrow_${key}" style="width:12px;height:12px;flex-shrink:0;margin-left:2px;transition:transform 0.3s ease;transform:${isActive ? 'rotate(180deg)' : 'rotate(0deg)'};opacity:0.55;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>` : ''}
       </button>
     `;
 
-    if (['Book 1', 'book2', 'book3'].includes(key)) {
+    if (hasUnits) {
       const units = [...new Set(
         VOCABULARY
           .filter(w => w.category === key && w.unit)
@@ -3004,12 +3013,10 @@ function renderCategoryFilters() {
       )].sort((a, b) => parseInt(a.replace('Unit ', '')) - parseInt(b.replace('Unit ', '')));
 
       if (units.length > 0) {
-        html += `<div class="unit-filters-wrapper ${isActive ? 'open' : ''}" id="unitWrapper_${key}">`;
+        html += `<div class="unit-filters-wrapper" id="unitWrapper_${key}">`;
         html += `
           <button class="unit-filter-btn ${state.currentUnit === 'all' && isActive ? 'active' : ''}"
-            onclick="filterUnit('all')"
-            onmouseenter="if(!this.classList.contains('active')){this.style.background='${catBg}';this.style.color='${cat.color}';}"
-            onmouseleave="if(!this.classList.contains('active')){this.style.background='';this.style.color='';}">
+            data-unit="all">
             <svg width="10" height="10" viewBox="0 0 10 10" style="flex-shrink:0;opacity:0.5"><circle cx="5" cy="5" r="4" fill="${cat.color}"/></svg>
             Wszystkie unity
             <span class="cat-count">${count}</span>
@@ -3020,9 +3027,7 @@ function renderCategoryFilters() {
           const unitActive = state.currentUnit === unit && isActive;
           html += `
             <button class="unit-filter-btn ${unitActive ? 'active' : ''}"
-              onclick="filterUnit('${unit}')"
-              onmouseenter="if(!this.classList.contains('active')){this.style.background='${catBg}';this.style.color='${cat.color}';}"
-              onmouseleave="if(!this.classList.contains('active')){this.style.background='';this.style.color='';}">
+              data-unit="${unit}">
               <svg width="8" height="8" viewBox="0 0 8 8" style="flex-shrink:0;"><circle cx="4" cy="4" r="3" fill="${unitActive ? cat.color : '#94a3b8'}"/></svg>
               ${unit}
               <span class="cat-count">${unitCount}</span>
@@ -3036,25 +3041,17 @@ function renderCategoryFilters() {
 
   container.innerHTML = html;
 
-  const wrapper = document.getElementById(`unitWrapper_${state.currentCategory}`);
-  if (wrapper) {
-    wrapper.classList.add('open');
-  }
-}
+  // Delegacja zdarzeń dla unit-filter-btn
+  container.querySelectorAll('.unit-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterUnit(btn.dataset.unit);
+    });
+  });
 
-function filterCategory(cat) {
-  const prevCategory = state.currentCategory;
-  state.currentCategory = cat;
-  state.currentUnit = 'all';
-  state.filteredWords = cat === 'all' ? [...VOCABULARY] : VOCABULARY.filter(w => w.category === cat);
-  state.currentIndex = 0;
-  renderCategoryFilters();
-
-  // Jeśli zmieniamy na kategorię z unitami i przychodzimy z innej kategorii
-  if (prevCategory !== cat && ['Book 1', 'book2', 'book3'].includes(cat)) {
-    const wrapper = document.getElementById(`unitWrapper_${cat}`);
+  if (['Book 1', 'book2', 'book3'].includes(state.currentCategory)) {
+    const wrapper = document.getElementById(`unitWrapper_${state.currentCategory}`);
     if (wrapper) {
-      wrapper.classList.remove('open');
+      wrapper.getBoundingClientRect();
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           wrapper.classList.add('open');
@@ -3062,12 +3059,46 @@ function filterCategory(cat) {
       });
     }
   }
+}
 
+function filterCategory(cat) {
+  const prevCategory = state.currentCategory;
+  const hasUnits = ['Book 1', 'book2', 'book3'].includes(cat);
+
+  if (cat !== 'all' && prevCategory === cat && hasUnits) {
+    const wrapper = document.getElementById(`unitWrapper_${cat}`);
+    const arrow = document.getElementById(`arrow_${cat}`);
+    if (wrapper) {
+      const isOpen = wrapper.classList.contains('open');
+      if (isOpen) {
+        wrapper.classList.add('closing');
+        wrapper.classList.remove('open');
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+        setTimeout(() => wrapper.classList.remove('closing'), 350);
+      } else {
+        wrapper.getBoundingClientRect();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            wrapper.classList.add('open');
+            if (arrow) arrow.style.transform = 'rotate(180deg)';
+          });
+        });
+      }
+    }
+    return;
+  }
+
+  state.currentCategory = cat;
+  state.currentUnit = 'all';
+  state.filteredWords = cat === 'all' ? [...VOCABULARY] : VOCABULARY.filter(w => w.category === cat);
+  state.currentIndex = 0;
+  renderCategoryFilters();
   renderCard();
   updateProgress();
   if (state.currentPage === 'wordlist') renderWordlist();
   if (state.currentPage === 'quiz') startQuiz();
 }
+
 function filterUnit(unit) {
   state.currentUnit = unit;
   const baseWords = state.currentCategory === 'all'
@@ -3077,7 +3108,15 @@ function filterUnit(unit) {
     ? baseWords
     : baseWords.filter(w => w.unit === unit);
   state.currentIndex = 0;
-  renderCategoryFilters();
+
+  document.querySelectorAll('.unit-filter-btn').forEach(btn => {
+    if (btn.dataset.unit === unit) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
   renderCard();
   updateProgress();
   if (state.currentPage === 'wordlist') renderWordlist();
